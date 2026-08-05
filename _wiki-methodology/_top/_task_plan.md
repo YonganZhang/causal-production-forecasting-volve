@@ -59,4 +59,4 @@
 - 数据：`_data/volve_causal_v0.1/`（本文件即登记处；schema 见其 README）
 - 代码：`_code/build_causal_dataset.py`
 - 公网包：https://share.yongan.site/causal-production-volve/volve_causal_v0.1.zip
-- GitHub：见项目 README（创建后回填）
+- GitHub：https://github.com/YonganZhang/causal-production-forecasting-volve （private，公开与否等用户拍板）
