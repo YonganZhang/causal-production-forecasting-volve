@@ -1,0 +1,8 @@
+well,role,record_start,record_end,record_days,oil_producing_days,injection_days,first_injection_date,last_oil_date,well_types_seen
+15/9-F-1 C,producer,2014-04-07,2016-04-21,746,430,0,,2016-04-06,OP|WI
+15/9-F-11,producer,2013-07-08,2016-09-17,1165,1123,0,,2016-09-17,OP
+15/9-F-12,producer,2008-02-12,2016-09-17,3056,2836,0,,2016-08-12,OP
+15/9-F-14,producer,2008-02-12,2016-09-17,3056,2723,0,,2016-07-13,OP
+15/9-F-15 D,producer,2014-01-12,2016-09-17,978,767,0,,2016-07-06,OP
+15/9-F-4,injector,2007-09-01,2016-12-01,3327,0,2846,2008-04-23,,WI
+15/9-F-5,producer_to_injector,2007-09-01,2016-09-18,3306,129,2558,2008-08-26,2016-08-26,OP|WI

@@ -1,0 +1,16 @@
+# 白名单模式:默认全忽略,显式放行
+*
+!/.gitignore
+!/README.md
+!/_code/
+!/_code/**
+!/_data/
+!/_data/volve_causal_v0.1/
+!/_data/volve_causal_v0.1/**
+!/_wiki-methodology/
+!/_wiki-methodology/_top/
+!/_wiki-methodology/_top/_task_plan.md
+# 大文件与派生物不进 git
+_outputs/
+__pycache__/
+*.pyc
