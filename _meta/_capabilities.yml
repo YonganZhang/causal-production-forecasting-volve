@@ -1,0 +1,89 @@
+# COL5 · 能力清单
+# 规范: ~/.claude/skills/share-top/references/capability-inventory.md
+# 🔴 说「缺 X / 做不了」之前先查本文件;有能力能产出 X 就报成本, 不报边界。
+
+capabilities:
+  - id: opm-norne
+    what: OPM Flow + Norne 全模型(Equinor 公开真实油田, 46x112x22, 44431 活动单元, 36 口井)
+    produces: 任意注水/注气工况下的完整模拟输出(井级时间序列 + 三维压力/饱和度场 + 单元间通量)
+    unit_cost: "250 秒/次(4 线程)"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-19
+    entry: "docker run openporousmedia/opmreleases:latest flow NORNE_ATW2013.DATA"
+    blocks_without_it: 没有它就无法生成任何反事实/干预数据, 因果与决策优化全部无从谈起
+
+  - id: gen-interventional
+    what: 随机化干预臂生成器 norne_bulk.py (schema v2, 相态分离)
+    produces: θ 独立随机的模拟集合;边跑边抽、抽完删原始输出(250x 磁盘压缩)
+    unit_cost: "约 39 秒/样本(28 并发墙钟);已产出 9995 个"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-19
+    entry: "_code/norne_bulk.py --n <N> --jobs <J>"
+    blocks_without_it: 没有它就没有无混杂的训练数据, 网络梯度不是因果梯度
+
+  - id: gen-observational
+    what: 观测臂生成器 norne_obs_arm.py (θ=π(油藏状态), 分 6 段)
+    produces: 带真实混杂的观测数据, 用作"必须随机化训练"的对照实验
+    unit_cost: "约 500 秒/样本(两遍模拟);已产出 2000 个"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-19
+    entry: "_code/norne_obs_arm.py run --n <N> --jobs <J>"
+    blocks_without_it: 无法证明"拿历史数据训的代理模型梯度是偏的"
+
+  - id: gen-staged-random
+    what: 分时段随机化干预数据(时变策略优化用)
+    produces: θ 按 6 段独立随机的模拟集合
+    unit_cost: "尚未跑过;按干预臂速度外推约 20 小时/2000 样本"
+    cost_measured: false        # ← 未实测, 下游引用须标 uncertain
+    available: ok               # 能力具备(改 norne_bulk 的 θ 为分段即可), 只是还没跑
+    checked_on: 2026-08-19
+    entry: "改 norne_bulk.py 的 θ 参数化为分段, 复用现有流程"
+    blocks_without_it: 只能做"恒定配比", 做不了"早期少注后期多注"这类时变策略
+
+  - id: flow-diagnostics
+    what: 流动诊断(TOF + 注入井示踪剂), 自实现
+    produces: 井对分配因子(三种口径:生产井归一/绝对流量/注入井归一)
+    unit_cost: "26 秒/样本(含重跑模拟则 276 秒)"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-19
+    entry: "_code/flow_diagnostics.py --case <dir>;批量用 _code/fd_ensemble.py"
+    blocks_without_it: 没有领域对照方法, 审稿人必问"这跟流线有什么区别"答不上
+
+  - id: truth-fd
+    what: 中心差分真值实验 truth_fd.py
+    produces: 同一地质上 ±ε 扰动的 dq/dw 真值(分母用实测注入率, 避开 BHP 截断)
+    unit_cost: "3 次模拟/井(约 750 秒)"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-19
+    entry: "_code/truth_fd.py --wells <W...> --eps 0.2"
+    blocks_without_it: 任何"谁更准"的争论都没有裁判
+
+  - id: decision-net
+    what: 决策网络 decision_net.py (17 维注水方案+地质 → 22 井 × 2 相 × 40 时刻产量曲线)
+    produces: 任意注水方案的产量曲线预测;前段=短期产量, 整条积分=长期累计产油
+    unit_cost: "训练 0.1 min(GPU);推理毫秒级 —— 比模拟器 250 秒快约 5 个数量级"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-20
+    entry: "_code/decision_net.py train|optimize|verify"
+    blocks_without_it: 没有它就只能拿模拟器逐个试, 搜不动上万种配比, 决策优化做不了
+
+  - id: norne-prediction-decks
+    what: Equinor 官方 Norne **预测期** deck 21 个 (1A~4E × STDW/MSW), 跑到 2020-01-01
+    produces: 预测段的标准控制写法(WCONPROD 'GRUP' + 场级分配 + WECON), 一条 WCONHIST 都没有;
+              4A~4E 正好是**注水方案对比**, 参数可直接抄且论文可引(ODbL)
+    unit_cost: "已存在, 零成本;单次模拟约 139 秒(4 线程, 实测)"
+    cost_measured: true
+    available: ok
+    checked_on: 2026-08-21
+    entry: /mnt/data/yongan-admin-2/datasets/petro/opm-tests/norne/
+    blocks_without_it: >-
+      没有它就只能在历史期(1997-2006)里做优化 —— 而那是"重写已经发生的事", 文献里无人这么做,
+      审稿人会当成 hindsight 天花板对照而非主结果。
+      🔴 我曾连续三次"不知道自己有什么":忘了有模拟器 → 忘了自己写过的限制 →
+      不知道本机有官方预测 deck。第三次直接导致整个实验设定错位。

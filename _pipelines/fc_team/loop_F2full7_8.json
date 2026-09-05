@@ -1,0 +1,293 @@
+{
+ "incumbent_npv8": 2109007424.796683,
+ "incumbent_theta": [
+  0.5,
+  0.4000000059604645,
+  0.30000001192092896,
+  0.0,
+  0.5,
+  0.4000000059604645,
+  0.30000001192092896,
+  0.0,
+  0.20000000298023224,
+  0.15000000596046448,
+  0.10000000149011612,
+  0.0,
+  -0.15000000596046448,
+  -0.15000000596046448,
+  -0.07999999821186066,
+  0.0,
+  -0.550000011920929,
+  -0.5,
+  -0.3499999940395355,
+  0.0,
+  -0.6499999761581421,
+  -0.6000000238418579,
+  -0.44999998807907104,
+  0.0
+ ],
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7751336.613209564,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "unvalidated-ranking",
+     "detail": "6候选仅#4经模拟器验证，其余5个纯代理预测排名；#4已现+1.04pt产油高估，排序可信度未知"
+    },
+    {
+     "severity": "medium",
+     "code": "aggressive-tilt-extrapolation-risk",
+     "detail": "#4(测上限)已现代理高估，#1用更激进[+0.30,+0.60)分箱，外推同向偏差风险更高但未被单独验证"
+    },
+    {
+     "severity": "medium",
+     "code": "connectivity-misattribution",
+     "detail": "候选#3称F2H/F3H支撑K-3H/D-3BH/B-2H，但connectivity_analyst实测F1H→B-3H/E-1H、F2H→E-2AH/E-3CH，未见K-3H/D-3BH/B-2H的正连通证据"
+    },
+    {
+     "severity": "low",
+     "code": "unresolved-conflict-adopted",
+     "detail": "候选#3建立在production_surveillance(conf=0.55)的顾虑上，但该角色自己承认需与connectivity_analyst交叉核实F-4H负系数结论后再定，尚未闭环"
+    },
+    {
+     "severity": "low",
+     "code": "injection-cut-vs-timing-narrative",
+     "detail": "全部候选注水量均低于基准(85%~96.1%)，但理由多描述为'前后对冲/时序调整'而非净减注，机制归因与实测总量变化方向不完全一致"
+    },
+    {
+     "severity": "low",
+     "code": "f4h-exclusion-unverifiable",
+     "detail": "constraint_auditor(conf=0.75)主张F-4H theta调整空转应排除，但economics_analyst二轮结论未明确将F-4H从'四口井'建议中剔除，各候选井级theta明细未展示，无法确认是否真落实排除"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "4": {
+     "npv0": 2457057794.1785936,
+     "npv2": 2350656596.19061,
+     "npv8": 2083278097.3973484,
+     "npv15": 1846469342.2525625,
+     "oil": 7673496.0,
+     "oil_3y": 4675189.796610168,
+     "winj": 79097296.0,
+     "wprd": 76771176.0,
+     "water_inj": 79097296.0,
+     "water_dev": -0.15792450998260854,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    1.0144087285582026
+   ],
+   "best_theta": [
+    0.5,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    0.5,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.10000000149011612,
+    0.0,
+    -0.10000000149011612,
+    -0.10000000149011612,
+    -0.05000000074505806,
+    0.0,
+    -0.4000000059604645,
+    -0.3499999940395355,
+    -0.25,
+    0.0,
+    -0.44999998807907104,
+    -0.4000000059604645,
+    -0.30000001192092896,
+    0.0
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7603416.450646706,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "surrogate_bias_confirmed",
+     "detail": "候选#4实测产量仅+0.17%,代理预测高估+1.29%;其经济分(2176M)为全场最高,可信度应下调,不宜仅凭代理分数定#4为最优"
+    },
+    {
+     "severity": "medium",
+     "code": "f4h_reallocation_illusory",
+     "detail": "F-4H受井底流压硬截断,目标达成率仅28.6%;connectivity_analyst'省下水量转投F1/F2'的逻辑已被constraint_auditor与economics_analyst证伪,依赖此假设的候选论证不成立"
+    },
+    {
+     "severity": "medium",
+     "code": "unverified_ranking_gap_too_small",
+     "detail": "除#4外五个候选(#0/#1/#2/#5/#6)经济分差距仅3%(2109~2176M),完全基于未验证代理模型,已知代理对该策略族存在系统性乐观偏差,排序置信度不足"
+    },
+    {
+     "severity": "low",
+     "code": "empty_rationale",
+     "detail": "候选#6理由仅'精英保留',无专家证据或量化依据支撑其相对优势"
+    },
+    {
+     "severity": "low",
+     "code": "unresolved_b3h_e1h_tension",
+     "detail": "connectivity_analyst与production_surveillance对F-1H是否应继续支援已水淹98.2%/96.6%的B-3H/E-1H仍无共识,候选#1维持F1/F2高位未处理该分歧"
+    },
+    {
+     "severity": "low",
+     "code": "thin_evidence_geomech_cap",
+     "detail": "候选#5的±0.3软上限设计核心依据来自geomechanics_expert(conf=0.25,仅文献类比,无实测应力数据),证据强度薄弱"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "4": {
+     "npv0": 2510719699.2875004,
+     "npv2": 2394933497.1605825,
+     "npv8": 2109007424.796683,
+     "npv15": 1860953501.7285457,
+     "oil": 7506936.0,
+     "oil_3y": 4675189.796610168,
+     "winj": 71650080.0,
+     "wprd": 71593184.0,
+     "water_inj": 71650080.0,
+     "water_dev": -0.23720810600421416,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    1.2852174395346694
+   ],
+   "best_theta": [
+    0.5,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    0.5,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.10000000149011612,
+    0.0,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.07999999821186066,
+    0.0,
+    -0.550000011920929,
+    -0.5,
+    -0.3499999940395355,
+    0.0,
+    -0.6499999761581421,
+    -0.6000000238418579,
+    -0.44999998807907104,
+    0.0
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7603416.450646706,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "misattributed-evidence",
+     "detail": "constraint_auditor称候选#4'代理高估+1.29%且经济分最高'，但该实测数据属于候选#6(唯一被模拟器验证者)；#4经济分2140M实为全场最低，非最高，属引用错位"
+    },
+    {
+     "severity": "medium",
+     "code": "unverified-proxy-ranking",
+     "detail": "仅#6经模拟器验证且已确认代理产油高估+1.29%；#0/#1/#2/#3/#4经济分排名全部来自未验证代理输出，不应直接按分数定案"
+    },
+    {
+     "severity": "medium",
+     "code": "extrapolation-beyond-validated-point",
+     "detail": "候选#3注水75.1%比已验证的#6(76.7%)更深收缩，若冠军点已高估产油，进一步收缩可能落入FPR跌破166bar台阶的非线性区，误差或被放大"
+    },
+    {
+     "severity": "low",
+     "code": "broad-hub-collateral-risk",
+     "detail": "候选#2深减F-1H的理由仅基于其喂给报废井，但connectivity_analyst指出F-1H对K-3H/D-3BH/B-2H等仍具潜力井也是主要正向旋钮，深减可能误伤这些井的供给未被排除"
+    },
+    {
+     "severity": "low",
+     "code": "metric-mismatch",
+     "detail": "候选排序所用'扣水成本后经济分'是代理自定义指标，与模拟器唯一真实产出ΔNPV@8%(仅#6=335.6M$)之间未建立校准映射，跨候选比较口径存疑"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "6": {
+     "npv0": 2510719699.2875004,
+     "npv2": 2394933497.1605825,
+     "npv8": 2109007424.796683,
+     "npv15": 1860953501.7285457,
+     "oil": 7506936.0,
+     "oil_3y": 4675189.796610168,
+     "winj": 71650080.0,
+     "wprd": 71593184.0,
+     "water_inj": 71650080.0,
+     "water_dev": -0.23720810600421416,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.5,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    0.5,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.10000000149011612,
+    0.0,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.07999999821186066,
+    0.0,
+    -0.550000011920929,
+    -0.5,
+    -0.3499999940395355,
+    0.0,
+    -0.6499999761581421,
+    -0.6000000238418579,
+    -0.44999998807907104,
+    0.0
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer",
+  "connectivity_analyst",
+  "production_surveillance",
+  "economics_analyst",
+  "geomechanics_expert",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "dropped": [],
+ "model": "sonnet",
+ "llm_calls": 49,
+ "llm_prompt_chars": 196635,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

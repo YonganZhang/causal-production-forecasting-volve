@@ -1,0 +1,362 @@
+{
+ "incumbent_npv8": 2025681760.4877985,
+ "incumbent_theta": [
+  0.30000001192092896,
+  0.30000001192092896,
+  0.30000001192092896,
+  0.30000001192092896,
+  0.25,
+  0.25,
+  0.25,
+  0.25,
+  0.05000000074505806,
+  0.05000000074505806,
+  0.05000000074505806,
+  0.05000000074505806,
+  -0.05000000074505806,
+  -0.05000000074505806,
+  -0.05000000074505806,
+  -0.05000000074505806,
+  -0.25,
+  -0.25,
+  -0.25,
+  -0.25,
+  -0.30000001192092896,
+  -0.30000001192092896,
+  -0.30000001192092896,
+  -0.30000001192092896
+ ],
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 1,
+   "n_cand": 6,
+   "proxy_best_oil": 7575998.0170928445,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "extrapolation-physically-implausible",
+     "detail": "候选#2注水降至71.3%却产油仍高于基准且居第2，与'早期波及晚期无效'机理相悖，更像外推区伪影而非真实增益"
+    },
+    {
+     "severity": "medium",
+     "code": "rationale-contradicts-hardcheck",
+     "detail": "候选#2自述'对称设计控制总注水量在约束内'，但硬约束显示偏离-28.7%已超±25%，理由与实测数字矛盾"
+    },
+    {
+     "severity": "medium",
+     "code": "look-ahead-bin-selection",
+     "detail": "候选#1挑选历史最优分箱[0.3,0.6)均值+238.5M$作为依据，未说明该分箱样本量/方差，存在事后选择最佳区间的乐观偏差风险"
+    },
+    {
+     "severity": "medium",
+     "code": "faithful-implementation-underperforms",
+     "detail": "候选#4宣称严格执行reservoir_engineer建议，但产量7,487,125低于基准7,493,840，说明按字面执行建议反而不增产，建议与结果矛盾未解释"
+    },
+    {
+     "severity": "low",
+     "code": "partial-advice-relabeled",
+     "detail": "候选#3只集中加注第1段而非工程师建议的第1-2段同时提高，却仍称'采纳reservoir_engineer指出的窗口'，存在建议与设计不完全对应"
+    },
+    {
+     "severity": "low",
+     "code": "weak-evidence-exploration",
+     "detail": "候选#5承认'暂无井间区分证据'仍引入F-1H差异化探索，属探索性设计而非证据驱动，经济分横向比较时应降低其权重"
+    },
+    {
+     "severity": "medium",
+     "code": "single-source-consensus",
+     "detail": "五个候选的核心机理假设全部只依赖reservoir_engineer单一角色(conf=0.65)的历史拟合观察，无独立角色交叉验证，系统性误判风险未被对冲"
+    },
+    {
+     "severity": "low",
+     "code": "water-cost-model-unstated",
+     "detail": "各候选'扣水成本后经济分'未说明水价/操作成本假设是否统一，注水削减幅度差异大(71%~87%)时成本模型微小差异可能显著改变排序"
+    },
+    {
+     "severity": "low",
+     "code": "proxy-only-ranking",
+     "detail": "本轮尚无模拟结果，排序完全基于代理预测；若代理系统性偏向某类tilt形态，经济分排名可能与实测结果脱节，建议标注为待验证而非定论"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -28.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {
+    "2": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -28.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ]
+   },
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.699999988079071,
+    0.699999988079071,
+    0.699999988079071,
+    0.699999988079071,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.15000000596046448,
+    0.15000000596046448,
+    0.15000000596046448,
+    0.15000000596046448,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.5,
+    -0.5,
+    -0.5,
+    -0.5,
+    -0.699999988079071,
+    -0.699999988079071,
+    -0.699999988079071,
+    -0.699999988079071
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 1,
+   "n_cand": 6,
+   "proxy_best_oil": 7555226.209113753,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "npv_negative_despite_best_econ_score",
+     "detail": "候选#4实测ΔNPV@8%=-39.6M$为负，却是6候选中预测经济分最高(1718M$)，实测证明其实际价值为负，不应被视为安全/最优选择"
+    },
+    {
+     "severity": "high",
+     "code": "econ_score_direction_unreliable",
+     "detail": "唯一被模拟器验证的候选显示经济分排序与真实ΔNPV方向相反，其余5个候选(1474-1718M$)经济分完全未验证，不能作为决策依据"
+    },
+    {
+     "severity": "medium",
+     "code": "volume_ok_value_model_broken",
+     "detail": "候选#4油量(+0.49%误差)与注水量(+1.1pp误差)预测均较准，但经济分严重偏离实测NPV，说明误差根源在成本/价格换算而非产量预测"
+    },
+    {
+     "severity": "medium",
+     "code": "no_baseline_econ_reference",
+     "detail": "未给出基准情形同口径的经济分数值，无法判断1718M$等数字是绝对值还是相对基准的增量，存在混淆风险"
+    },
+    {
+     "severity": "medium",
+     "code": "low_conf_tilt_extrapolated",
+     "detail": "候选#0/#2/#5均建立在reservoir_engineer仅conf=0.55、单次基准模拟得出的tilt建议上，且该建议尚未被#4之外任何实测验证过能转化为正NPV"
+    },
+    {
+     "severity": "medium",
+     "code": "low_conf_tilt_extrapolated",
+     "detail": "同上，候选#2直接沿用同一0.55置信度证据并加重tilt幅度，风险未随幅度增加而重新评估"
+    },
+    {
+     "severity": "low",
+     "code": "correlation_causation_leap",
+     "detail": "候选#3以spearman=0.714相关性外推至140%注水量(远超采样区间)，相关性证据不足以支撑体量放大后仍线性增益的假设"
+    },
+    {
+     "severity": "low",
+     "code": "single_surrogate_systemic_bias_unaddressed",
+     "detail": "6个候选均由同一代理模型产生，#4已暴露该模型经济分方向性失准，但总工未讨论此系统性偏差是否污染其余候选排序"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 +30.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 +40.0% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 +35.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "4": {
+     "npv0": 1940805006.430625,
+     "npv2": 1886062141.567017,
+     "npv8": 1733796633.7855625,
+     "npv15": 1583481925.7107382,
+     "oil": 7592568.0,
+     "oil_3y": 4032577.6045197733,
+     "winj": 99668464.0,
+     "wprd": 89952712.0,
+     "water_inj": 99668464.0,
+     "water_dev": 0.06107762093511693,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [
+    4
+   ],
+   "hard_flags": {
+    "1": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 +30.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ],
+    "3": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 +40.0% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ],
+    "5": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 +35.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ]
+   },
+   "proxy_err_pp": [
+    -0.49182030225144446
+   ],
+   "best_theta": [
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.019999999552965164,
+    -0.019999999552965164,
+    -0.019999999552965164,
+    -0.019999999552965164,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.019999999552965164,
+    0.019999999552965164,
+    0.019999999552965164,
+    0.019999999552965164,
+    0.03999999910593033,
+    0.03999999910593033,
+    0.03999999910593033,
+    0.03999999910593033,
+    0.05999999865889549,
+    0.05999999865889549,
+    0.05999999865889549,
+    0.05999999865889549
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 1,
+   "n_cand": 7,
+   "proxy_best_oil": 7673060.038445555,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "unvalidated-econ-score-generalization",
+     "detail": "6候选仅#3实测,其余5个经济分全靠代理预测;#3已证实产量高估+1.15%,该偏差未评估是否传导到经济分/NPV层面"
+    },
+    {
+     "severity": "medium",
+     "code": "similar-bias-exposure-untested",
+     "detail": "候选#2预测产量(7,687,739)高于已验证高估的#3(7,673,060),同处正tilt外推区,经济分2026M$贴近#3的2086M$却未实测"
+    },
+    {
+     "severity": "medium",
+     "code": "worst-score-opposes-tested-evidence",
+     "detail": "候选#1经济分全批最低(1834M$)且负tilt方向与已实测获正NPV的#3相反,若测试目的应界定为验证RE假说而非争经济最优"
+    },
+    {
+     "severity": "low",
+     "code": "tilt-sign-definition-ambiguous",
+     "detail": "正/负tilt具体对应哪类井位或时段分配未在候选说明中定义,跨候选方向一致性判断存疑"
+    },
+    {
+     "severity": "low",
+     "code": "score-vs-npv-unit-mismatch",
+     "detail": "基准经济分数值未给出,经济分(疑似绝对值)与实测ΔNPV(相对基准增量)口径是否可比未说明,直接类比校准误差不严谨"
+    },
+    {
+     "severity": "low",
+     "code": "spearman-extrapolation-sample-unstated",
+     "detail": "候选#3据以外推的spearman=+0.714未报告样本量n,外推到区间上限的统计稳健性存疑(单次实测为正不足以证伪该顾虑)"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "3": {
+     "npv0": 2361541634.2709374,
+     "npv2": 2266789196.3003983,
+     "npv8": 2025681760.4877985,
+     "npv15": 1808600386.1291046,
+     "oil": 7585904.0,
+     "oil_3y": 4660661.887005649,
+     "winj": 80467584.0,
+     "wprd": 76960920.0,
+     "water_inj": 80467584.0,
+     "water_dev": -0.1433363255892388,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    1.148920925515995
+   ],
+   "best_theta": [
+    0.30000001192092896,
+    0.30000001192092896,
+    0.30000001192092896,
+    0.30000001192092896,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.05000000074505806,
+    0.05000000074505806,
+    0.05000000074505806,
+    0.05000000074505806,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.25,
+    -0.25,
+    -0.25,
+    -0.25,
+    -0.30000001192092896,
+    -0.30000001192092896,
+    -0.30000001192092896,
+    -0.30000001192092896
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer"
+ ],
+ "dropped": [
+  "connectivity_analyst",
+  "economics_analyst",
+  "geomechanics_expert",
+  "production_surveillance",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "model": "sonnet",
+ "llm_calls": 9,
+ "llm_prompt_chars": 20866,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

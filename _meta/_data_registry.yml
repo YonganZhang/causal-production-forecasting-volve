@@ -1,0 +1,167 @@
+# 数据真源登记。
+version: 1
+updated: 2026-08-06
+
+datasets:
+  - id: volve_causal_v0.2
+    path: _data/volve_causal_v0.2/
+    desc: Volve 日度/月度生产 + 井元数据 + 原始 xlsx, 面向因果产能预测
+    rows: 15634 井·天 × 24 列 (2007-09 ~ 2016-12)
+    license: Equinor Open Data Licence (署名可复用可再分发, 禁止转售)
+    source: Equinor Volve Data Village (Databricks Marketplace)
+    build: python _code/build_causal_dataset.py
+    schema: _data/volve_causal_v0.2/README.md
+    public_url: 待重新发布 (v0.1 包含错误 role 列, 已在线)
+    notes: |
+      v0.2 修正 F-5 角色方向: 正确为 injector_to_producer, 切换日 2016-04-20。
+      daily/monthly CSV 与 v0.1 逐字节相同, 只改 well_metadata.csv 与文档。
+
+  - id: volve_causal_v0.1
+    path: _legacy/2026-08-06-dataset-v0.1/volve_causal_v0.1/
+    status: archived
+    reason: well_metadata.csv 的 role 列把 F-5 方向标反
+    tombstone: _legacy/2026-08-06-dataset-v0.1/README.md
+
+  - id: norne_fc
+    path: /mnt/data/yongan-admin-2/datasets/petro/_bulk/norne_fc/
+    desc: >-
+      🔴 **主线数据集**。Norne 预测段随机化干预样本 8000 个。
+      历史段 1997-11→2006-12(3312 天)只跑一次,之后用 RESTART + SKIPREST 从同一状态分支;
+      预测段 2006-12→2020-01(13 年)分 6 个决策时点 × 4 口注水井(F-1H/F-2H/F-3H/F-4H)。
+    build: "python _code/forecast_gen.py run --n 8000 --jobs 24"
+    schema: |
+      shards/NNNNN.npz  每个样本一片:
+        theta       (6, 4) float32   6 决策时点 × 4 注水井的 log10 注水率乘子, θ~N(0, 0.30)
+        obs         (22×3×40,)       22 生产井 × {WOPR,WWPR,WGPR} × 40 时间格点
+        inj_actual  (4, 40)          实测注水率(非目标率 —— F-4H 会被 BHP 500bar 截断)
+        field_cum   (40,)            全场累计
+      theta_all.npy   (8000, 6, 4)   全部 θ;shard 00000 是基准算例(θ≡0)
+    verified: |
+      2026-08-28 实测:8000/8000 零失败;θ 唯一 8000/8000;Y 无 NaN;
+      切分互斥、无近邻污染、打乱标签对照通过(0.482% → 6.127%,平凡基线 5.745%)。
+      生成耗时:0→2000 约 2h / 2000→4000 2.18h / 4000→8000 3.76h。
+    caveats: |
+      🔴 θ 只控制**注水**。预测段真实工况是 WAG(水气交替,C-1H 注气 784,660、
+         C-3H 938,575 sm³/d),本数据集是简化,论文须声明。
+      🔴 F-4H 是"假旋钮":BHP 500 bar 上限截断,目标注水率只实现 27.6%。
+      🔴 22 口生产井里 11 口油率水率恒为 0(预测段已关停),下游一律剔除。
+      🔴 地质固定:渗透率乘子对十年产油 R² 仅 0.0008,本数据集不支持多地质稳健性主张。
+    volume: 383 MB 总计(shards 63 MB + _history 历史段基准算例 320 MB)
+    gitignore: 已排除(可由 forecast_gen.py 完全重建,种子 20260821 固定)
+
+  - id: norne_fc_confirm
+    path: /mnt/data/yongan-admin-2/datasets/petro/_bulk/norne_fc_confirm/
+    desc: >-
+      🔴 **独立确认集**。与 norne_fc 完全同一 deck / 同一 T0(2006-10-10, 重启步 241) /
+      同一 schema(v1, 6 段 × 4 注水井), 唯一区别是随机种子 20260828, 500 个样本。
+      存在的理由:norne_fc 的 test-400 已被十几轮模块比较与超参选择反复窥视, 不再是
+      sealed test。本集用于**一次性**确认定版模型的报数, 用完即失效。
+    build: "python _code/forecast_gen.py run --n 500 --seed 20260828 --out-suffix _confirm"
+    schema: "与 norne_fc 相同 —— shards/NNNNN.npz 内含 theta / obs / inj_actual / field_cum / grid_days"
+    verified: |
+      2026-08-29 实测:500/500 rc=0 零失败;obs 无 NaN;sim_days_end 全为 8091 天。
+      与 v1 的分布一致性:场级累计产油 KS p=0.878、θ L2 范数 KS p=0.145
+      → 任何误差差异**不能**归因于分布漂移。
+      使用前审计:grep -rl norne_fc_confirm 在 _code/ 内除 fc_confirm* 与并行进行的
+      fc_rank_fidelity.py 外无引用,即本集在被评估前未参与任何训练或模块选择。
+    caveats: |
+      🔴 shard 00000 的 θ≡0(基准算例)与 norne_fc 的 00000 完全重合 —— 500 条里有 1 条
+         与训练集重复。已单独报剔除后的结果(0.36603% vs 0.36540%, 差异可忽略)。
+      🔴 **一次性**:本集一旦被用于任何选择(选模型/选超参/选模块), 就与 test-400 同样失效。
+         fc_confirm.py 只在它上面评了一个预先钉死的配置, 没有做任何选择。
+      🔴 与 norne_fc 同分布、同为随机 θ, 因此**不能**回答"优化区域的排名保真度"。
+    volume: shards 约 4 MB + theta_all.npy 48 KB
+    gitignore: 已排除(可由 forecast_gen.py 用种子 20260828 完全重建)
+
+  - id: norne_fc_v2
+    path: /mnt/data/yongan-admin-2/datasets/petro/_bulk/norne_fc_v2/
+    desc: >-
+      预测段扩展决策空间数据集。θ 从 24 维扩到 **72 维** = 6 决策时点 ×
+      (4 口注水井 + **8 口生产井的采液上限 Qliq**)。加入生产井控制的动机:
+      v1 把 Qliq 写死成 8000 sm³/d,而"采多快"正是短期/长期权衡的核心旋钮。
+    build: "python _code/forecast_gen.py run --n 8000 --schema v2 --out-suffix _v2 --jobs 20"
+    schema: |
+      shards/NNNNN.npz  theta (6,12) float32 —— 前 4 列是注水井 log10 乘子,
+                        后 8 列是生产井采液上限 log10 乘子(基准 8000 sm³/d)
+                        其余字段与 norne_fc 相同(obs / inj_actual / field_cum / ...)
+    verified: |
+      2026-08-29:8000/8000 零失败,抽检 200 个无 NaN。
+      🔴 等价性已验证:θ_prod=0 时 v2 写出的 Qliq 全是 8000.0,与 v1 一致;
+         基准算例产油相对差 2.78e-05(源于 v2 每段重写 WCONPROD 导致时间步切分不同,
+         远小于可分辨阈值 0.0214pp,不影响结论)。
+    finding: |
+      🔴 决策空间只扩大 1.2 倍:v2 累计产油变异系数 8.0% vs v1 的 6.9%。
+      加入 8 个生产井控制变量(θ 从 24→72 维,3 倍)只换来 1.2 倍的产量变化范围,
+      说明生产井采液上限在本 deck 上不是强旋钮 —— 与主线结论
+      "时间安排比空间分配重要"方向一致。
+    volume: 约 63 MB (shards)
+    gitignore: 已排除(可由 forecast_gen.py 完全重建,种子 20260821 固定)
+
+
+  - id: gaia_arms_F2
+    path: _pipelines/fc_team/
+    glob: loop_F2{full7,one1}_*.json
+    kind: experiment_result
+    status: active
+    produced_by: run_coarse_queue -> fc_team_loop
+    read_by: gaia
+    desc: |
+      三臂对比的正式实验数据(批次 F2,证据强度加权后)。每个 json 是一次闭环
+      实验的完整轨迹:每轮的候选、模拟器裁定 adjudicated、否决 vetoed、
+      代理误差与最终 incumbent。ΔNPV 只能经 _code/gaia.py 读取。
+      配套模拟产物 _pipelines/fc_decide/sim/team_F2*.npz(含 theta,tilt 由此算)。
+    superseded: |
+      A2(对等化前)、E2(证据强度加权前)及更早的 B2/D2/S/T/U/V/W/X/Y 迭代
+      已归档到 _legacy/2026-09-06-batches-A2-E2-superseded/,其中 W/X/Y 因数据泄露作废。
+  - id: gaia_nonllm_baselines
+    path: _pipelines/fc_baselines/baselines_v2.json
+    kind: experiment_result
+    status: active
+    produced_by: fc_baselines
+    read_by: gaia
+    desc: |
+      三条不含 LLM 的对照基线:B2 一维缩放(主对照,唯一决策变量)、
+      B4 等预算随机、BG 贪心短期最优。主表用 B2,但报告必须同时列出三条 ——
+      藏掉最强基线(BG +293.5M)会让智能体优势虚高 4 倍以上。
+
+literature:
+  - id: our_data_inventory
+    path: _refs/OUR_DATA_INVENTORY.md
+    desc: 我们手上数据的精确清单 + 已知陷阱。**自动生成**,判断文献方法可行性时的唯一依据
+    build: 见 _wiki-methodology/_top/_task_plan.md 的生成命令(读 volve_data.py 实时算)
+    notes: 不许凭印象补充清单外的数据
+
+  - id: lit_fulltext
+    path: _refs/_fulltext/
+    desc: Elsevier ScienceDirect 全文(txt),经 _code/lit_fetch.py 下载
+    license: Elsevier 订阅内容,**仅本机研究用,不得再分发、不得进公开仓库**
+    gitignore: 已在 .gitignore 排除
+
+  - id: lit_notes
+    path: _refs/_notes/
+    desc: 每篇论文的结构化笔记(JSON+MD),字段:需要什么数据/做什么事/输入输出/数学形式/意义/Volve 可行性/踩坑检查
+    notes: 写论文时的重点参考来源
+
+simulation:
+  - id: volve_eclipse_deck
+    path: _sandbox/eclipse/Reservoir_Model-Eclipse_model/
+    desc: Equinor 官方 Volve Eclipse 油藏模型(已解压 1.6GB)。网格 108x100x63, 活动单元 183,545
+    license: Equinor Open Data Licence(deck 内含 license.txt)
+    notes: 原始 zip 在 师弟-军伟的比赛-2693e5/_sandbox/volve_data/
+
+  - id: opm_baseline_run
+    path: _sandbox/opm_run/out/
+    desc: OPM Flow 2026.04 基线全历史模拟输出(2008-2016)
+    build: python3 _code/patch_eclipse_deck.py _sandbox/opm_run && docker run ... flow VOLVE_2016.DATA
+    verified: 累计产油 993.3 vs 实测 999.6 万 Sm³, 全场误差 -0.6%(2026-08-07)
+    contents: |
+      UNRST 432MB - 30 个时间快照 x {PRESSURE,SWAT,SGAS,RS} x 183,545 活动单元(3D 场)
+      UNSMRY/ESMRY - 井级时间序列 4,260 个关键字
+      EGRID 25MB - 3D 网格几何; INIT - 静态属性(渗透率/孔隙度)
+    gitignore: 已排除(体积大, 可由脚本重建)
+
+upstream:
+  - id: volve_raw_full
+    path: /mnt/data/yongan-admin-2/projects/师弟-军伟的比赛-2693e5/_sandbox/volve_data/
+    desc: Volve 全量 14 个 zip 共 4.2TB (含 Eclipse 模型 409MB, 未解压)
+    notes: 第 3 层反事实验证需要 Volve_Reservoir_Model-Eclipse_model.zip + OPM Flow(未安装)

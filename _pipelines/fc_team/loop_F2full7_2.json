@@ -1,0 +1,286 @@
+{
+ "incumbent_npv8": 2134132525.5040143,
+ "incumbent_theta": [
+  0.6499999761581421,
+  0.550000011920929,
+  0.6499999761581421,
+  0.0,
+  0.5,
+  0.4000000059604645,
+  0.5,
+  0.0,
+  0.25,
+  0.20000000298023224,
+  0.25,
+  0.0,
+  -0.15000000596046448,
+  -0.10000000149011612,
+  -0.15000000596046448,
+  0.0,
+  -0.4000000059604645,
+  -0.30000001192092896,
+  -0.4000000059604645,
+  0.0,
+  -0.6000000238418579,
+  -0.5,
+  -0.6000000238418579,
+  0.0
+ ],
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7576795.035732741,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "f1f2f3-saturation-ignored",
+     "detail": "F1H/F2H/F3H实测已超调113-124%，继续加码theta边际效果打折(0.85conf)，但#1/#5仍以加码F1H/F3H为主力假设，代理分可能虚高"
+    },
+    {
+     "severity": "medium",
+     "code": "f4h-dead-knob-weighted",
+     "detail": "#2按总影响力比例配权含F4H(2.81)，但constraint_auditor(0.85)与connectivity_analyst均确认F4H被BHP截断、theta空转，纳入配权逻辑自相矛盾"
+    },
+    {
+     "severity": "medium",
+     "code": "f1h-cut-hurts-protected-wells",
+     "detail": "#3降F1H权重护B-3H/E-1H，但connectivity_analyst指出F1H也是K-3H/D-3BH头号驱动，削总量而非tilt前移会连带伤及#3自称要保护的方向"
+    },
+    {
+     "severity": "medium",
+     "code": "extreme-tilt-extrapolation",
+     "detail": "#5刻意冲至tilt上限探测spearman+0.714是否延续，属未验证区间外推，其经济分(全场最高2169M)可信度低于其余候选"
+    },
+    {
+     "severity": "low",
+     "code": "tilt-exceeds-reservoir-comfort",
+     "detail": "#1采用+0.30~0.60分箱，超出reservoir_engineer二轮结论支持的+0.1~0.3安全区间，未回应低含水窗口1.7年即关闭的警示"
+    },
+    {
+     "severity": "low",
+     "code": "total-volume-cut-vs-redistribution",
+     "detail": "economics_analyst建议'总注入量不必增加、重点时段再分配'，但全部候选实际注水量均降至基准77-90%，属净削减而非纯时移"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.699999988079071,
+    0.4000000059604645,
+    0.6499999761581421,
+    0.0,
+    0.550000011920929,
+    0.30000001192092896,
+    0.5,
+    0.0,
+    0.15000000596046448,
+    0.10000000149011612,
+    0.15000000596046448,
+    0.0,
+    -0.15000000596046448,
+    -0.10000000149011612,
+    -0.15000000596046448,
+    0.0,
+    -0.550000011920929,
+    -0.30000001192092896,
+    -0.5,
+    0.0,
+    -0.699999988079071,
+    -0.4000000059604645,
+    -0.6499999761581421,
+    0.0
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7796857.947176257,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "proxy-bias-untested-ranking",
+     "detail": "候选#5实测显示代理系统性偏差:增油高估+1.65%、注水少估约2.7pp。其余候选(0,2,3,4,1)未模拟验证,经济分差距仅48~132M$(<7%),落在该偏差量级内,排序可能失真。"
+    },
+    {
+     "severity": "medium",
+     "code": "below-baseline-oil-still-viable",
+     "detail": "预测累计产油6,990,024低于基准7,493,840,即预测该方案产量比基准还差,却仍以正经济分(2052M$)列为可行候选,合理性存疑。"
+    },
+    {
+     "severity": "low",
+     "code": "weak-evidence-sole-basis",
+     "detail": "候选#3设计几乎完全依赖connectivity_analyst(conf=0.55,全场最低置信度之一)的通道论证,该角色两轮间仍在自我修正优先级,证据强度不足以独撑一个候选。"
+    },
+    {
+     "severity": "low",
+     "code": "misleading-unique-attribution",
+     "detail": "归因'F4H锁0(constraint_auditor)'包装成候选#0特有论据,但F4H=0是全部候选共识,非区分性优势,表述有误导性。"
+    },
+    {
+     "severity": "low",
+     "code": "unverifiable-citation",
+     "detail": "理由引用'审计f1h-cut-hurts',但本轮各角色发言中未见此明确表述来源,疑似转述失真或引证不可溯源。"
+    },
+    {
+     "severity": "low",
+     "code": "metric-unit-mismatch",
+     "detail": "代理预测'经济分2180M$'为绝对分,模拟器实测给出的是'ΔNPV@8%=+360.7M$'增量,两者口径不一致,无法据此精确核验经济维度的代理预测误差。"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -32.4% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "5": {
+     "npv0": 2547038011.254531,
+     "npv2": 2427944810.2107863,
+     "npv8": 2134132525.5040143,
+     "npv15": 1879541877.9464126,
+     "oil": 7670008.0,
+     "oil_3y": 4686394.564971751,
+     "winj": 74672480.0,
+     "wprd": 74681712.0,
+     "water_inj": 74672480.0,
+     "water_dev": -0.20503141868700714,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {
+    "4": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -32.4% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ]
+   },
+   "proxy_err_pp": [
+    1.6538437401402595
+   ],
+   "best_theta": [
+    0.6499999761581421,
+    0.550000011920929,
+    0.6499999761581421,
+    0.0,
+    0.5,
+    0.4000000059604645,
+    0.5,
+    0.0,
+    0.25,
+    0.20000000298023224,
+    0.25,
+    0.0,
+    -0.15000000596046448,
+    -0.10000000149011612,
+    -0.15000000596046448,
+    0.0,
+    -0.4000000059604645,
+    -0.30000001192092896,
+    -0.4000000059604645,
+    0.0,
+    -0.6000000238418579,
+    -0.5,
+    -0.6000000238418579,
+    0.0
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7575405.090392809,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "econ-reservoir-conflict",
+     "detail": "候选#1总注水降至75.3%(全场最低),reservoir_engineer二轮明确反对F-1H/F-2H总量式压减(伤压力平台/K-3H等井),候选未说明如何规避"
+    },
+    {
+     "severity": "medium",
+     "code": "well-target-unspecified",
+     "detail": "候选#1只按时段给tilt,未按井拆分,无法排除早期增注流向F-1H支撑已近报废的B-3H/E-1H"
+    },
+    {
+     "severity": "medium",
+     "code": "blanket-tilt-ignores-well-constraints",
+     "detail": "候选#2仅按spearman整体放大15%,未区分F-4H空转、死井通道(B-3H/E-1H)与F-1H压实上限等已知约束"
+    },
+    {
+     "severity": "low",
+     "code": "incomplete-evidence-fusion",
+     "detail": "候选#5未明确早段强增注是否规避F-1H驱动的死井通道,未整合production_surveillance的死井证据(与#3相比证据链不完整)"
+    },
+    {
+     "severity": "low",
+     "code": "champion-rationale-missing",
+     "detail": "候选#6为现任冠军但本轮未给出理由,无法确认是否已吸收本轮F-4H空转、死井等新发现"
+    },
+    {
+     "severity": "low",
+     "code": "surrogate-only-no-sim",
+     "detail": "本轮无模拟结果,各候选经济分差距仅约1.5%,排序可能落在代理模型误差带内,不足以强区分优劣"
+    },
+    {
+     "severity": "low",
+     "code": "extrapolation-risk",
+     "detail": "候选#3注水率83.9%为全场最高、偏离基准最大,代理外推风险相应最高,却给出全场最低经济分,提示代理在极端区间可能失真"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.6499999761581421,
+    0.550000011920929,
+    0.6499999761581421,
+    0.0,
+    0.550000011920929,
+    0.44999998807907104,
+    0.550000011920929,
+    0.0,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.20000000298023224,
+    0.0,
+    -0.25,
+    -0.15000000596046448,
+    -0.25,
+    0.0,
+    -0.550000011920929,
+    -0.4000000059604645,
+    -0.550000011920929,
+    0.0,
+    -0.699999988079071,
+    -0.6000000238418579,
+    -0.699999988079071,
+    0.0
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer",
+  "connectivity_analyst",
+  "production_surveillance",
+  "economics_analyst",
+  "geomechanics_expert",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "dropped": [],
+ "model": "sonnet",
+ "llm_calls": 48,
+ "llm_prompt_chars": 189900,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

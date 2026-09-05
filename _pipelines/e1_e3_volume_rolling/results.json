@@ -1,0 +1,587 @@
+{
+  "config": {
+    "step_days": 1,
+    "n_folds": 5,
+    "target": "volume",
+    "target_col": "BORE_OIL_VOL",
+    "identity_gate_mae": 81.66897459474427,
+    "n_failing_identity_gate": 5,
+    "n_windows": 8739,
+    "n_eval": 6931,
+    "quantiles": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "chronos_configs": {
+      "chronos2_zeroshot": {
+        "past": [],
+        "future": []
+      },
+      "chronos2_past_state": {
+        "past": [
+          "BORE_GAS_VOL",
+          "BORE_WAT_VOL",
+          "AVG_DOWNHOLE_PRESSURE",
+          "AVG_WHP_P",
+          "AVG_DP_TUBING"
+        ],
+        "future": []
+      },
+      "chronos2_past_all": {
+        "past": [
+          "BORE_GAS_VOL",
+          "BORE_WAT_VOL",
+          "AVG_DOWNHOLE_PRESSURE",
+          "AVG_WHP_P",
+          "AVG_DP_TUBING",
+          "ON_STREAM_HRS",
+          "AVG_CHOKE_SIZE_P",
+          "FIELD_WI_VOL"
+        ],
+        "future": []
+      },
+      "chronos2_futr_choke": {
+        "past": [
+          "BORE_GAS_VOL",
+          "BORE_WAT_VOL",
+          "AVG_DOWNHOLE_PRESSURE",
+          "AVG_WHP_P",
+          "AVG_DP_TUBING",
+          "ON_STREAM_HRS",
+          "AVG_CHOKE_SIZE_P",
+          "FIELD_WI_VOL"
+        ],
+        "future": [
+          "AVG_CHOKE_SIZE_P"
+        ]
+      },
+      "chronos2_futr_onstream": {
+        "past": [
+          "BORE_GAS_VOL",
+          "BORE_WAT_VOL",
+          "AVG_DOWNHOLE_PRESSURE",
+          "AVG_WHP_P",
+          "AVG_DP_TUBING",
+          "ON_STREAM_HRS",
+          "AVG_CHOKE_SIZE_P",
+          "FIELD_WI_VOL"
+        ],
+        "future": [
+          "ON_STREAM_HRS"
+        ]
+      },
+      "chronos2_futr_injection": {
+        "past": [
+          "BORE_GAS_VOL",
+          "BORE_WAT_VOL",
+          "AVG_DOWNHOLE_PRESSURE",
+          "AVG_WHP_P",
+          "AVG_DP_TUBING",
+          "ON_STREAM_HRS",
+          "AVG_CHOKE_SIZE_P",
+          "FIELD_WI_VOL"
+        ],
+        "future": [
+          "FIELD_WI_VOL"
+        ]
+      },
+      "chronos2_futr_all": {
+        "past": [
+          "BORE_GAS_VOL",
+          "BORE_WAT_VOL",
+          "AVG_DOWNHOLE_PRESSURE",
+          "AVG_WHP_P",
+          "AVG_DP_TUBING",
+          "ON_STREAM_HRS",
+          "AVG_CHOKE_SIZE_P",
+          "FIELD_WI_VOL"
+        ],
+        "future": [
+          "ON_STREAM_HRS",
+          "AVG_CHOKE_SIZE_P",
+          "FIELD_WI_VOL"
+        ]
+      }
+    }
+  },
+  "information_disclosure": "带 future_* 的模型额外使用了预测窗内的真实作业值, 与纯历史模型不是同一个预测问题; 跨这两组比较 MAE 必须声明信息差。干预组内部一律以 identity_rate_x_hours 为及格线。",
+  "folds": [
+    {
+      "fold": 0,
+      "train_n": 1688,
+      "valid_n": 842,
+      "train_wells": 2,
+      "valid_wells": 2,
+      "note": "valid 2010-09-02~2011-11-07"
+    },
+    {
+      "fold": 1,
+      "train_n": 2530,
+      "valid_n": 842,
+      "train_wells": 2,
+      "valid_wells": 2,
+      "note": "valid 2011-11-07~2013-03-03"
+    },
+    {
+      "fold": 2,
+      "train_n": 3372,
+      "valid_n": 1188,
+      "train_wells": 2,
+      "valid_wells": 4,
+      "note": "valid 2013-03-03~2014-04-29"
+    },
+    {
+      "fold": 3,
+      "train_n": 4440,
+      "valid_n": 2098,
+      "train_wells": 4,
+      "valid_wells": 5,
+      "note": "valid 2014-04-29~2015-06-24"
+    },
+    {
+      "fold": 4,
+      "train_n": 6478,
+      "valid_n": 1961,
+      "train_wells": 5,
+      "valid_wells": 5,
+      "note": "valid 2015-06-24~2016-08-19"
+    }
+  ],
+  "e1_e2_table": [
+    {
+      "model": "identity_rate_x_hours",
+      "setting": "interventional",
+      "mae": 81.66897459474427,
+      "rmse": 242.9618392832249,
+      "mase": 3.0026862522475835,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 78.97804967699355,
+      "mae_hi": 88.41614069159107,
+      "verdict": "—"
+    },
+    {
+      "model": "chronos2_futr_all",
+      "setting": "interventional",
+      "mae": 85.24364415018022,
+      "rmse": 175.5706497330614,
+      "mase": 4.963175003173221,
+      "crps": 71.27880948636722,
+      "coverage80": 0.7365921215608633,
+      "mae_lo": 84.52645263895073,
+      "mae_hi": 89.85928584083283,
+      "verdict": "FAIL(输给恒等式)"
+    },
+    {
+      "model": "chronos2_futr_onstream",
+      "setting": "interventional",
+      "mae": 89.0896437768654,
+      "rmse": 185.16413079373808,
+      "mase": 5.162631479309324,
+      "crps": 75.1368501086408,
+      "coverage80": 0.7399081271395551,
+      "mae_lo": 88.18350712585563,
+      "mae_hi": 93.99588514849997,
+      "verdict": "FAIL(输给恒等式)"
+    },
+    {
+      "model": "chronos2_futr_choke",
+      "setting": "interventional",
+      "mae": 108.05872669376119,
+      "rmse": 243.70671937130763,
+      "mase": 5.407524680930757,
+      "crps": 88.51397476540511,
+      "coverage80": 0.7515970468044435,
+      "mae_lo": 107.01707601791621,
+      "mae_hi": 115.22665663099068,
+      "verdict": "FAIL(输给恒等式)"
+    },
+    {
+      "model": "chronos2_futr_injection",
+      "setting": "interventional",
+      "mae": 123.93523834188876,
+      "rmse": 244.10683229294597,
+      "mase": 6.1950857631709075,
+      "crps": 103.70216205792549,
+      "coverage80": 0.7504608272458623,
+      "mae_lo": 123.78812408628632,
+      "mae_hi": 130.57701777089065,
+      "verdict": "FAIL(输给恒等式)"
+    },
+    {
+      "model": "lightgbm_intervention",
+      "setting": "interventional",
+      "mae": 215.9551617307903,
+      "rmse": 450.67870737232994,
+      "mase": 8.483142418702295,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 212.52581812153542,
+      "mae_hi": 228.43956240310615,
+      "verdict": "FAIL(输给恒等式)"
+    },
+    {
+      "model": "chronos2_past_all",
+      "setting": "pure",
+      "mae": 147.3001760672352,
+      "rmse": 304.24486145578487,
+      "mase": 6.466678053326987,
+      "crps": 122.24264998880504,
+      "coverage80": 0.7440043693249978,
+      "mae_lo": 146.90986642522535,
+      "mae_hi": 156.6852116406792,
+      "verdict": "PASS"
+    },
+    {
+      "model": "chronos2_past_state",
+      "setting": "pure",
+      "mae": 148.13916573999109,
+      "rmse": 305.6072730164745,
+      "mase": 6.469723924713352,
+      "crps": 122.73915121439101,
+      "coverage80": 0.7395862795392703,
+      "mae_lo": 147.72003475598817,
+      "mae_hi": 157.54359879617658,
+      "verdict": "—"
+    },
+    {
+      "model": "chronos2_zeroshot",
+      "setting": "pure",
+      "mae": 151.73617931864607,
+      "rmse": 307.524028284827,
+      "mase": 6.491208165710565,
+      "crps": 125.72727138906536,
+      "coverage80": 0.7298138160397141,
+      "mae_lo": 151.3168968562537,
+      "mae_hi": 161.14207925485195,
+      "verdict": "—"
+    },
+    {
+      "model": "last_value",
+      "setting": "pure",
+      "mae": 153.8899253411097,
+      "rmse": 318.67756753546655,
+      "mase": 6.586161401803336,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 152.74657280852867,
+      "mae_hi": 162.85817611930895,
+      "verdict": "—"
+    },
+    {
+      "model": "history_mean",
+      "setting": "pure",
+      "mae": 155.48847171693012,
+      "rmse": 288.7447914386536,
+      "mase": 6.977838851271709,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 155.17532618499703,
+      "mae_hi": 164.42590498027408,
+      "verdict": "—"
+    },
+    {
+      "model": "seasonal_naive7",
+      "setting": "pure",
+      "mae": 165.90171841055027,
+      "rmse": 330.98596519623135,
+      "mase": 6.878930380773917,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 165.17894812431945,
+      "mae_hi": 174.8013413894654,
+      "verdict": "—"
+    },
+    {
+      "model": "arps_exponential",
+      "setting": "pure",
+      "mae": 193.0069952275609,
+      "rmse": 332.9568931762653,
+      "mase": 7.3357213370392005,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 191.25554393142792,
+      "mae_hi": 201.72421268527626,
+      "verdict": "—"
+    },
+    {
+      "model": "lightgbm_history",
+      "setting": "pure",
+      "mae": 281.0962349210146,
+      "rmse": 487.33348590848226,
+      "mase": 12.728411593963749,
+      "crps": NaN,
+      "coverage80": NaN,
+      "mae_lo": 277.4298687072057,
+      "mae_hi": 294.0817202178303,
+      "verdict": "—"
+    }
+  ],
+  "e3_strata": {
+    "shutin": [
+      {
+        "stratum": "no_shutin",
+        "n": 4643,
+        "history_mean": 123.93481643938921,
+        "arps_exponential": 163.45665717965142,
+        "lightgbm_history": 241.09957228270522,
+        "chronos2_zeroshot": 113.6231079921706,
+        "chronos2_past_all": 109.13359432563009,
+        "identity_rate_x_hours": 85.77084849831265,
+        "lightgbm_intervention": 196.77577269877926,
+        "chronos2_futr_all": 81.79587556303937
+      },
+      {
+        "stratum": "shutin",
+        "n": 2288,
+        "history_mean": 232.57226608207688,
+        "arps_exponential": 263.62742788052026,
+        "lightgbm_history": 377.17271599772556,
+        "chronos2_zeroshot": 242.84548525104938,
+        "chronos2_past_all": 238.292800189777,
+        "identity_rate_x_hours": 77.57419097817595,
+        "lightgbm_intervention": 268.2790262232862,
+        "chronos2_futr_all": 98.09854505437433
+      }
+    ],
+    "choke_q": [
+      {
+        "stratum": "Q1",
+        "n": 1749,
+        "history_mean": 79.70808916958265,
+        "arps_exponential": 112.31707966773162,
+        "lightgbm_history": 202.95975288675098,
+        "chronos2_zeroshot": 73.76449292923473,
+        "chronos2_past_all": 69.47395964724046,
+        "identity_rate_x_hours": 71.73542127622287,
+        "lightgbm_intervention": 204.50329230167046,
+        "chronos2_futr_all": 62.895392019045175
+      },
+      {
+        "stratum": "Q2",
+        "n": 1402,
+        "history_mean": 107.26428210211165,
+        "arps_exponential": 143.9933907604689,
+        "lightgbm_history": 199.6817678279733,
+        "chronos2_zeroshot": 99.02209366416736,
+        "chronos2_past_all": 93.61802815598232,
+        "identity_rate_x_hours": 69.72780990697682,
+        "lightgbm_intervention": 174.8299244277,
+        "chronos2_futr_all": 70.87987090036331
+      },
+      {
+        "stratum": "Q3",
+        "n": 1643,
+        "history_mean": 202.70931923710918,
+        "arps_exponential": 229.06823244780568,
+        "lightgbm_history": 349.43307655134294,
+        "chronos2_zeroshot": 176.3097973522093,
+        "chronos2_past_all": 173.8281908982776,
+        "identity_rate_x_hours": 90.5563547038538,
+        "lightgbm_intervention": 175.93475105906708,
+        "chronos2_futr_all": 94.07860490699157
+      },
+      {
+        "stratum": "Q4",
+        "n": 1948,
+        "history_mean": 231.38400854283051,
+        "arps_exponential": 274.2580069365178,
+        "lightgbm_history": 354.78161945131404,
+        "chronos2_zeroshot": 252.0758640791943,
+        "chronos2_past_all": 247.03267068399342,
+        "identity_rate_x_hours": 96.99264287135769,
+        "lightgbm_intervention": 285.7906722190539,
+        "chronos2_futr_all": 115.17874470356777
+      }
+    ],
+    "wi_q": [
+      {
+        "stratum": "Q1",
+        "n": 1839,
+        "history_mean": 83.16701965223058,
+        "arps_exponential": 121.79086356137388,
+        "lightgbm_history": 188.1683831235244,
+        "chronos2_zeroshot": 80.42856978217894,
+        "chronos2_past_all": 74.03870973489612,
+        "identity_rate_x_hours": 64.05215206884247,
+        "lightgbm_intervention": 188.3112961624574,
+        "chronos2_futr_all": 56.21043850284844
+      },
+      {
+        "stratum": "Q2",
+        "n": 1727,
+        "history_mean": 132.24971890544825,
+        "arps_exponential": 165.82345400327478,
+        "lightgbm_history": 190.93471984496512,
+        "chronos2_zeroshot": 123.64315465445154,
+        "chronos2_past_all": 118.66862754342726,
+        "identity_rate_x_hours": 84.12230944599872,
+        "lightgbm_intervention": 168.84859492306143,
+        "chronos2_futr_all": 82.68133107836118
+      },
+      {
+        "stratum": "Q3",
+        "n": 1056,
+        "history_mean": 139.2220633658855,
+        "arps_exponential": 190.81467576508362,
+        "lightgbm_history": 300.39881466090765,
+        "chronos2_zeroshot": 126.94888426025133,
+        "chronos2_past_all": 122.57384236836475,
+        "identity_rate_x_hours": 75.83533722963124,
+        "lightgbm_intervention": 172.38543334508233,
+        "chronos2_futr_all": 68.6516967008
+      },
+      {
+        "stratum": "Q4",
+        "n": 2253,
+        "history_mean": 239.24540366158382,
+        "arps_exponential": 271.38414714964887,
+        "lightgbm_history": 408.6633597830858,
+        "chronos2_zeroshot": 240.27675392968652,
+        "chronos2_past_all": 237.47654672109633,
+        "identity_rate_x_hours": 87.59637393929033,
+        "lightgbm_intervention": 274.385346253698,
+        "chronos2_futr_all": 117.02770634306806
+      }
+    ],
+    "label": [
+      {
+        "stratum": "S0_steady",
+        "n": 29,
+        "history_mean": 67.02915785440612,
+        "arps_exponential": 61.44653895069859,
+        "lightgbm_history": 160.776993749989,
+        "chronos2_zeroshot": 60.87575862068966,
+        "chronos2_past_all": 52.22833333333333,
+        "identity_rate_x_hours": 67.29146986160447,
+        "lightgbm_intervention": 109.61073627271253,
+        "chronos2_futr_all": 51.462999999999994
+      },
+      {
+        "stratum": "S1_shutin",
+        "n": 2288,
+        "history_mean": 232.57226608207688,
+        "arps_exponential": 263.62742788052026,
+        "lightgbm_history": 377.17271599772556,
+        "chronos2_zeroshot": 242.84548525104938,
+        "chronos2_past_all": 238.292800189777,
+        "identity_rate_x_hours": 77.57419097817595,
+        "lightgbm_intervention": 268.2790262232862,
+        "chronos2_futr_all": 98.09854505437433
+      },
+      {
+        "stratum": "S2_choke",
+        "n": 3187,
+        "history_mean": 146.70745922150257,
+        "arps_exponential": 190.7073256698067,
+        "lightgbm_history": 264.5838838476136,
+        "chronos2_zeroshot": 135.22146680406505,
+        "chronos2_past_all": 130.46419198737422,
+        "identity_rate_x_hours": 91.7923303331879,
+        "lightgbm_intervention": 195.3710933233969,
+        "chronos2_futr_all": 90.79983598090661
+      },
+      {
+        "stratum": "S3_injection",
+        "n": 1154,
+        "history_mean": 74.90636233752524,
+        "arps_exponential": 109.4462194501739,
+        "lightgbm_history": 203.76287984677268,
+        "chronos2_zeroshot": 69.18077559482327,
+        "chronos2_past_all": 65.63264464772291,
+        "identity_rate_x_hours": 72.81956185918237,
+        "lightgbm_intervention": 199.9833538993707,
+        "chronos2_futr_all": 64.81028506762779
+      },
+      {
+        "stratum": "S4_mild",
+        "n": 273,
+        "history_mean": 71.38055851235669,
+        "arps_exponential": 84.47665018452973,
+        "lightgbm_history": 133.30249129791358,
+        "chronos2_zeroshot": 54.949683760683754,
+        "chronos2_past_all": 50.04836996336996,
+        "identity_rate_x_hours": 72.18558899015638,
+        "lightgbm_intervention": 208.87449255305404,
+        "chronos2_futr_all": 51.70577655677656
+      }
+    ]
+  },
+  "e3_degradation_ratio": {
+    "shutin": {
+      "history_mean": 1.8765692544178434,
+      "arps_exponential": 1.6128277209950126,
+      "lightgbm_history": 1.5643856703132826,
+      "chronos2_zeroshot": 2.1372895843315876,
+      "chronos2_past_all": 2.1834963070927995,
+      "identity_rate_x_hours": 0.9044353919350822,
+      "lightgbm_intervention": 1.3633742738947991,
+      "chronos2_futr_all": 1.1993091874023725
+    },
+    "choke_q": {
+      "history_mean": 2.90289242852818,
+      "arps_exponential": 2.441819247329588,
+      "lightgbm_history": 1.7480392757931558,
+      "chronos2_zeroshot": 3.417306268491819,
+      "chronos2_past_all": 3.555759192916618,
+      "identity_rate_x_hours": 1.3520885658129742,
+      "lightgbm_intervention": 1.3974869010787043,
+      "chronos2_futr_all": 1.8312747723822251
+    },
+    "wi_q": {
+      "history_mean": 2.87668603085703,
+      "arps_exponential": 2.228280013901787,
+      "lightgbm_history": 2.171796095600269,
+      "chronos2_zeroshot": 2.987455260990183,
+      "chronos2_past_all": 3.207464683966099,
+      "identity_rate_x_hours": 1.3675789354453354,
+      "lightgbm_intervention": 1.4570838385445763,
+      "chronos2_futr_all": 2.0819568297290143
+    }
+  },
+  "e3_paired_bootstrap": {
+    "shutin=no_shutin": {
+      "diff": -3.974972935273255,
+      "lo": -10.92443399221457,
+      "hi": 0.6827357133371098,
+      "n": 4643
+    },
+    "shutin=shutin": {
+      "diff": 20.52435407619837,
+      "lo": 16.282496229307146,
+      "hi": 24.34171732679768,
+      "n": 2288
+    },
+    "choke_q=Q1": {
+      "diff": -8.840029257177695,
+      "lo": -11.178888463118033,
+      "hi": -6.567198369439872,
+      "n": 1749
+    },
+    "choke_q=Q2": {
+      "diff": 1.1520609933865082,
+      "lo": -2.3177688424627103,
+      "hi": 4.313192504330687,
+      "n": 1402
+    },
+    "choke_q=Q3": {
+      "diff": 3.522250203137767,
+      "lo": -0.22641970796358196,
+      "hi": 6.914336702536336,
+      "n": 1643
+    },
+    "choke_q=Q4": {
+      "diff": 18.18610183221006,
+      "lo": 1.656959668769263,
+      "hi": 29.241304878898458,
+      "n": 1948
+    }
+  }
+}

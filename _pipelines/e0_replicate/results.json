@@ -1,0 +1,64 @@
+{
+  "folds": [
+    {
+      "fold_id": 0,
+      "validation_groups": [
+        "NO 15/9-F-1 C"
+      ],
+      "train_n": 196,
+      "validation_n": 84,
+      "history_mean_mae": 95.06426587301587,
+      "chronos2_mae": 142.96780326334633
+    },
+    {
+      "fold_id": 1,
+      "validation_groups": [
+        "NO 15/9-F-12 H"
+      ],
+      "train_n": 196,
+      "validation_n": 84,
+      "history_mean_mae": 264.8373881728631,
+      "chronos2_mae": 205.05595356769135
+    },
+    {
+      "fold_id": 2,
+      "validation_groups": [
+        "NO 15/9-F-14 H"
+      ],
+      "train_n": 196,
+      "validation_n": 84,
+      "history_mean_mae": 194.21343917041685,
+      "chronos2_mae": 172.21170015558542
+    },
+    {
+      "fold_id": 3,
+      "validation_groups": [
+        "NO 15/9-F-11 H"
+      ],
+      "train_n": 196,
+      "validation_n": 84,
+      "history_mean_mae": 184.55942335209946,
+      "chronos2_mae": 169.02950502384866
+    }
+  ],
+  "config": {
+    "history": 30,
+    "horizon": 30,
+    "step": 7,
+    "min_observed_future": 21,
+    "root_seed": 2693,
+    "development_groups": [
+      "NO 15/9-F-1 C",
+      "NO 15/9-F-11 H",
+      "NO 15/9-F-12 H",
+      "NO 15/9-F-14 H"
+    ],
+    "train_limit": 196,
+    "validation_limit": 84
+  },
+  "macro": {
+    "history_mean_mae": 184.6686291420988,
+    "chronos2_mae": 172.31624050261792
+  },
+  "gate_passed": true
+}

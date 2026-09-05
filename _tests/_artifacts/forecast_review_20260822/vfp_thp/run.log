@@ -1,0 +1,1970 @@
+**********************************************************************
+*                                                                    *
+*                        This is flow 2026.04                        *
+*                                                                    *
+* Flow is a simulator for fully implicit three-phase black-oil flow, *
+*             including solvent and polymer capabilities.            *
+*          For more information, see https://opm-project.org         *
+*                                                                    *
+**********************************************************************
+
+Using 1 MPI processes with 2 OMP threads on each 
+
+Reading deck file 'NORNE_ATW2013.DATA'
+    0 Reading RUNSPEC  in NORNE_ATW2013.DATA line 9
+    1 Reading DIMENS   in NORNE_ATW2013.DATA line 11
+    2 Reading GRIDOPTS in NORNE_ATW2013.DATA line 16
+    3 Reading OIL      in NORNE_ATW2013.DATA line 19
+    4 Reading WATER    in NORNE_ATW2013.DATA line 21
+    5 Reading GAS      in NORNE_ATW2013.DATA line 23
+    6 Reading DISGAS   in NORNE_ATW2013.DATA line 25
+    7 Reading VAPOIL   in NORNE_ATW2013.DATA line 27
+    8 Reading ENDSCALE in NORNE_ATW2013.DATA line 29
+    9 Reading METRIC   in NORNE_ATW2013.DATA line 32
+   10 Reading SATOPTS  in NORNE_ATW2013.DATA line 34
+   11 Reading START    in NORNE_ATW2013.DATA line 37
+   12 Reading EQLDIMS  in NORNE_ATW2013.DATA line 40
+   13 Reading EQLOPTS  in NORNE_ATW2013.DATA line 43
+   14 Reading REGDIMS  in NORNE_ATW2013.DATA line 46
+   15 Reading TRACERS  in NORNE_ATW2013.DATA line 50
+   16 Reading WELLDIMS in NORNE_ATW2013.DATA line 54
+   17 Reading TABDIMS  in NORNE_ATW2013.DATA line 57
+   18 Reading VFPIDIMS in NORNE_ATW2013.DATA line 62
+   19 Reading VFPPDIMS in NORNE_ATW2013.DATA line 93
+   20 Reading FAULTDIM in NORNE_ATW2013.DATA line 96
+   21 Reading PIMTDIMS in NORNE_ATW2013.DATA line 99
+   22 Reading NSTACK   in NORNE_ATW2013.DATA line 102
+   23 Reading UNIFIN   in NORNE_ATW2013.DATA line 105
+   24 Reading UNIFOUT  in NORNE_ATW2013.DATA line 106
+   25 Reading GRID     in NORNE_ATW2013.DATA line 116
+   26 Reading NEWTRAN  in NORNE_ATW2013.DATA line 118
+   27 Reading GRIDFILE in NORNE_ATW2013.DATA line 121
+   28 Reading MAPAXES  in NORNE_ATW2013.DATA line 125
+   29 Reading INIT     in NORNE_ATW2013.DATA line 129
+   30 Reading MESSAGES in NORNE_ATW2013.DATA line 131
+   31 Reading PINCH    in NORNE_ATW2013.DATA line 134
+   32 Reading NOECHO   in NORNE_ATW2013.DATA line 137
+   33 Reading SPECGRID in /data/INCLUDE/GRID/IRAP_1005.GRDECL line 10
+   34 Reading COORD    in /data/INCLUDE/GRID/IRAP_1005.GRDECL line 39
+   35 Reading ZCORN    in /data/INCLUDE/GRID/IRAP_1005.GRDECL line 5379
+   36 Reading ACTNUM   in /data/INCLUDE/GRID/ACTNUM_0704.prop line 8
+   37 Reading FAULTS   in /data/INCLUDE/FAULT/FAULT_JUN_05.INC line 9
+   38 Reading MULTFLT  in /data/INCLUDE/FAULT/FAULTMULT_AUG-2006.INC line 8
+   39 Reading PORO     in /data/INCLUDE/PETRO/PORO_0704.prop line 9
+   40 Reading NTG      in /data/INCLUDE/PETRO/NTG_0704.prop line 9
+   41 Reading PERMX    in /data/INCLUDE/PETRO/PERM_0704.prop line 9
+   42 Reading COPY     in NORNE_ATW2013.DATA line 178
+   43 Reading MULTIPLY in NORNE_ATW2013.DATA line 184
+   44 Reading MULTZ    in /data/INCLUDE/PETRO/MULTZ_HM_1.INC line 9
+   45 Reading EQUALS   in NORNE_ATW2013.DATA line 225
+   46 Reading EQUALS   in /data/INCLUDE/PETRO/MULTZ_JUN_05_MOD.INC line 9
+   47 Reading EQUALS   in /data/INCLUDE/PETRO/MULTZ_JUN_05_MOD.INC line 15
+   48 Reading EQUALS   in /data/INCLUDE/PETRO/MULTZ_JUN_05_MOD.INC line 40
+   49 Reading EQUALS   in /data/INCLUDE/PETRO/MULTZ_JUN_05_MOD.INC line 68
+   50 Reading EQUALS   in /data/INCLUDE/PETRO/MULTZ_JUN_05_MOD.INC line 76
+   51 Reading EQUALS   in /data/INCLUDE/PETRO/MULTZ_JUN_05_MOD.INC line 81
+   52 Reading FLUXNUM  in /data/INCLUDE/PETRO/FLUXNUM_0704.prop line 9
+   53 Reading MULTREGT in /data/INCLUDE/PETRO/MULTREGT_D_27.prop line 45
+   54 Reading NOECHO   in NORNE_ATW2013.DATA line 246
+   55 Reading MINPV    in NORNE_ATW2013.DATA line 248
+   56 Reading EDIT     in NORNE_ATW2013.DATA line 251
+   57 Reading PROPS    in NORNE_ATW2013.DATA line 256
+   58 Reading NOECHO   in NORNE_ATW2013.DATA line 263
+   59 Reading PVTG     in /data/INCLUDE/PVT/PVT-WET-GAS.INC line 8
+   60 Reading PVTO     in /data/INCLUDE/PVT/PVT-WET-GAS.INC line 220
+   61 Reading ROCK     in /data/INCLUDE/PVT/PVT-WET-GAS.INC line 530
+   62 Reading PVTW     in /data/INCLUDE/PVT/PVT-WET-GAS.INC line 539
+   63 Reading DENSITY  in /data/INCLUDE/PVT/PVT-WET-GAS.INC line 546
+   64 Reading TRACER   in NORNE_ATW2013.DATA line 268
+   65 Reading BOX      in /data/INCLUDE/PETRO/SWINITIAL.INC line 8
+   66 Reading SWATINIT in /data/INCLUDE/PETRO/SWINITIAL.INC line 11
+   67 Reading ENDBOX   in /data/INCLUDE/PETRO/SWINITIAL.INC line 28349
+   68 Reading SWOF     in /data/INCLUDE/RELPERM/SCAL_NORNE.INC line 8
+   69 Reading SGOF     in /data/INCLUDE/RELPERM/SCAL_NORNE.INC line 59
+   70 Reading SCALECRS in NORNE_ATW2013.DATA line 286
+   71 Reading EQUALS   in NORNE_ATW2013.DATA line 290
+   72 Reading COPY     in NORNE_ATW2013.DATA line 302
+   73 Reading ADD      in NORNE_ATW2013.DATA line 308
+   74 Reading MULTIPLY in NORNE_ATW2013.DATA line 313
+   75 Reading ADD      in NORNE_ATW2013.DATA line 317
+   76 Reading EQUALS   in NORNE_ATW2013.DATA line 321
+   77 Reading EHYSTR   in NORNE_ATW2013.DATA line 330
+   78 Reading COPY     in NORNE_ATW2013.DATA line 333
+   79 Reading EQUALS   in NORNE_ATW2013.DATA line 343
+   80 Reading RPTPROPS in NORNE_ATW2013.DATA line 347
+   81 Reading REGIONS  in NORNE_ATW2013.DATA line 352
+   82 Reading FIPNUM   in /data/INCLUDE/PETRO/FIPNUM_0704.prop line 9
+   83 Reading EQUALS   in NORNE_ATW2013.DATA line 358
+   84 Reading EQLNUM   in /data/INCLUDE/PETRO/EQLNUM_0704.prop line 9
+   85 Reading SOLUTION in NORNE_ATW2013.DATA line 373
+   86 Reading RESTART  in NORNE_ATW2013.DATA line 375
+   87 Reading RPTRST   in NORNE_ATW2013.DATA line 378
+   88 Reading EQUIL    in /data/INCLUDE/PETRO/E3.prop line 16
+   89 Reading RSVD     in /data/INCLUDE/PETRO/E3.prop line 24
+   90 Reading THPRES   in NORNE_ATW2013.DATA line 384
+   91 Reading SUMMARY  in NORNE_ATW2013.DATA line 395
+   92 Reading NEWTON   in NORNE_ATW2013.DATA line 397
+   93 Reading MLINEARS in NORNE_ATW2013.DATA line 398
+   94 Reading DATE     in /data/INCLUDE/SUMMARY/summary.data line 9
+   95 Reading PERFORMA in /data/INCLUDE/SUMMARY/summary.data line 10
+   96 Reading FVPR     in /data/INCLUDE/SUMMARY/summary.data line 14
+   97 Reading FWPR     in /data/INCLUDE/SUMMARY/summary.data line 15
+   98 Reading FWPRH    in /data/INCLUDE/SUMMARY/summary.data line 16
+   99 Reading FOPR     in /data/INCLUDE/SUMMARY/summary.data line 17
+  100 Reading FOPRH    in /data/INCLUDE/SUMMARY/summary.data line 18
+  101 Reading FGPR     in /data/INCLUDE/SUMMARY/summary.data line 19
+  102 Reading FGPRH    in /data/INCLUDE/SUMMARY/summary.data line 20
+  103 Reading FLPR     in /data/INCLUDE/SUMMARY/summary.data line 21
+  104 Reading FLPRH    in /data/INCLUDE/SUMMARY/summary.data line 22
+  105 Reading FGSR     in /data/INCLUDE/SUMMARY/summary.data line 23
+  106 Reading FGCR     in /data/INCLUDE/SUMMARY/summary.data line 24
+  107 Reading FVIR     in /data/INCLUDE/SUMMARY/summary.data line 27
+  108 Reading FWIR     in /data/INCLUDE/SUMMARY/summary.data line 28
+  109 Reading FWIRH    in /data/INCLUDE/SUMMARY/summary.data line 29
+  110 Reading FGIR     in /data/INCLUDE/SUMMARY/summary.data line 30
+  111 Reading FGIRH    in /data/INCLUDE/SUMMARY/summary.data line 31
+  112 Reading FVPT     in /data/INCLUDE/SUMMARY/summary.data line 33
+  113 Reading FWPT     in /data/INCLUDE/SUMMARY/summary.data line 34
+  114 Reading FOPT     in /data/INCLUDE/SUMMARY/summary.data line 35
+  115 Reading FLPT     in /data/INCLUDE/SUMMARY/summary.data line 36
+  116 Reading FLPTH    in /data/INCLUDE/SUMMARY/summary.data line 37
+  117 Reading FGPT     in /data/INCLUDE/SUMMARY/summary.data line 38
+  118 Reading FOPTH    in /data/INCLUDE/SUMMARY/summary.data line 39
+  119 Reading FGPTH    in /data/INCLUDE/SUMMARY/summary.data line 40
+  120 Reading FWPTH    in /data/INCLUDE/SUMMARY/summary.data line 41
+  121 Reading FGST     in /data/INCLUDE/SUMMARY/summary.data line 42
+  122 Reading FGCT     in /data/INCLUDE/SUMMARY/summary.data line 43
+  123 Reading FVIT     in /data/INCLUDE/SUMMARY/summary.data line 45
+  124 Reading FWIT     in /data/INCLUDE/SUMMARY/summary.data line 46
+  125 Reading FWITH    in /data/INCLUDE/SUMMARY/summary.data line 47
+  126 Reading FGIT     in /data/INCLUDE/SUMMARY/summary.data line 48
+  127 Reading FGITH    in /data/INCLUDE/SUMMARY/summary.data line 49
+  128 Reading FWIP     in /data/INCLUDE/SUMMARY/summary.data line 51
+  129 Reading FOIP     in /data/INCLUDE/SUMMARY/summary.data line 52
+  130 Reading FGIP     in /data/INCLUDE/SUMMARY/summary.data line 53
+  131 Reading FWCT     in /data/INCLUDE/SUMMARY/summary.data line 55
+  132 Reading FWCTH    in /data/INCLUDE/SUMMARY/summary.data line 56
+  133 Reading FGOR     in /data/INCLUDE/SUMMARY/summary.data line 57
+  134 Reading FGORH    in /data/INCLUDE/SUMMARY/summary.data line 58
+  135 Reading FPR      in /data/INCLUDE/SUMMARY/summary.data line 60
+  136 Reading RPR      in /data/INCLUDE/SUMMARY/summary.data line 66
+  137 Reading ROPT     in /data/INCLUDE/SUMMARY/summary.data line 68
+  138 Reading RGPT     in /data/INCLUDE/SUMMARY/summary.data line 70
+  139 Reading RWPT     in /data/INCLUDE/SUMMARY/summary.data line 72
+  140 Reading RGFT     in /data/INCLUDE/SUMMARY/summary.data line 74
+  141 Reading RWFT     in /data/INCLUDE/SUMMARY/summary.data line 76
+  142 Reading ROIP     in /data/INCLUDE/SUMMARY/summary.data line 78
+  143 Reading ROP      in /data/INCLUDE/SUMMARY/summary.data line 80
+  144 Reading GPR      in /data/INCLUDE/SUMMARY/summary.data line 83
+  145 Reading GOPT     in /data/INCLUDE/SUMMARY/summary.data line 85
+  146 Reading GGPT     in /data/INCLUDE/SUMMARY/summary.data line 87
+  147 Reading GWPT     in /data/INCLUDE/SUMMARY/summary.data line 89
+  148 Reading GOPR     in /data/INCLUDE/SUMMARY/summary.data line 91
+  149 Reading GLPR     in /data/INCLUDE/SUMMARY/summary.data line 93
+  150 Reading GGPR     in /data/INCLUDE/SUMMARY/summary.data line 95
+  151 Reading GWPR     in /data/INCLUDE/SUMMARY/summary.data line 97
+  152 Reading GGIR     in /data/INCLUDE/SUMMARY/summary.data line 99
+  153 Reading GGIT     in /data/INCLUDE/SUMMARY/summary.data line 101
+  154 Reading GWCT     in /data/INCLUDE/SUMMARY/summary.data line 103
+  155 Reading GGOR     in /data/INCLUDE/SUMMARY/summary.data line 105
+  156 Reading GWIR     in /data/INCLUDE/SUMMARY/summary.data line 107
+  157 Reading WWPR     in /data/INCLUDE/SUMMARY/summary.data line 111
+  158 Reading WWPRH    in /data/INCLUDE/SUMMARY/summary.data line 113
+  159 Reading WOPR     in /data/INCLUDE/SUMMARY/summary.data line 115
+  160 Reading WOPRH    in /data/INCLUDE/SUMMARY/summary.data line 117
+  161 Reading WGPR     in /data/INCLUDE/SUMMARY/summary.data line 119
+  162 Reading WGPRH    in /data/INCLUDE/SUMMARY/summary.data line 121
+  163 Reading WLPR     in /data/INCLUDE/SUMMARY/summary.data line 123
+  164 Reading WLPRH    in /data/INCLUDE/SUMMARY/summary.data line 125
+  165 Reading WLPT     in /data/INCLUDE/SUMMARY/summary.data line 128
+  166 Reading WLPTH    in /data/INCLUDE/SUMMARY/summary.data line 131
+  167 Reading WWIR     in /data/INCLUDE/SUMMARY/summary.data line 135
+  168 Reading WWIRH    in /data/INCLUDE/SUMMARY/summary.data line 138
+  169 Reading WGIR     in /data/INCLUDE/SUMMARY/summary.data line 141
+  170 Reading WGIRH    in /data/INCLUDE/SUMMARY/summary.data line 145
+  171 Reading WGIT     in /data/INCLUDE/SUMMARY/summary.data line 149
+  172 Reading WGIRH    in /data/INCLUDE/SUMMARY/summary.data line 153
+  173 Reading WWPT     in /data/INCLUDE/SUMMARY/summary.data line 157
+  174 Reading WWPTH    in /data/INCLUDE/SUMMARY/summary.data line 159
+  175 Reading WOPT     in /data/INCLUDE/SUMMARY/summary.data line 161
+  176 Reading WOPTH    in /data/INCLUDE/SUMMARY/summary.data line 163
+  177 Reading WGPT     in /data/INCLUDE/SUMMARY/summary.data line 165
+  178 Reading WGPTH    in /data/INCLUDE/SUMMARY/summary.data line 167
+  179 Reading WWIT     in /data/INCLUDE/SUMMARY/summary.data line 175
+  180 Reading WWCT     in /data/INCLUDE/SUMMARY/summary.data line 179
+  181 Reading WWCTH    in /data/INCLUDE/SUMMARY/summary.data line 181
+  182 Reading WGOR     in /data/INCLUDE/SUMMARY/summary.data line 183
+  183 Reading WGORH    in /data/INCLUDE/SUMMARY/summary.data line 185
+  184 Reading WGORH    in /data/INCLUDE/SUMMARY/summary.data line 187
+  185 Reading WBHP     in /data/INCLUDE/SUMMARY/summary.data line 190
+  186 Reading WBHPH    in /data/INCLUDE/SUMMARY/summary.data line 192
+  187 Reading WTHP     in /data/INCLUDE/SUMMARY/summary.data line 194
+  188 Reading WTHPH    in /data/INCLUDE/SUMMARY/summary.data line 196
+  189 Reading WPI      in /data/INCLUDE/SUMMARY/summary.data line 198
+  190 Reading WBP      in /data/INCLUDE/SUMMARY/summary.data line 200
+  191 Reading WBP4     in /data/INCLUDE/SUMMARY/summary.data line 202
+  192 Reading CWIR     in /data/INCLUDE/SUMMARY/summary.data line 205
+  193 Reading CWIT     in /data/INCLUDE/SUMMARY/summary.data line 215
+  194 Reading CGPT     in /data/INCLUDE/SUMMARY/summary.data line 226
+  195 Reading CGFR     in /data/INCLUDE/SUMMARY/summary.data line 229
+  196 Reading CWFR     in /data/INCLUDE/SUMMARY/summary.data line 232
+  197 Reading FTPRSEA  in /data/INCLUDE/SUMMARY/tracer.data line 12
+  198 Reading FTPRHTO  in /data/INCLUDE/SUMMARY/tracer.data line 13
+  199 Reading FTPRS36  in /data/INCLUDE/SUMMARY/tracer.data line 14
+  200 Reading FTPR2FB  in /data/INCLUDE/SUMMARY/tracer.data line 15
+  201 Reading FTPR4FB  in /data/INCLUDE/SUMMARY/tracer.data line 16
+  202 Reading FTPRDFB  in /data/INCLUDE/SUMMARY/tracer.data line 17
+  203 Reading FTPRTFB  in /data/INCLUDE/SUMMARY/tracer.data line 18
+  204 Reading FTPCSEA  in /data/INCLUDE/SUMMARY/tracer.data line 20
+  205 Reading FTPCHTO  in /data/INCLUDE/SUMMARY/tracer.data line 21
+  206 Reading FTPCS36  in /data/INCLUDE/SUMMARY/tracer.data line 22
+  207 Reading FTPC2FB  in /data/INCLUDE/SUMMARY/tracer.data line 23
+  208 Reading FTPC4FB  in /data/INCLUDE/SUMMARY/tracer.data line 24
+  209 Reading FTPCDFB  in /data/INCLUDE/SUMMARY/tracer.data line 25
+  210 Reading FTPCTFB  in /data/INCLUDE/SUMMARY/tracer.data line 26
+  211 Reading FTIRSEA  in /data/INCLUDE/SUMMARY/tracer.data line 28
+  212 Reading FTIRHTO  in /data/INCLUDE/SUMMARY/tracer.data line 29
+  213 Reading FTIRS36  in /data/INCLUDE/SUMMARY/tracer.data line 30
+  214 Reading FTIR2FB  in /data/INCLUDE/SUMMARY/tracer.data line 31
+  215 Reading FTIR4FB  in /data/INCLUDE/SUMMARY/tracer.data line 32
+  216 Reading FTIRDFB  in /data/INCLUDE/SUMMARY/tracer.data line 33
+  217 Reading FTIRTFB  in /data/INCLUDE/SUMMARY/tracer.data line 34
+  218 Reading FTPTSEA  in /data/INCLUDE/SUMMARY/tracer.data line 36
+  219 Reading FTPTHTO  in /data/INCLUDE/SUMMARY/tracer.data line 37
+  220 Reading FTPTS36  in /data/INCLUDE/SUMMARY/tracer.data line 38
+  221 Reading FTPT2FB  in /data/INCLUDE/SUMMARY/tracer.data line 39
+  222 Reading FTPT4FB  in /data/INCLUDE/SUMMARY/tracer.data line 40
+  223 Reading FTPTDFB  in /data/INCLUDE/SUMMARY/tracer.data line 41
+  224 Reading FTPTTFB  in /data/INCLUDE/SUMMARY/tracer.data line 42
+  225 Reading FTITSEA  in /data/INCLUDE/SUMMARY/tracer.data line 44
+  226 Reading FTITHTO  in /data/INCLUDE/SUMMARY/tracer.data line 45
+  227 Reading FTITS36  in /data/INCLUDE/SUMMARY/tracer.data line 46
+  228 Reading FTIT2FB  in /data/INCLUDE/SUMMARY/tracer.data line 47
+  229 Reading FTIT4FB  in /data/INCLUDE/SUMMARY/tracer.data line 48
+  230 Reading FTITDFB  in /data/INCLUDE/SUMMARY/tracer.data line 49
+  231 Reading FTITTFB  in /data/INCLUDE/SUMMARY/tracer.data line 50
+  232 Reading WTPRSEA  in /data/INCLUDE/SUMMARY/tracer.data line 53
+  233 Reading WTPRHTO  in /data/INCLUDE/SUMMARY/tracer.data line 55
+  234 Reading WTPRS36  in /data/INCLUDE/SUMMARY/tracer.data line 57
+  235 Reading WTPR2FB  in /data/INCLUDE/SUMMARY/tracer.data line 59
+  236 Reading WTPR4FB  in /data/INCLUDE/SUMMARY/tracer.data line 61
+  237 Reading WTPRDFB  in /data/INCLUDE/SUMMARY/tracer.data line 63
+  238 Reading WTPRTFB  in /data/INCLUDE/SUMMARY/tracer.data line 65
+  239 Reading WTPCSEA  in /data/INCLUDE/SUMMARY/tracer.data line 68
+  240 Reading WTPCHTO  in /data/INCLUDE/SUMMARY/tracer.data line 70
+  241 Reading WTPCS36  in /data/INCLUDE/SUMMARY/tracer.data line 72
+  242 Reading WTPC2FB  in /data/INCLUDE/SUMMARY/tracer.data line 74
+  243 Reading WTPC4FB  in /data/INCLUDE/SUMMARY/tracer.data line 76
+  244 Reading WTPCDFB  in /data/INCLUDE/SUMMARY/tracer.data line 78
+  245 Reading WTPCTFB  in /data/INCLUDE/SUMMARY/tracer.data line 80
+  246 Reading WTIRSEA  in /data/INCLUDE/SUMMARY/tracer.data line 84
+  247 Reading WTIRHTO  in /data/INCLUDE/SUMMARY/tracer.data line 87
+  248 Reading WTIRS36  in /data/INCLUDE/SUMMARY/tracer.data line 90
+  249 Reading WTIR2FB  in /data/INCLUDE/SUMMARY/tracer.data line 93
+  250 Reading WTIR4FB  in /data/INCLUDE/SUMMARY/tracer.data line 96
+  251 Reading WTIRDFB  in /data/INCLUDE/SUMMARY/tracer.data line 99
+  252 Reading WTIRTFB  in /data/INCLUDE/SUMMARY/tracer.data line 102
+  253 Reading WTPTSEA  in /data/INCLUDE/SUMMARY/tracer.data line 106
+  254 Reading WTPTHTO  in /data/INCLUDE/SUMMARY/tracer.data line 108
+  255 Reading WTPTS36  in /data/INCLUDE/SUMMARY/tracer.data line 110
+  256 Reading WTPT2FB  in /data/INCLUDE/SUMMARY/tracer.data line 112
+  257 Reading WTPT4FB  in /data/INCLUDE/SUMMARY/tracer.data line 114
+  258 Reading WTPTDFB  in /data/INCLUDE/SUMMARY/tracer.data line 116
+  259 Reading WTPTTFB  in /data/INCLUDE/SUMMARY/tracer.data line 118
+  260 Reading WTITSEA  in /data/INCLUDE/SUMMARY/tracer.data line 121
+  261 Reading WTITHTO  in /data/INCLUDE/SUMMARY/tracer.data line 124
+  262 Reading WTITS36  in /data/INCLUDE/SUMMARY/tracer.data line 127
+  263 Reading WTIT2FB  in /data/INCLUDE/SUMMARY/tracer.data line 130
+  264 Reading WTIT4FB  in /data/INCLUDE/SUMMARY/tracer.data line 133
+  265 Reading WTITDFB  in /data/INCLUDE/SUMMARY/tracer.data line 136
+  266 Reading WTITTFB  in /data/INCLUDE/SUMMARY/tracer.data line 139
+  267 Reading RGIR     in /data/INCLUDE/SUMMARY/gas.inc line 8
+  268 Reading RGPR     in /data/INCLUDE/SUMMARY/gas.inc line 10
+  269 Reading RGIPG    in /data/INCLUDE/SUMMARY/gas.inc line 12
+  270 Reading RGIPL    in /data/INCLUDE/SUMMARY/gas.inc line 14
+  271 Reading RGIT     in /data/INCLUDE/SUMMARY/gas.inc line 17
+  272 Reading RGPT     in /data/INCLUDE/SUMMARY/gas.inc line 19
+  273 Reading RWIR     in /data/INCLUDE/SUMMARY/gas.inc line 21
+  274 Reading RWPR     in /data/INCLUDE/SUMMARY/gas.inc line 23
+  275 Reading RWPT     in /data/INCLUDE/SUMMARY/gas.inc line 25
+  276 Reading RWIP     in /data/INCLUDE/SUMMARY/gas.inc line 27
+  277 Reading ROPR     in /data/INCLUDE/SUMMARY/gas.inc line 29
+  278 Reading ROIR     in /data/INCLUDE/SUMMARY/gas.inc line 31
+  279 Reading ROIT     in /data/INCLUDE/SUMMARY/gas.inc line 33
+  280 Reading ROIPG    in /data/INCLUDE/SUMMARY/gas.inc line 35
+  281 Reading ROIPL    in /data/INCLUDE/SUMMARY/gas.inc line 37
+  282 Reading ROPT     in /data/INCLUDE/SUMMARY/gas.inc line 40
+  283 Reading WBP5     in /data/INCLUDE/SUMMARY/wpave.inc line 9
+  284 Reading WBP9     in /data/INCLUDE/SUMMARY/wpave.inc line 12
+  285 Reading SCHEDULE in NORNE_ATW2013.DATA line 422
+  286 Reading SKIPREST in NORNE_ATW2013.DATA line 423
+  287 Reading DRSDT    in NORNE_ATW2013.DATA line 426
+  288 Reading NOECHO   in NORNE_ATW2013.DATA line 429
+  289 Reading VFPPROD  in /data/INCLUDE/VFP/DevNew.VFP line 9
+  290 Reading VFPPROD  in /data/INCLUDE/VFP/E1h.VFP line 56
+  291 Reading VFPPROD  in /data/INCLUDE/VFP/NEW_D2_GAS_0.00003.VFP line 62
+  292 Reading VFPPROD  in /data/INCLUDE/VFP/GAS_PD2.VFP line 62
+  293 Reading VFPPROD  in /data/INCLUDE/VFP/AlmostVertNew.VFP line 9
+  294 Reading VFPPROD  in /data/INCLUDE/VFP/GasProd.VFP line 12
+  295 Reading VFPPROD  in /data/INCLUDE/VFP/B1BH.Ecl line 68
+  296 Reading VFPPROD  in /data/INCLUDE/VFP/B2H.Ecl line 68
+  297 Reading VFPPROD  in /data/INCLUDE/VFP/B3H.Ecl line 68
+  298 Reading VFPPROD  in /data/INCLUDE/VFP/B4DH.Ecl line 68
+  299 Reading VFPPROD  in /data/INCLUDE/VFP/D1CH.Ecl line 68
+  300 Reading VFPPROD  in /data/INCLUDE/VFP/D2H.Ecl line 68
+  301 Reading VFPPROD  in /data/INCLUDE/VFP/D3BH.Ecl line 68
+  302 Reading VFPPROD  in /data/INCLUDE/VFP/E1H.Ecl line 68
+  303 Reading VFPPROD  in /data/INCLUDE/VFP/E3CH.Ecl line 68
+  304 Reading VFPPROD  in /data/INCLUDE/VFP/K3H.Ecl line 68
+  305 Reading VFPPROD  in /data/INCLUDE/VFP/pd2.VFP line 53
+  306 Reading VFPPROD  in /data/INCLUDE/VFP/pe2.VFP line 53
+  307 Reading VFPPROD  in /data/INCLUDE/VFP/PB1.PIPE.Ecl line 68
+  308 Reading VFPPROD  in /data/INCLUDE/VFP/PB2.PIPE.Ecl line 68
+  309 Reading VFPPROD  in /data/INCLUDE/VFP/PD1.PIPE.Ecl line 68
+  310 Reading VFPPROD  in /data/INCLUDE/VFP/PD2.PIPE.Ecl line 68
+  311 Reading VFPPROD  in /data/INCLUDE/VFP/PE1.PIPE.Ecl line 68
+  312 Reading VFPPROD  in /data/INCLUDE/VFP/PE2.PIPE.Ecl line 68
+  313 Reading VFPINJ   in /data/INCLUDE/VFP/WIC.PIPE.Ecl line 66
+  314 Reading VFPINJ   in /data/INCLUDE/VFP/WIF.PIPE.Ecl line 66
+  315 Reading VFPINJ   in /data/INCLUDE/VFP/C1H.Ecl line 62
+  316 Reading VFPINJ   in /data/INCLUDE/VFP/C2H.Ecl line 62
+  317 Reading VFPINJ   in /data/INCLUDE/VFP/C3H.Ecl line 62
+  318 Reading VFPINJ   in /data/INCLUDE/VFP/C4H.Ecl line 62
+  319 Reading VFPINJ   in /data/INCLUDE/VFP/C4AH.Ecl line 62
+  320 Reading VFPINJ   in /data/INCLUDE/VFP/F1H.Ecl line 66
+  321 Reading VFPINJ   in /data/INCLUDE/VFP/F2H.Ecl line 62
+  322 Reading VFPINJ   in /data/INCLUDE/VFP/F3H.Ecl line 62
+  323 Reading VFPINJ   in /data/INCLUDE/VFP/F4H.Ecl line 62
+  324 Reading TUNING   in NORNE_ATW2013.DATA line 596
+  325 Reading ZIPPY2   in NORNE_ATW2013.DATA line 603
+  326 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 124
+  327 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 130
+  328 Reading GRUPTREE in /data/INCLUDE/BC0407_HIST01122006.SCH line 152
+  329 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 170
+  330 Reading WPAVE    in /data/INCLUDE/BC0407_HIST01122006.SCH line 176
+  331 Reading VAPPARS  in /data/INCLUDE/BC0407_HIST01122006.SCH line 195
+  332 Reading NETBALAN in /data/INCLUDE/BC0407_HIST01122006.SCH line 199
+  333 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 204
+  334 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 208
+  335 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 212
+  336 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 221
+  337 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 225
+  338 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 230
+  339 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 235
+  340 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 269
+  341 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 273
+  342 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 286
+  343 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 292
+  344 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 297
+  345 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 301
+  346 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 307
+  347 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 311
+  348 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 316
+  349 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 320
+  350 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 326
+  351 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 330
+  352 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 337
+  353 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 341
+  354 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 347
+  355 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 352
+  356 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 384
+  357 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 388
+  358 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 412
+  359 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 419
+  360 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 423
+  361 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 427
+  362 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 432
+  363 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 440
+  364 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 444
+  365 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 450
+  366 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 455
+  367 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 459
+  368 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 465
+  369 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 469
+  370 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 474
+  371 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 486
+  372 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 493
+  373 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 500
+  374 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 504
+  375 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 511
+  376 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 515
+  377 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 522
+  378 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 527
+  379 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 565
+  380 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 569
+  381 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 599
+  382 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 607
+  383 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 611
+  384 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 615
+  385 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 620
+  386 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 628
+  387 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 632
+  388 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 639
+  389 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 644
+  390 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 648
+  391 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 655
+  392 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 660
+  393 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 685
+  394 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 696
+  395 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 704
+  396 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 709
+  397 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 743
+  398 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 747
+  399 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 772
+  400 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 781
+  401 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 786
+  402 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 791
+  403 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 800
+  404 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 804
+  405 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 812
+  406 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 817
+  407 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 821
+  408 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 829
+  409 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 833
+  410 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 838
+  411 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 862
+  412 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 870
+  413 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 878
+  414 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 883
+  415 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 887
+  416 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 894
+  417 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 898
+  418 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 906
+  419 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 912
+  420 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 946
+  421 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 950
+  422 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 974
+  423 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 983
+  424 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 987
+  425 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 992
+  426 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 997
+  427 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1005
+  428 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1009
+  429 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1017
+  430 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1023
+  431 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1027
+  432 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1035
+  433 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1041
+  434 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1074
+  435 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1085
+  436 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1094
+  437 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1100
+  438 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1104
+  439 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1113
+  440 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1123
+  441 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1127
+  442 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1136
+  443 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 1141
+  444 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1146
+  445 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1153
+  446 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1157
+  447 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1166
+  448 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 1171
+  449 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1178
+  450 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1189
+  451 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1195
+  452 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1204
+  453 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1210
+  454 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1214
+  455 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1223
+  456 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1229
+  457 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1233
+  458 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1242
+  459 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1248
+  460 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1278
+  461 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1282
+  462 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1291
+  463 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1300
+  464 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1306
+  465 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1310
+  466 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1319
+  467 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 1324
+  468 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1329
+  469 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1333
+  470 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1342
+  471 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 1347
+  472 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1358
+  473 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1362
+  474 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1371
+  475 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1381
+  476 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 1393
+  477 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1397
+  478 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1404
+  479 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1413
+  480 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1419
+  481 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1424
+  482 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1428
+  483 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1437
+  484 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1444
+  485 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1448
+  486 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1457
+  487 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1463
+  488 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1472
+  489 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1476
+  490 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1485
+  491 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1492
+  492 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1496
+  493 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1505
+  494 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1516
+  495 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1520
+  496 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1529
+  497 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1540
+  498 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 1559
+  499 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1563
+  500 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1575
+  501 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1585
+  502 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1592
+  503 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1623
+  504 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1627
+  505 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1645
+  506 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1654
+  507 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1661
+  508 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1665
+  509 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1674
+  510 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 1680
+  511 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1685
+  512 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1689
+  513 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1699
+  514 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 1705
+  515 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1712
+  516 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 1746
+  517 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1750
+  518 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1775
+  519 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1786
+  520 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1793
+  521 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1798
+  522 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1807
+  523 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1811
+  524 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1821
+  525 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1828
+  526 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1858
+  527 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1868
+  528 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1879
+  529 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1886
+  530 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 1916
+  531 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1920
+  532 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1941
+  533 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1951
+  534 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1959
+  535 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1963
+  536 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 1972
+  537 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 1980
+  538 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 1984
+  539 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 1994
+  540 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2002
+  541 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2006
+  542 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2016
+  543 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2024
+  544 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 2060
+  545 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2064
+  546 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2080
+  547 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2091
+  548 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2099
+  549 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2103
+  550 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2113
+  551 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 2120
+  552 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2125
+  553 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2153
+  554 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2157
+  555 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2169
+  556 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2179
+  557 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 2186
+  558 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2193
+  559 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2197
+  560 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2207
+  561 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2215
+  562 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2226
+  563 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2230
+  564 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2239
+  565 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2249
+  566 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2257
+  567 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2292
+  568 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2305
+  569 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2316
+  570 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2324
+  571 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2328
+  572 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2338
+  573 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2346
+  574 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2351
+  575 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 2380
+  576 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2384
+  577 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2398
+  578 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2409
+  579 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2418
+  580 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2422
+  581 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2433
+  582 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2440
+  583 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2447
+  584 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2451
+  585 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2461
+  586 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2469
+  587 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2476
+  588 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2480
+  589 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2490
+  590 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 2498
+  591 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2503
+  592 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 2533
+  593 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2537
+  594 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2560
+  595 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2571
+  596 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2580
+  597 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 2584
+  598 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2591
+  599 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2598
+  600 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2602
+  601 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2613
+  602 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2622
+  603 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2654
+  604 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2667
+  605 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2678
+  606 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2687
+  607 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2692
+  608 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2696
+  609 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2706
+  610 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2720
+  611 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2724
+  612 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2734
+  613 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2744
+  614 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2748
+  615 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2757
+  616 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2770
+  617 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2774
+  618 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2785
+  619 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2799
+  620 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 2827
+  621 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 2831
+  622 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2844
+  623 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2856
+  624 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2866
+  625 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2870
+  626 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2883
+  627 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2893
+  628 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2897
+  629 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2910
+  630 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 2919
+  631 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2924
+  632 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2928
+  633 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2941
+  634 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 2950
+  635 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2957
+  636 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 2961
+  637 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 2974
+  638 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 2984
+  639 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 3006
+  640 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3010
+  641 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3024
+  642 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 3036
+  643 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3040
+  644 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3046
+  645 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3051
+  646 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3059
+  647 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3063
+  648 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3075
+  649 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3085
+  650 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3089
+  651 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3101
+  652 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 3110
+  653 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3115
+  654 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3119
+  655 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3131
+  656 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 3140
+  657 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3147
+  658 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 3182
+  659 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3186
+  660 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3202
+  661 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3213
+  662 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3223
+  663 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3227
+  664 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3238
+  665 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3248
+  666 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3252
+  667 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3256
+  668 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3268
+  669 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3278
+  670 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3288
+  671 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3292
+  672 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3297
+  673 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3309
+  674 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3319
+  675 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3323
+  676 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3335
+  677 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 3344
+  678 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3349
+  679 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3353
+  680 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3365
+  681 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 3374
+  682 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3381
+  683 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 3417
+  684 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3421
+  685 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3449
+  686 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 3461
+  687 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3465
+  688 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3474
+  689 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3479
+  690 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3487
+  691 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3491
+  692 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3502
+  693 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3512
+  694 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 3532
+  695 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3536
+  696 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3552
+  697 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3564
+  698 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3574
+  699 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3578
+  700 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3589
+  701 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3598
+  702 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3605
+  703 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3609
+  704 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3621
+  705 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3630
+  706 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3637
+  707 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3641
+  708 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3653
+  709 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3663
+  710 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 3698
+  711 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3702
+  712 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3729
+  713 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3741
+  714 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3751
+  715 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3756
+  716 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3764
+  717 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3768
+  718 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3779
+  719 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3789
+  720 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3802
+  721 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3807
+  722 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3819
+  723 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3829
+  724 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3845
+  725 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3849
+  726 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3858
+  727 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3869
+  728 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3879
+  729 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3884
+  730 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3888
+  731 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3899
+  732 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 3909
+  733 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3914
+  734 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3918
+  735 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3929
+  736 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 3939
+  737 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 3946
+  738 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 3969
+  739 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 3973
+  740 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 3984
+  741 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 3996
+  742 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4007
+  743 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4011
+  744 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4025
+  745 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4035
+  746 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4040
+  747 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4044
+  748 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4058
+  749 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4068
+  750 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4075
+  751 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4079
+  752 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4092
+  753 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4103
+  754 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4107
+  755 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4120
+  756 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4130
+  757 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4135
+  758 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4139
+  759 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4151
+  760 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4161
+  761 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4168
+  762 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4172
+  763 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4176
+  764 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4187
+  765 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4198
+  766 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4202
+  767 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4213
+  768 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4224
+  769 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 4265
+  770 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4269
+  771 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4302
+  772 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 4314
+  773 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4318
+  774 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4328
+  775 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4333
+  776 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4341
+  777 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4345
+  778 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4356
+  779 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4367
+  780 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4371
+  781 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4382
+  782 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4397
+  783 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4401
+  784 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4413
+  785 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4428
+  786 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4432
+  787 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4444
+  788 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4454
+  789 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4459
+  790 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 4488
+  791 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4492
+  792 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4514
+  793 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4526
+  794 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4537
+  795 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4541
+  796 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4548
+  797 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4556
+  798 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4560
+  799 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4571
+  800 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4582
+  801 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4586
+  802 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4597
+  803 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 4607
+  804 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4612
+  805 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4616
+  806 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4628
+  807 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 4638
+  808 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4643
+  809 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 4665
+  810 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4669
+  811 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4683
+  812 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4696
+  813 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4707
+  814 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4711
+  815 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4724
+  816 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4735
+  817 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4752
+  818 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4759
+  819 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4773
+  820 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4784
+  821 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4788
+  822 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4800
+  823 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4815
+  824 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4819
+  825 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4830
+  826 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4841
+  827 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4845
+  828 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4856
+  829 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 4867
+  830 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4876
+  831 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4880
+  832 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4891
+  833 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4902
+  834 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4907
+  835 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4911
+  836 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4922
+  837 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 4933
+  838 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4940
+  839 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4944
+  840 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4955
+  841 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4967
+  842 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 4971
+  843 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 4981
+  844 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 4997
+  845 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5001
+  846 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5015
+  847 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5026
+  848 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5031
+  849 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5035
+  850 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5049
+  851 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5060
+  852 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5067
+  853 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5071
+  854 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5083
+  855 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5094
+  856 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5099
+  857 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5103
+  858 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5116
+  859 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5127
+  860 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5132
+  861 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5136
+  862 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5149
+  863 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5161
+  864 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5165
+  865 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5178
+  866 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5189
+  867 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5194
+  868 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5198
+  869 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5202
+  870 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5215
+  871 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5226
+  872 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5233
+  873 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5237
+  874 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5250
+  875 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5262
+  876 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5266
+  877 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5278
+  878 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5289
+  879 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5294
+  880 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5318
+  881 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5322
+  882 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5336
+  883 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5347
+  884 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5358
+  885 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5369
+  886 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5373
+  887 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5384
+  888 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5400
+  889 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5404
+  890 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5416
+  891 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5432
+  892 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5436
+  893 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5449
+  894 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5461
+  895 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5465
+  896 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5479
+  897 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5495
+  898 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5499
+  899 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5512
+  900 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5524
+  901 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5528
+  902 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5541
+  903 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5557
+  904 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5569
+  905 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5573
+  906 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5578
+  907 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5591
+  908 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5603
+  909 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5607
+  910 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5619
+  911 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5630
+  912 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5635
+  913 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5639
+  914 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5653
+  915 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5663
+  916 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5674
+  917 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5678
+  918 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5691
+  919 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5707
+  920 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5711
+  921 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5724
+  922 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5736
+  923 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 5740
+  924 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5744
+  925 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5755
+  926 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5767
+  927 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5771
+  928 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5783
+  929 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5794
+  930 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5798
+  931 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5810
+  932 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5825
+  933 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5829
+  934 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5840
+  935 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5850
+  936 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5855
+  937 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5859
+  938 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5870
+  939 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 5880
+  940 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5891
+  941 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5895
+  942 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5906
+  943 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5921
+  944 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5925
+  945 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5937
+  946 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5952
+  947 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5956
+  948 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5968
+  949 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 5979
+  950 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 5983
+  951 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 5995
+  952 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6010
+  953 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6014
+  954 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6026
+  955 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6037
+  956 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6043
+  957 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6047
+  958 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6056
+  959 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6067
+  960 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6080
+  961 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6086
+  962 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6098
+  963 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6109
+  964 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6113
+  965 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6126
+  966 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 6136
+  967 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6141
+  968 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6145
+  969 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6158
+  970 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 6169
+  971 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6176
+  972 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6180
+  973 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6193
+  974 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6205
+  975 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 6224
+  976 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6228
+  977 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6238
+  978 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6250
+  979 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6261
+  980 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6265
+  981 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6277
+  982 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 6287
+  983 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6292
+  984 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6296
+  985 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6309
+  986 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 6319
+  987 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6330
+  988 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6334
+  989 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6347
+  990 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6358
+  991 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6362
+  992 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6374
+  993 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 6384
+  994 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6389
+  995 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6393
+  996 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6405
+  997 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 6415
+  998 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6424
+  999 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6428
+ 1000 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6432
+ 1001 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6444
+ 1002 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6455
+ 1003 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6459
+ 1004 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6471
+ 1005 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6486
+ 1006 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6494
+ 1007 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6498
+ 1008 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6510
+ 1009 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6521
+ 1010 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6530
+ 1011 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6535
+ 1012 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6547
+ 1013 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6558
+ 1014 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6569
+ 1015 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6573
+ 1016 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6579
+ 1017 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6591
+ 1018 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6602
+ 1019 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6613
+ 1020 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6617
+ 1021 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6623
+ 1022 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6636
+ 1023 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6648
+ 1024 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6652
+ 1025 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6665
+ 1026 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 6676
+ 1027 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6685
+ 1028 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 6722
+ 1029 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6726
+ 1030 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6745
+ 1031 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6759
+ 1032 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 6769
+ 1033 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6776
+ 1034 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6780
+ 1035 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6794
+ 1036 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6805
+ 1037 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6809
+ 1038 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6813
+ 1039 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6827
+ 1040 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6838
+ 1041 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6842
+ 1042 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6856
+ 1043 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6867
+ 1044 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 6892
+ 1045 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6896
+ 1046 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6915
+ 1047 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6930
+ 1048 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6940
+ 1049 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6945
+ 1050 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 6953
+ 1051 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6957
+ 1052 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 6971
+ 1053 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 6982
+ 1054 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 6986
+ 1055 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7000
+ 1056 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7015
+ 1057 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7019
+ 1058 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7033
+ 1059 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7043
+ 1060 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7048
+ 1061 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7052
+ 1062 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7066
+ 1063 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7076
+ 1064 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7087
+ 1065 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 7109
+ 1066 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7119
+ 1067 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7132
+ 1068 Reading WTRACER  in /data/INCLUDE/BC0407_HIST01122006.SCH line 7143
+ 1069 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7152
+ 1070 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7156
+ 1071 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7169
+ 1072 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7181
+ 1073 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7185
+ 1074 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7199
+ 1075 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7211
+ 1076 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7215
+ 1077 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7228
+ 1078 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7239
+ 1079 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7244
+ 1080 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7248
+ 1081 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7261
+ 1082 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7272
+ 1083 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7279
+ 1084 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7283
+ 1085 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7296
+ 1086 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7308
+ 1087 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7312
+ 1088 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7325
+ 1089 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7336
+ 1090 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7341
+ 1091 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 7370
+ 1092 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 7374
+ 1093 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7389
+ 1094 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7404
+ 1095 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7415
+ 1096 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7422
+ 1097 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7426
+ 1098 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7441
+ 1099 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7457
+ 1100 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7461
+ 1101 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7476
+ 1102 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7488
+ 1103 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7492
+ 1104 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7507
+ 1105 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 7518
+ 1106 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7523
+ 1107 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7527
+ 1108 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7540
+ 1109 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 7551
+ 1110 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7556
+ 1111 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7560
+ 1112 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7575
+ 1113 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7587
+ 1114 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7591
+ 1115 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7606
+ 1116 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7622
+ 1117 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7626
+ 1118 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7641
+ 1119 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7652
+ 1120 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7657
+ 1121 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7661
+ 1122 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7676
+ 1123 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7687
+ 1124 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7694
+ 1125 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7698
+ 1126 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7713
+ 1127 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7725
+ 1128 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7729
+ 1129 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7744
+ 1130 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7755
+ 1131 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7760
+ 1132 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 7768
+ 1133 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7772
+ 1134 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7787
+ 1135 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 7798
+ 1136 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7805
+ 1137 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7809
+ 1138 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7823
+ 1139 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7839
+ 1140 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7843
+ 1141 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7856
+ 1142 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7868
+ 1143 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7872
+ 1144 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7886
+ 1145 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 7898
+ 1146 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 7932
+ 1147 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 7936
+ 1148 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 7966
+ 1149 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 7981
+ 1150 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 7985
+ 1151 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 7996
+ 1152 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8001
+ 1153 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8008
+ 1154 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8012
+ 1155 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8026
+ 1156 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8038
+ 1157 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8042
+ 1158 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8056
+ 1159 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8067
+ 1160 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8072
+ 1161 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 8093
+ 1162 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8097
+ 1163 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8109
+ 1164 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8124
+ 1165 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8135
+ 1166 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8142
+ 1167 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8146
+ 1168 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8161
+ 1169 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8173
+ 1170 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8177
+ 1171 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8192
+ 1172 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8204
+ 1173 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8208
+ 1174 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8212
+ 1175 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8225
+ 1176 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8237
+ 1177 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8241
+ 1178 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8253
+ 1179 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8269
+ 1180 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8273
+ 1181 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8286
+ 1182 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8297
+ 1183 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8302
+ 1184 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8307
+ 1185 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8311
+ 1186 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8324
+ 1187 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8335
+ 1188 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8342
+ 1189 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8348
+ 1190 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8352
+ 1191 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8357
+ 1192 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8369
+ 1193 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8381
+ 1194 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8385
+ 1195 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8389
+ 1196 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8401
+ 1197 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8413
+ 1198 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8417
+ 1199 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8428
+ 1200 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8440
+ 1201 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 8453
+ 1202 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8457
+ 1203 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8468
+ 1204 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8480
+ 1205 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8492
+ 1206 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 8513
+ 1207 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8517
+ 1208 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8534
+ 1209 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8548
+ 1210 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8560
+ 1211 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8564
+ 1212 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8577
+ 1213 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8589
+ 1214 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8593
+ 1215 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8597
+ 1216 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8610
+ 1217 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8622
+ 1218 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8626
+ 1219 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8630
+ 1220 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8643
+ 1221 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8653
+ 1222 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8658
+ 1223 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8662
+ 1224 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8675
+ 1225 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8685
+ 1226 Reading GCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8691
+ 1227 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8696
+ 1228 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 8708
+ 1229 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8712
+ 1230 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8721
+ 1231 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 8734
+ 1232 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8738
+ 1233 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8748
+ 1234 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8753
+ 1235 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8759
+ 1236 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8763
+ 1237 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8774
+ 1238 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8785
+ 1239 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 8807
+ 1240 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8811
+ 1241 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8821
+ 1242 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8833
+ 1243 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8844
+ 1244 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8848
+ 1245 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8859
+ 1246 Reading WTEST    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8869
+ 1247 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8874
+ 1248 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8879
+ 1249 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8883
+ 1250 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8887
+ 1251 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8899
+ 1252 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 8909
+ 1253 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8916
+ 1254 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8920
+ 1255 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8932
+ 1256 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8943
+ 1257 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 8947
+ 1258 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8951
+ 1259 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8963
+ 1260 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 8974
+ 1261 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 8978
+ 1262 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 8990
+ 1263 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9001
+ 1264 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9005
+ 1265 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9017
+ 1266 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 9028
+ 1267 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9033
+ 1268 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 9037
+ 1269 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9044
+ 1270 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9056
+ 1271 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 9067
+ 1272 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9074
+ 1273 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9078
+ 1274 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9091
+ 1275 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9103
+ 1276 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9107
+ 1277 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9121
+ 1278 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9133
+ 1279 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9137
+ 1280 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9151
+ 1281 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 9158
+ 1282 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9163
+ 1283 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9167
+ 1284 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9179
+ 1285 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 9186
+ 1286 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9193
+ 1287 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9197
+ 1288 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9208
+ 1289 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 9215
+ 1290 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9220
+ 1291 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9224
+ 1292 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9235
+ 1293 Reading RPTRST   in /data/INCLUDE/BC0407_HIST01122006.SCH line 9245
+ 1294 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9250
+ 1295 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9254
+ 1296 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9265
+ 1297 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9276
+ 1298 Reading WELSPECS in /data/INCLUDE/BC0407_HIST01122006.SCH line 9295
+ 1299 Reading COMPDAT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 9299
+ 1300 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9314
+ 1301 Reading WCONPROD in /data/INCLUDE/BC0407_HIST01122006.SCH line 9327
+ 1302 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9331
+ 1303 Reading WRFTPLT  in /data/INCLUDE/BC0407_HIST01122006.SCH line 9341
+ 1304 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9346
+ 1305 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9350
+ 1306 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9362
+ 1307 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 9372
+ 1308 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9377
+ 1309 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 9381
+ 1310 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9385
+ 1311 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9396
+ 1312 Reading RPTSCHED in /data/INCLUDE/BC0407_HIST01122006.SCH line 9406
+ 1313 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9413
+ 1314 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9417
+ 1315 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9430
+ 1316 Reading WTEST    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9439
+ 1317 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9449
+ 1318 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9453
+ 1319 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9466
+ 1320 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9476
+ 1321 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 9480
+ 1322 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9484
+ 1323 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9497
+ 1324 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9507
+ 1325 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9512
+ 1326 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9524
+ 1327 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9534
+ 1328 Reading WELOPEN  in /data/INCLUDE/BC0407_HIST01122006.SCH line 9538
+ 1329 Reading WCONHIST in /data/INCLUDE/BC0407_HIST01122006.SCH line 9542
+ 1330 Reading WCONINJE in /data/INCLUDE/BC0407_HIST01122006.SCH line 9556
+ 1331 Reading DATES    in /data/INCLUDE/BC0407_HIST01122006.SCH line 9565
+ 1332 Reading WCONPROD in /data/INCLUDE/PRED.SCH line 5
+ 1333 Reading WECON    in /data/INCLUDE/PRED.SCH line 17
+ 1334 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 23
+ 1335 Reading DATES    in /data/INCLUDE/PRED.SCH line 30
+ 1336 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 34
+ 1337 Reading DATES    in /data/INCLUDE/PRED.SCH line 41
+ 1338 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 45
+ 1339 Reading DATES    in /data/INCLUDE/PRED.SCH line 52
+ 1340 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 56
+ 1341 Reading DATES    in /data/INCLUDE/PRED.SCH line 63
+ 1342 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 67
+ 1343 Reading DATES    in /data/INCLUDE/PRED.SCH line 74
+ 1344 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 78
+ 1345 Reading DATES    in /data/INCLUDE/PRED.SCH line 85
+ 1346 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 89
+ 1347 Reading DATES    in /data/INCLUDE/PRED.SCH line 96
+ 1348 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 100
+ 1349 Reading DATES    in /data/INCLUDE/PRED.SCH line 107
+ 1350 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 111
+ 1351 Reading DATES    in /data/INCLUDE/PRED.SCH line 118
+ 1352 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 122
+ 1353 Reading DATES    in /data/INCLUDE/PRED.SCH line 129
+ 1354 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 133
+ 1355 Reading DATES    in /data/INCLUDE/PRED.SCH line 140
+ 1356 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 144
+ 1357 Reading DATES    in /data/INCLUDE/PRED.SCH line 151
+ 1358 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 155
+ 1359 Reading DATES    in /data/INCLUDE/PRED.SCH line 162
+ 1360 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 166
+ 1361 Reading DATES    in /data/INCLUDE/PRED.SCH line 173
+ 1362 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 177
+ 1363 Reading DATES    in /data/INCLUDE/PRED.SCH line 184
+ 1364 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 188
+ 1365 Reading DATES    in /data/INCLUDE/PRED.SCH line 195
+ 1366 Reading WCONINJE in /data/INCLUDE/PRED.SCH line 199
+ 1367 Reading DATES    in /data/INCLUDE/PRED.SCH line 206
+
+Warning: Unsupported keywords or keyword items:
+
+  NSTACK: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 102
+
+  MESSAGES: invalid value '10000' for item 7
+  In file: NORNE_ATW2013.DATA, line 131
+  MESSAGES(STOPMESG): option is not supported
+
+  MESSAGES: invalid value '10000' for item 8
+  In file: NORNE_ATW2013.DATA, line 131
+  MESSAGES(STOPCOMT): option is not supported
+
+  MESSAGES: invalid value '20000' for item 9
+  In file: NORNE_ATW2013.DATA, line 131
+  MESSAGES(STOPWARN): option is not supported
+
+  MESSAGES: invalid value '10000' for item 10
+  In file: NORNE_ATW2013.DATA, line 131
+  MESSAGES(STOPPROB): option is not supported
+
+  MESSAGES: invalid value '1000' for item 11
+  In file: NORNE_ATW2013.DATA, line 131
+  MESSAGES(STOPERRS): option is not supported
+
+  NOECHO: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 137
+
+  FAULTS: invalid value 'C_08_S_Ti' in record 839 for item 1
+  In file: /data/INCLUDE/FAULT/FAULT_JUN_05.INC, line 9
+  FAULTS(FLTNAME): Only names of faults up to 8 characters are supported. Will ignore excess characters.
+
+  FAULTS: invalid value 'C_08_S_Ti' in record 840 for item 1
+  In file: /data/INCLUDE/FAULT/FAULT_JUN_05.INC, line 9
+  FAULTS(FLTNAME): Only names of faults up to 8 characters are supported. Will ignore excess characters.
+
+  FAULTS: invalid value 'C_08_S_Ti' in record 841 for item 1
+  In file: /data/INCLUDE/FAULT/FAULT_JUN_05.INC, line 9
+  FAULTS(FLTNAME): Only names of faults up to 8 characters are supported. Will ignore excess characters.
+
+  FAULTS: invalid value 'C_08_S_Ti' in record 842 for item 1
+  In file: /data/INCLUDE/FAULT/FAULT_JUN_05.INC, line 9
+  FAULTS(FLTNAME): Only names of faults up to 8 characters are supported. Will ignore excess characters.
+
+  FAULTS: invalid value 'C_08_S_Ti' in record 843 for item 1
+  In file: /data/INCLUDE/FAULT/FAULT_JUN_05.INC, line 9
+  FAULTS(FLTNAME): Only names of faults up to 8 characters are supported. Will ignore excess characters.
+
+  MULTFLT: invalid value 'C_08_S_Ti' in record 20 for item 1
+  In file: /data/INCLUDE/FAULT/FAULTMULT_AUG-2006.INC, line 8
+  MLTFLT(FLTNAME): Only names of faults up to 8 characters are supported. Will ignore excess characters.
+
+  NOECHO: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 246
+
+  NOECHO: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 263
+
+  EHYSTR: invalid value '0.100000' for item 3
+  In file: NORNE_ATW2013.DATA, line 330
+  EHYSTR(HYSTREL): Killough’s option not supported and should be defaulted
+
+  RPTPROPS: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 347
+
+  NOECHO: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 429
+
+  ZIPPY2: keyword not supported
+  In file: NORNE_ATW2013.DATA, line 603
+
+  WPAVE: invalid value 'ALL' for item 4
+  In file: /data/INCLUDE/BC0407_HIST01122006.SCH, line 176
+  WPAVE(WPAVE4) Connection flag not really supported. Should be OPEN or defaulted.
+
+Creating corner-point grid from keywords COORD, ZCORN and others
+
+Warning: THPRES keyword is present, but ignored in a restart run (values loaded from the restart).
+
+Initializing tracers from TRACER in NORNE_ATW2013.DATA line 268
+3 fluid phases are active
+
+Loading faults from FAULTS in /data/INCLUDE/FAULT/FAULT_JUN_05.INC line 9
+
+Applying MULTFLT in /data/INCLUDE/FAULT/FAULTMULT_AUG-2006.INC line 8
+Setting fault transmissibility multiplier 0.01 for fault E_01
+Setting fault transmissibility multiplier 0.01 for fault E_01_F3
+Setting fault transmissibility multiplier 3.9 for fault DE_1
+Reporting limit reached for MULTFLT - see PRT file for additional messages
+This is a restarted run - skipping until report step 241 at 2006-10-10
+
+Warning: VFPPROD table 5 has 7 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/NEW_D2_GAS_0.00003.VFP line 62
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 6 has 9 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/GAS_PD2.VFP line 62
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 3 has 1 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/AlmostVertNew.VFP line 9
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 38 has 6 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/B2H.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 39 has 5 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/B3H.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 40 has 11 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/B4DH.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 41 has 8 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/D1CH.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 42 has 10 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/D2H.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 43 has 15 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/D3BH.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 47 has 3 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/E3CH.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 9 has 73 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/pe2.VFP line 53
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 31 has 335 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/PB1.PIPE.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 32 has 32 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/PB2.PIPE.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 33 has 54 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/PD1.PIPE.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 34 has 282 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/PD2.PIPE.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 35 has 87 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/PE1.PIPE.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+
+Warning: VFPPROD table 36 has 337 non-monotonic points of BHP(THP)
+In /data/INCLUDE/VFP/PE2.PIPE.Ecl line 68
+This may cause convergence issues due to switching between BHP and THP control.
+
+Adding group MANI-C from restart file
+Adding group B1-DUMMY from restart file
+Adding group MANI-D1 from restart file
+Adding group INJE from restart file
+Adding group PROD from restart file
+Adding group MANI-B2 from restart file
+Adding group MANI-B1 from restart file
+Adding group MANI-D2 from restart file
+Adding group MANI-E1 from restart file
+Adding group MANI-E2 from restart file
+Adding group MANI-K1 from restart file
+Adding group MANI-K2 from restart file
+Adding group MANI-F from restart file
+Adding group WI-GSEG from restart file
+Adding group D2-DUMMY from restart file
+Adding group FIELD from restart file
+Adding well C-4H from restart file
+Adding well B-2H from restart file
+Adding well D-1H from restart file
+Adding well D-2H from restart file
+Adding well B-4H from restart file
+Adding well D-4H from restart file
+Adding well C-1H from restart file
+Adding well E-3H from restart file
+Adding well C-2H from restart file
+Adding well B-1H from restart file
+Adding well C-3H from restart file
+Adding well F-1H from restart file
+Adding well B-3H from restart file
+Adding well E-1H from restart file
+Adding well F-2H from restart file
+Adding well E-2H from restart file
+Adding well E-4H from restart file
+Adding well E-4AH from restart file
+Adding well D-3H from restart file
+Adding well D-3AH from restart file
+Adding well F-3H from restart file
+Adding well E-3AH from restart file
+Adding well B-4AH from restart file
+Adding well F-4H from restart file
+Adding well B-4BH from restart file
+Adding well D-4AH from restart file
+Adding well D-1CH from restart file
+Adding well C-4AH from restart file
+Adding well B-4DH from restart file
+Adding well E-3BH from restart file
+Adding well E-3CH from restart file
+Adding well E-2AH from restart file
+Adding well D-3BH from restart file
+Adding well B-1AH from restart file
+Adding well B-1BH from restart file
+Adding well K-3H from restart file
+
+Processing dynamic information from
+NORNE_ATW2013.DATA line 422
+Initializing report step 241/264 at 1997-11-06 3260 DAYS line 422
+Complete report step 241 (3260 DAYS) at 2006-10-10 (0 DAYS)
+
+Reading from: /data/INCLUDE/BC0407_HIST01122006.SCH line 9377
+Initializing report step 242/264 at 2006-10-10 (0 DAYS) line 9377
+Processing keyword WELOPEN at line 9381
+Processing keyword WCONHIST at line 9385
+Processing keyword WCONINJE at line 9396
+Processing keyword RPTSCHED at line 9406
+Complete report step 242 (5 DAYS) at 2006-10-15 (3260 DAYS)
+
+Initializing report step 243/264 at 2006-10-15 (3260 DAYS) line 9413
+Processing keyword WCONHIST at line 9417
+Processing keyword WCONINJE at line 9430
+Processing keyword WTEST at line 9439
+Complete report step 243 (17 DAYS) at 2006-11-01 (3265 DAYS)
+
+Initializing report step 244/264 at 2006-11-01 (3265 DAYS) line 9449
+Processing keyword WCONHIST at line 9453
+Processing keyword WCONINJE at line 9466
+Complete report step 244 (8 DAYS) at 2006-11-09 (3282 DAYS)
+
+Initializing report step 245/264 at 2006-11-09 (3282 DAYS) line 9476
+Processing keyword WELOPEN at line 9480
+Processing keyword WCONHIST at line 9484
+Processing keyword WCONINJE at line 9497
+Complete report step 245 (2 DAYS) at 2006-11-11 (3290 DAYS)
+
+Warning: The network node keyword GPR is not supported in runs without networks
+In /data/INCLUDE/SUMMARY/summary.data line 83
+
+Processing grid
+1598 pinch-out connections generated
+Total number of active cells: 44431 / total pore volume: 673248728 RM3
+Removed 496 cells with a pore volume of 100450 RM3 (0.015 %) due to MINPV/MINPVV
+
+Warning: Unhandled summary keyword DATE/MONTH
+In /data/INCLUDE/SUMMARY/summary.data line 9
+
+Warning: Unhandled summary keyword DATE/YEAR
+In /data/INCLUDE/SUMMARY/summary.data line 9
+
+Warning: Unhandled summary keyword DATE/DAY
+In /data/INCLUDE/SUMMARY/summary.data line 9
+
+Warning: Unhandled summary keyword ROP
+In /data/INCLUDE/SUMMARY/summary.data line 80
+
+The deck has TUNING in the SCHEDULE section, but it is ignored due
+to the flag --enable-tuning=false. Set this flag to true to activate it.
+Manually tuning the simulator with the TUNING keyword may increase run time.
+It is recommended using the simulator's default tuning (--enable-tuning=false).
+
+
+================ Starting main simulation loop ===============
+
+
+Report step 241/264 at day 3260/8091, date = 10-Oct-2006
+Using Newton nonlinear solver.
+
+Starting time step 0, stepsize 5 days, at day 3260/3265, date = 10-Oct-2006
+    Well E-3CH control mode changed from RESV to BHP
+ Newton its= 2, linearizations= 3 (0.4sec), linear its=  3 (0.3sec)
+
+Report step 242/264 at day 3265/8091, date = 15-Oct-2006
+
+Starting time step 0, stepsize 8.5 days, at day 3265/3282, date = 15-Oct-2006
+ Newton its= 3, linearizations= 4 (0.3sec), linear its=  7 (0.4sec)
+
+Starting time step 1, stepsize 8.5 days, at day 3273.5/3282, date = 23-Oct-2006
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  5 (0.4sec)
+
+Report step 243/264 at day 3282/8091, date = 01-Nov-2006
+
+Starting time step 0, stepsize 8 days, at day 3282/3290, date = 01-Nov-2006
+ Newton its= 3, linearizations= 4 (0.3sec), linear its=  9 (0.5sec)
+
+Report step 244/264 at day 3290/8091, date = 09-Nov-2006
+
+Starting time step 0, stepsize 2 days, at day 3290/3292, date = 09-Nov-2006
+ Newton its= 2, linearizations= 3 (0.3sec), linear its=  3 (0.2sec)
+
+Report step 245/264 at day 3292/8091, date = 11-Nov-2006
+
+Starting time step 0, stepsize 6 days, at day 3292/3298, date = 11-Nov-2006
+    Well F-3H control mode changed from RATE to BHP
+ Newton its= 4, linearizations= 5 (0.4sec), linear its=  8 (0.5sec)
+
+Report step 246/264 at day 3298/8091, date = 17-Nov-2006
+
+Starting time step 0, stepsize 14 days, at day 3298/3312, date = 17-Nov-2006
+ Newton its= 3, linearizations= 4 (0.3sec), linear its=  9 (0.6sec)
+
+Report step 247/264 at day 3312/8091, date = 01-Dec-2006
+
+Starting time step 0, stepsize 31 days, at day 3312/3343, date = 01-Dec-2006
+    Well B-2H control mode changed from BHP to THP
+    Well D-2H control mode changed from BHP to THP
+    Well E-1H control mode changed from BHP to THP
+    Well F-4H control mode changed from RATE to BHP
+    Well D-1CH control mode changed from BHP to THP
+    Well B-4DH control mode changed from BHP to THP
+    Well E-3CH control mode changed from BHP to THP
+    Well D-3BH control mode changed from BHP to THP
+    Well B-1BH control mode changed from BHP to THP
+Well B-2H will be shut as it can not operate under current reservoir conditions.
+Well F-4H will be shut as it can not operate under current reservoir conditions.
+Well B-4DH will be shut as it can not operate under current reservoir conditions.
+ Newton its= 7, linearizations= 8 (0.6sec), linear its= 19 (1.0sec)
+
+Report step 248/264 at day 3343/8091, date = 01-Jan-2007
+
+Starting time step 0, stepsize 43.4 days, at day 3343/3524, date = 01-Jan-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+    Oscillating behavior detected: Relaxation set to 0.700000
+    Oscillating behavior detected: Relaxation set to 0.600000
+ Newton its=20, linearizations=21 (1.5sec), linear its= 47 (2.7sec)
+
+Starting time step 1, stepsize 17.36 days, at day 3386.4/3524, date = 13-Feb-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+Well B-1BH will be shut as it can not operate under current reservoir conditions.
+ Newton its= 8, linearizations= 9 (0.7sec), linear its= 17 (1.1sec)
+
+Starting time step 2, stepsize 17.36 days, at day 3403.76/3524, date = 02-Mar-2007
+ Newton its= 5, linearizations= 6 (0.4sec), linear its= 12 (0.6sec)
+
+Starting time step 3, stepsize 38.192 days, at day 3421.12/3524, date = 20-Mar-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+ Newton its=13, linearizations=14 (0.9sec), linear its= 28 (1.7sec)
+
+Starting time step 4, stepsize 23.5028 days, at day 3459.31/3524, date = 27-Apr-2007
+ Newton its= 6, linearizations= 7 (0.5sec), linear its= 12 (0.7sec)
+
+Starting time step 5, stepsize 41.1852 days, at day 3482.81/3524, date = 20-May-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 8, linearizations= 9 (0.6sec), linear its= 15 (0.9sec)
+
+Report step 249/264 at day 3524/8091, date = 01-Jul-2007
+
+Starting time step 0, stepsize 41.1852 days, at day 3524/3708, date = 01-Jul-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+    Oscillating behavior detected: Relaxation set to 0.700000
+    Oscillating behavior detected: Relaxation set to 0.600000
+    Oscillating behavior detected: Relaxation set to 0.500000
+    Oscillating behavior detected: Relaxation set to 0.500000
+
+Problem: Solver convergence failure - Iteration limit reached
+Timestep chopped to 13.591126153846169 days
+
+
+Starting time step 0, stepsize 13.5911 days, at day 3524/3708, date = 01-Jul-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+
+Problem: Solver convergence failure - Iteration limit reached
+Timestep chopped to 4.4850716307692355 days
+
+
+Starting time step 0, stepsize 4.48507 days, at day 3524/3708, date = 01-Jul-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+    Oscillating behavior detected: Relaxation set to 0.700000
+    Oscillating behavior detected: Relaxation set to 0.600000
+    Oscillating behavior detected: Relaxation set to 0.500000
+    Oscillating behavior detected: Relaxation set to 0.500000
+    Oscillating behavior detected: Relaxation set to 0.500000
+
+Problem: Solver convergence failure - Iteration limit reached
+Timestep chopped to 1.480073638153848 days
+
+
+Starting time step 0, stepsize 1.48007 days, at day 3524/3708, date = 01-Jul-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+    Oscillating behavior detected: Relaxation set to 0.700000
+    Oscillating behavior detected: Relaxation set to 0.600000
+
+Problem: Solver convergence failure - Iteration limit reached
+Timestep chopped to 0.48842430059076986 days
+
+
+Starting time step 0, stepsize 0.488424 days, at day 3524/3708, date = 01-Jul-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+    Oscillating behavior detected: Relaxation set to 0.700000
+    Oscillating behavior detected: Relaxation set to 0.600000
+    Oscillating behavior detected: Relaxation set to 0.500000
+
+Problem: Solver convergence failure - Iteration limit reached
+Timestep chopped to 0.16118001919495406 days
+
+
+Starting time step 0, stepsize 0.16118 days, at day 3524/3708, date = 01-Jul-2007
+Well D-2H will be shut as it can not operate under current reservoir conditions.
+Well D-1CH will be shut as it can not operate under current reservoir conditions.
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  1 (0.1sec)
+
+Starting time step 1, stepsize 0.32236 days, at day 3524.16/3708, date = 01-Jul-2007
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  1 (0.2sec)
+
+Starting time step 2, stepsize 0.96708 days, at day 3524.48/3708, date = 01-Jul-2007
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  2 (0.2sec)
+
+Starting time step 3, stepsize 2.90124 days, at day 3525.45/3708, date = 02-Jul-2007
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  3 (0.2sec)
+
+Starting time step 4, stepsize 8.70372 days, at day 3528.35/3708, date = 05-Jul-2007
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  4 (0.2sec)
+
+Starting time step 5, stepsize 26.1112 days, at day 3537.06/3708, date = 14-Jul-2007
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  5 (0.3sec)
+
+Starting time step 6, stepsize 78.3335 days, at day 3563.17/3708, date = 09-Aug-2007
+ Newton its= 7, linearizations= 8 (0.5sec), linear its= 15 (0.8sec)
+
+Starting time step 7, stepsize 66.4998 days, at day 3641.5/3708, date = 26-Oct-2007
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 6, linearizations= 7 (0.4sec), linear its= 14 (0.9sec)
+
+Report step 250/264 at day 3708/8091, date = 01-Jan-2008
+
+Starting time step 0, stepsize 119.7 days, at day 3708/3890, date = 01-Jan-2008
+ Newton its= 8, linearizations= 9 (0.5sec), linear its= 24 (1.1sec)
+
+Starting time step 1, stepsize 62.3004 days, at day 3827.7/3890, date = 29-Apr-2008
+ Newton its= 5, linearizations= 6 (0.4sec), linear its= 11 (0.6sec)
+
+Report step 251/264 at day 3890/8091, date = 01-Jul-2008
+
+Starting time step 0, stepsize 92 days, at day 3890/4074, date = 01-Jul-2008
+    Well F-1H control mode changed from RATE to BHP
+ Newton its= 6, linearizations= 7 (0.4sec), linear its= 15 (0.8sec)
+
+Starting time step 1, stepsize 92 days, at day 3982/4074, date = 01-Oct-2008
+ Newton its= 6, linearizations= 7 (0.4sec), linear its= 19 (0.9sec)
+
+Report step 252/264 at day 4074/8091, date = 01-Jan-2009
+
+Starting time step 0, stepsize 90.5 days, at day 4074/4255, date = 01-Jan-2009
+ Newton its= 3, linearizations= 4 (0.2sec), linear its=  7 (0.4sec)
+
+Starting time step 1, stepsize 90.5 days, at day 4164.5/4255, date = 01-Apr-2009
+ Newton its= 4, linearizations= 5 (0.3sec), linear its= 10 (0.5sec)
+
+Report step 253/264 at day 4255/8091, date = 01-Jul-2009
+
+Starting time step 0, stepsize 184 days, at day 4255/4439, date = 01-Jul-2009
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 8, linearizations= 9 (0.6sec), linear its= 19 (1.0sec)
+
+Report step 254/264 at day 4439/8091, date = 01-Jan-2010
+
+Starting time step 0, stepsize 184 days, at day 4439/4804, date = 01-Jan-2010
+ Newton its= 5, linearizations= 6 (0.4sec), linear its= 10 (0.5sec)
+
+Starting time step 1, stepsize 181 days, at day 4623/4804, date = 04-Jul-2010
+ Newton its= 5, linearizations= 6 (0.4sec), linear its= 12 (0.7sec)
+
+Report step 255/264 at day 4804/8091, date = 01-Jan-2011
+
+Starting time step 0, stepsize 365 days, at day 4804/5169, date = 01-Jan-2011
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+ Newton its= 7, linearizations= 8 (0.5sec), linear its= 18 (1.1sec)
+
+Report step 256/264 at day 5169/8091, date = 01-Jan-2012
+
+Starting time step 0, stepsize 183 days, at day 5169/5535, date = 01-Jan-2012
+ Newton its= 4, linearizations= 5 (0.3sec), linear its= 10 (0.5sec)
+
+Starting time step 1, stepsize 183 days, at day 5352/5535, date = 02-Jul-2012
+ Newton its= 4, linearizations= 5 (0.3sec), linear its=  9 (0.5sec)
+
+Report step 257/264 at day 5535/8091, date = 01-Jan-2013
+
+Starting time step 0, stepsize 365 days, at day 5535/5900, date = 01-Jan-2013
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 7, linearizations= 8 (0.5sec), linear its= 17 (0.8sec)
+
+Report step 258/264 at day 5900/8091, date = 01-Jan-2014
+
+Starting time step 0, stepsize 365 days, at day 5900/6265, date = 01-Jan-2014
+    Oscillating behavior detected: Relaxation set to 0.900000
+    Oscillating behavior detected: Relaxation set to 0.800000
+    Well F-2H control mode changed from RATE to BHP
+ Newton its=10, linearizations=11 (0.7sec), linear its= 23 (1.2sec)
+
+Report step 259/264 at day 6265/8091, date = 01-Jan-2015
+
+Starting time step 0, stepsize 182.5 days, at day 6265/6630, date = 01-Jan-2015
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 6, linearizations= 7 (0.4sec), linear its= 13 (0.8sec)
+
+Starting time step 1, stepsize 182.5 days, at day 6447.5/6630, date = 02-Jul-2015
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 7, linearizations= 8 (0.5sec), linear its= 13 (0.8sec)
+
+Report step 260/264 at day 6630/8091, date = 01-Jan-2016
+
+Starting time step 0, stepsize 183 days, at day 6630/6996, date = 01-Jan-2016
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its=10, linearizations=11 (0.7sec), linear its= 24 (1.2sec)
+
+Starting time step 1, stepsize 91.5 days, at day 6813/6996, date = 02-Jul-2016
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  5 (0.3sec)
+
+Starting time step 2, stepsize 91.5 days, at day 6904.5/6996, date = 01-Oct-2016
+ Newton its= 2, linearizations= 3 (0.2sec), linear its=  5 (0.3sec)
+
+Report step 261/264 at day 6996/8091, date = 01-Jan-2017
+
+Starting time step 0, stepsize 182.5 days, at day 6996/7361, date = 01-Jan-2017
+    Well F-2H control mode changed from BHP to RATE
+ Newton its= 4, linearizations= 5 (0.3sec), linear its=  8 (0.4sec)
+
+Starting time step 1, stepsize 182.5 days, at day 7178.5/7361, date = 02-Jul-2017
+ Newton its= 5, linearizations= 6 (0.4sec), linear its=  9 (0.6sec)
+
+Report step 262/264 at day 7361/8091, date = 01-Jan-2018
+
+Starting time step 0, stepsize 365 days, at day 7361/7726, date = 01-Jan-2018
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its=10, linearizations=11 (0.6sec), linear its= 19 (1.1sec)
+
+Report step 263/264 at day 7726/8091, date = 01-Jan-2019
+
+Starting time step 0, stepsize 182.5 days, at day 7726/8091, date = 01-Jan-2019
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 5, linearizations= 6 (0.4sec), linear its=  9 (0.6sec)
+
+Starting time step 1, stepsize 182.5 days, at day 7908.5/8091, date = 02-Jul-2019
+    Oscillating behavior detected: Relaxation set to 0.900000
+ Newton its= 4, linearizations= 5 (0.3sec), linear its=  8 (0.6sec)
+
+
+================    End of simulation     ===============
+
+Number of MPI processes:         1
+Threads per MPI process:         2
+Setup time:                      3.05 s
+  Deck input:                    1.76 s
+Number of timesteps:            51
+Simulation time:                94.75 s
+  Assembly time:                26.20 s (Wasted: 6.7 s; 25.7%)
+    Well assembly:               1.02 s (Wasted: 0.4 s; 40.3%)
+  Linear solve time:            41.23 s (Wasted: 9.2 s; 22.3%)
+    Linear setup:               17.94 s (Wasted: 5.3 s; 29.4%)
+  Props/update time:            14.25 s (Wasted: 3.9 s; 27.7%)
+  Pre/post step:                12.62 s (Wasted: 0.5 s; 3.9%)
+  Output write time:             0.14 s
+Overall Linearizations:        399      (Wasted:   105; 26.3%)
+Overall Newton Iterations:     353      (Wasted:   105; 29.7%)
+Overall Linear Iterations:     650      (Wasted:    94; 14.5%)
+

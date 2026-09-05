@@ -2,15 +2,87 @@
 *
 !/.gitignore
 !/README.md
+
+# 代码
 !/_code/
 !/_code/**
+
+# 数据集(当前版本)。v0.1 的数据文件不重复入库,可从 commit 70f9c20 恢复
 !/_data/
-!/_data/volve_causal_v0.1/
-!/_data/volve_causal_v0.1/**
+!/_data/volve_causal_v0.2/
+!/_data/volve_causal_v0.2/**
+
+# 登记与方法论
+!/_meta/
+!/_meta/**
+!/_codemap.md
+!/_codebook/
+!/_codebook/**
 !/_wiki-methodology/
 !/_wiki-methodology/_top/
 !/_wiki-methodology/_top/_task_plan.md
+!/_wiki-methodology/_top/_findings/
+!/_wiki-methodology/_top/_findings/**
+!/_wiki-methodology/_wiki/
+!/_wiki-methodology/_wiki/**
+!/_wiki-methodology/_tests/
+!/_wiki-methodology/_tests/**
+
+# 文献:清单与笔记入库, 全文不入库(见文件末尾)
+!/_refs/
+!/_refs/OUR_DATA_INVENTORY.md
+!/_refs/_index.md
+!/_refs/_notes/
+!/_refs/_notes/**
+
+# 测试:代码与小体积证据入库
+!/_tests/
+!/_tests/**
+# 但模拟 deck 与二进制输出不入库 —— 同 _sandbox 理由:体积大且可由
+# patch_eclipse_deck.py + docker 重建。forecast_review_20260822 是 5 份
+# Norne deck 副本(单份 GRDECL 11MB),共约 200MB,不应进 GitHub。
+/_tests/_artifacts/**/INCLUDE/
+/_tests/_artifacts/**/out/
+/_tests/_artifacts/**/*.DATA
+/_tests/_artifacts/**/*.EGRID
+/_tests/_artifacts/**/*.INIT
+/_tests/_artifacts/**/*.UNRST
+/_tests/_artifacts/**/*.UNSMRY
+/_tests/_artifacts/**/*.SMSPEC
+/_tests/_artifacts/**/*.GRDECL
+# 上游 Norne 说明文档,5 份副本共 6.5MB,可从 OPM norne 仓库获取
+/_tests/_artifacts/**/Norne_model_for_atw2013.pdf
+
+# 实验证据(小 JSON/CSV,不含权重与中间张量)
+!/_pipelines/
+!/_pipelines/**/
+!/_pipelines/**/results.json
+!/_pipelines/**/*.csv
+
+# 论文核心实验数据(登记在 _meta/_data_registry.yml:gaia_arms_F2 / gaia_nonllm_baselines)。
+# 20 次三臂闭环轨迹 + 三条非 LLM 基线 + 连通性制图,共约 250KB,必须入库以支持复现。
+!/_pipelines/gaia_decision.yml
+!/_pipelines/fc_team/loop_F2*.json
+!/_pipelines/fc_team/cartography.json
+!/_pipelines/fc_team/tilt_bins.json
+!/_pipelines/fc_baselines/baselines_v2.json
+# theta 存在 npz 里,gaia.py 的 tilt 列要读它;共 576KB,入库才能在新克隆上跑出完整表
+!/_pipelines/fc_decide/sim/team_F2*.npz
+!/_pipelines/fc_decide/sim/baseline.npz
+
+# legacy 只留 tombstone,不重复入库归档数据
+!/_legacy/
+!/_legacy/**/
+!/_legacy/**/README.md
+/_legacy/**/volve_causal_v0.1/
+
 # 大文件与派生物不进 git
 _outputs/
 __pycache__/
 *.pyc
+
+# 文献全文是 Elsevier 订阅内容, 仅本机研究用, 绝不入库
+/_refs/_fulltext/
+
+# 模拟产物体积大且可由 patch_eclipse_deck.py + docker 重建, 不入库
+/_sandbox/

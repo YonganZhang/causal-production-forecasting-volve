@@ -1,0 +1,35 @@
+# COL3 gates manifest — 本项目可一键跑的校验闸门
+#
+# 每个 cmd 都已实测 exit0 后才登记(2026-08-06)。cwd = 项目根。
+# VENV = /mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python
+
+gates:
+  - id: harness
+    cmd: "/mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python -W ignore _tests/test_harness.py"
+    timeout: 300
+    expect: exit0
+    note: "13 项实验台正确性测试:窗口无泄漏、缺日不填零、分层标签手工核对原始 CSV、指标实现对拍、F-5 角色修正、**恒等式基线回归**(锁 2026-08-06 撤稿教训)"
+
+  - id: e0-replication
+    cmd: "CUDA_VISIBLE_DEVICES=5 /mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python -W ignore _code/e0_replicate.py"
+    timeout: 900
+    expect: exit0
+    note: "信任锚点:复现军伟 T3 契约的历史均值 184.6686 与 Chronos-2 172.3162,门 ±1%(实测偏差 0.000%)。需 GPU。harness 若改坏此门必红"
+
+  - id: lit-fetch-smoke
+    cmd: "/mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python _code/lit_fetch.py search --query 'TITLE-ABS-KEY(\"Volve\")' --count 1"
+    timeout: 180
+    expect: exit0
+    note: "Elsevier 凭证与网络连通性冒烟测试。失败通常是代理或 insttoken 过期,不是代码问题"
+
+  - id: team-framework
+    cmd: "/mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python -W ignore -m pytest _tests/test_team.py -q"
+    timeout: 600
+    expect: exit0
+    note: "11 项 Gaia 团队框架回归:经济评价与主线 fc_fix 对齐(锁 T_START 错位事故)、水价单调性、解析注水量定标与能力上限饱和、红队否决权(锁加水失控缺陷)、消息协议 provenance 校验、连通性条件数 <30。补于 2026-09-02,此前 CodeGraph 报 no covering tests"
+
+  - id: truth-invariants
+    cmd: "/mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python -W ignore -m pytest _tests/test_truth.py -q"
+    timeout: 600
+    expect: exit0
+    note: "7 项类层防线,守 2026-09-05 Workflow 审计归并出的 5 类缺陷:单一真源(禁第二种注水量算法、禁硬编码基准)、内容寻址(缓存键含 θ 指纹、提示词用全局 key)、泄露来源白名单(黑名单已实证失效)、先结算后跳转(断言 incumbent 更新在 break 之前)、tilt 先验须排除智能体自解算例"

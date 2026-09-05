@@ -1,0 +1,856 @@
+# _meta/_registry.yml — code-domain / entrypoint registry
+project: 自己-产能预测
+schema_version: code-domain-v1
+last_synced: 2026-08-09
+
+code_domains:
+  - id: main
+    path: _code
+    type: local_code
+    status: active
+    owner: project
+    codemap: _codemap.md
+    description: "Volve 产能实验台:数据加工、窗口构造、切分、基线、Chronos-2 封装、评估、实验入口、文献检索。"
+
+entrypoints:
+  # ---- 数据加工 ----
+  - id: build_causal_dataset
+    path: _code/build_causal_dataset.py
+    type: script
+    status: active
+    owner: col5
+    run: "python3 _code/build_causal_dataset.py"
+    outputs: _data/volve_causal_v0.2/
+    description: "Volve 官方生产 xlsx → analysis-ready CSV + 井元数据。v0.2 修正 role 判定为按首次产油/首次注水的时间先后定方向(v0.1 把 F-5 标反)。"
+
+  # ---- 实验台核心 ----
+  - id: volve_data
+    path: _code/volve_data.py
+    type: module
+    status: active
+    owner: main
+    run: "python3 _code/volve_data.py"
+    description: "日度 CSV 装载 + 逐井日历化(缺日 NaN / 关井真 0,两者不许混) + 注水干预源构造(F-5 转产后置 0)。"
+
+  - id: windows
+    path: _code/windows.py
+    type: module
+    status: active
+    owner: main
+    run: "python3 _code/windows.py"
+    description: "30+30 滑窗(默认参数=军伟 T3 契约 30/30/7/21) + 干预分层标签。支持 volume/rate 双目标。"
+
+  - id: splits
+    path: _code/splits.py
+    type: module
+    status: active
+    owner: main
+    run: "python3 _code/splits.py"
+    description: "rolling-origin 时间序 CV(主口径,60 天 embargo + 日历重叠断言) + 留一井 CV(第二口径)。"
+
+  - id: baselines
+    path: _code/baselines.py
+    type: module
+    status: active
+    owner: main
+    critical: |
+      identity_rate_x_hours 是强制对照, 不许从 REGISTRY 摘掉。
+      产油体积 ≈ 速率 × 开井小时(开井=0 时产油=0 占 99.87%),任何用了未来开井小时数
+      的模型必须先打过这条三行公式。2026-08-06 在此栽过一次并撤稿。
+      _tests/test_harness.py 有回归测试守着(gate:harness)。
+    description: "平凡基线阶梯 + 恒等式及格线 + LightGBM(锚定增量,避免树模型无法外推)。"
+
+  - id: models_chronos2
+    path: _code/models_chronos2.py
+    type: module
+    status: active
+    owner: main
+    weights: "amazon/chronos-2 @ 29ec3766d36d6f73f0696f85560a422f50e8498c (本机 HF cache, 不自动下载)"
+    description: "Chronos-2 封装:零样本 / past covariates / future covariates 干预条件化。"
+
+  - id: evaluate
+    path: _code/evaluate.py
+    type: module
+    status: active
+    owner: main
+    description: "MAE/RMSE/MASE/CRPS/覆盖率 + 分层聚合 + 配对 bootstrap(同窗误差相关,独立 bootstrap 会高估不确定度)。"
+
+  # ---- 实验入口 ----
+  - id: e0_replicate
+    path: _code/e0_replicate.py
+    type: pipeline
+    status: active
+    owner: main
+    run: "CUDA_VISIBLE_DEVICES=5 python3 _code/e0_replicate.py"
+    outputs: _pipelines/e0_replicate/results.json
+    gate: e0-replication
+    description: "信任锚点:复现军伟 T3 baseline(历史均值 184.6686 / Chronos-2 172.3162),门 ±1%,实测偏差 0.000%。"
+
+  - id: run_experiment
+    path: _code/run_experiment.py
+    type: pipeline
+    status: active
+    owner: main
+    run: |
+      CUDA_VISIBLE_DEVICES=5 python3 _code/run_experiment.py --step 1 --target volume
+      CUDA_VISIBLE_DEVICES=5 python3 _code/run_experiment.py --step 1 --target rate
+    outputs: "_pipelines/e1_e3_{volume,rate}_{rolling,well}/results.json"
+    description: |
+      E1/E2/E3 主入口:baseline 阶梯 + 干预条件化 + 消融 + 干预分层 + 恒等式及格线判定。
+      --target volume 含排产记账项(及格线在此生效);--target rate 是除掉记账项的油藏物理量。
+      因果主张必须在 rate 口径上成立才算数。
+
+  # ---- 文献 ----
+  - id: lit_fetch
+    path: _code/lit_fetch.py
+    type: script
+    status: active
+    owner: col1
+    run: "python3 _code/lit_fetch.py search --query '<Scopus query>' --count 25"
+    gate: lit-fetch-smoke
+    description: |
+      Elsevier Scopus 检索 + ScienceDirect 全文下载。凭证由脚本内部经 get-credential.sh 取得,
+      绝不出现在命令行/prompt/日志。子智能体只调本脚本,不接触密钥。
+
+  - id: dml_choke
+    path: _code/dml_choke.py
+    type: pipeline
+    status: prototype
+    owner: main
+    run: "python3 _code/dml_choke.py"
+    description: |
+      P1 原型:油嘴开度对产液/产油速率的因果剂量-响应(DML + 时间块交叉拟合 + embargo)。
+      主会话对 Workflow 提案自报数字的**独立复核实现**,不是照抄其原型。
+      口径纪律:目标是速率不是体积(结构上免疫记账恒等式);关井日不进估计样本但保留为
+      滞后状态;X 全是滞后量。同时输出「块折 vs 随机折」对照以量化序列泄漏。
+
+  - id: patch_eclipse_deck
+    path: _code/patch_eclipse_deck.py
+    type: script
+    status: active
+    owner: main
+    run: "python3 _code/patch_eclipse_deck.py _sandbox/opm_run [--check]"
+    description: |
+      把官方 Volve Eclipse deck 修成 OPM Flow 能解析的形式。只改语法不改物理数值,
+      每处改动写成 deck 注释可追溯。幂等, 自动备份 *.orig。
+      🔴 运行时需 --parsing-strictness=low, 会忽略 ADDZCORN(断层几何)等未实现关键字,
+      保真度声明见 _findings/2026-08-07-OPM-Flow-可行性验证.md。
+
+  - id: perturb_and_run
+    path: _code/perturb_and_run.py
+    type: pipeline
+    status: active
+    owner: main
+    run: "python3 _code/perturb_and_run.py --mult 1.0 0.5 2.0 --tag permx --threads 12"
+    outputs: _pipelines/g0_g2_gates/g2_sensitivity_*.json
+    description: |
+      G2 可辨识性诊断:扰动全场渗透率, 量化每个井级观测量的响应强度。
+      判据:只有对参数有响应的观测量才携带信息;无响应的拟合它等于拟合噪声。
+      单次模拟约 25-35 分钟。
+
+  # ---- 计划与测试 ----
+  - id: project_plan
+    path: _wiki-methodology/_top/_task_plan.md
+    type: plan
+    status: active
+    owner: col2
+    description: "当前目标、数据事实、方法路线、已完成、下一步。"
+
+  - id: test_harness
+    path: _tests/test_harness.py
+    type: test
+    status: active
+    owner: col3
+    run: "python3 _tests/test_harness.py"
+    gate: harness
+    description: "13 项正确性测试:窗口无泄漏、缺日不填零、分层标签手工核对、指标实现、F-5 角色修正、恒等式基线回归。"
+
+  - id: norne_bulk
+    path: _code/norne_bulk.py
+    type: generator
+    status: active
+    owner: col3
+    run: "python _code/norne_bulk.py --n 10000 --jobs 32 --threads 4"
+    schema: 2
+    output: /mnt/data/yongan-admin-2/datasets/petro/_bulk/norne_v2
+    description: >-
+      NORNE-CF 干预臂:θ 独立随机 → 因果效应有真值。边跑边抽、抽完删原始输出。
+      schema v2 的 θ 是 17 维(13 个「井×相态」注入控制 + 4 个渗透率分区),
+      与 v1 的 13 维(9 个未分相态的井)**语义不同, 不可混用**, 故输出目录分开。
+
+  - id: norne_obs_arm
+    path: _code/norne_obs_arm.py
+    type: generator
+    status: active
+    owner: col3
+    run: "python _code/norne_obs_arm.py run --n 2000 --jobs 32"
+    output: /mnt/data/yongan-admin-2/datasets/petro/_bulk/norne_obs_v2
+    description: >-
+      NORNE-CF 观测臂:θ = π(油藏状态), 混杂由真实偏微分方程产生而非手写 propensity。
+      与干预臂共用 norne_bulk 的 deck 构造与 CONTROLS, 保证两臂口径一致。
+
+  - id: causal_bench
+    path: _code/causal_bench.py
+    type: analysis
+    status: active
+    owner: col3
+    run: "python _code/causal_bench.py field --inj C-3H_WATER"
+    description: >-
+      三个子命令:truth(干预臂→真值连通矩阵)、bias(观测臂朴素回归 vs DML vs 真值)、
+      field(逐单元多元 OLS + HC1 稳健标准误 → 三维效应场)。
+      field 同时落 _se.npy / _t.npy / _meta.json, 估计量口径写在 meta 里。
+
+  - id: plot_reservoir_3d
+    path: _code/plot_reservoir_3d.py
+    type: figure
+    status: active
+    owner: col3
+    run: "xvfb-run -a python _code/plot_reservoir_3d.py --inj C-3H"
+    description: >-
+      按 ResInsight 对照的呈现设定渲染三维效应场(cutaway / layer / section 三视图)。
+      默认把 |t|<2 的单元画成中性灰; 色标标题写真实估计量(每 +1 SD 的 log10 乘子)。
+      文件头记录了角点绕序、垂向拉伸、坐标框三个已修的坑及其实测依据。
+
+  - id: crm_bridge
+    path: _code/crm_bridge.py
+    type: analysis
+    status: active
+    owner: col3
+    run: "python _code/crm_bridge.py --max-shards 2000"
+    outputs: _pipelines/crm_bridge/f1_bridge.json
+    gate: f1-bridge
+    description: >-
+      F1 地基实验:三维因果响应场能否重构井对 gain(CRM 口径)。
+      检验 A 物理自洽(多注的水:地下储存 vs 被采出);检验 B 井口归因消融阶梯。
+      结论 R² 0.019→0.403, 线性球形聚合的 0.403 是神经网络必须打败的基线。
+      详见 _findings/2026-08-09-F1-三维场能否解释井对gain.md。
+
+  - id: paths
+    path: _code/paths.py
+    type: module
+    status: active
+    owner: main
+    description: >-
+      统一路径解析(环境变量 → 发布包内相对路径 → 本机默认)。
+      原来 9 个脚本散着 17 处硬编码绝对路径, 发布包到别人机器上 import 即崩。
+      deck 缺失时从 _meta/norne_controls.json 回退, 不在 import 期崩。
+
+  - id: make_release
+    path: _code/make_release.py
+    type: script
+    status: active
+    owner: col3
+    run: "python _code/make_release.py --tier sample --n-samples 500"
+    outputs: _outputs/norne-cf-{tier}-{date}.tar.gz
+    description: >-
+      发布打包(code / sample / full 三档)。带凭证正则扫描, 命中即中止。
+      许可证边界:代码 MIT, 数据 ODbL 1.0(与上游 OPM/opm-data 一致, 带 share-alike);
+      Elsevier 订阅全文任何档位都不打包。分片清单冻结并写 SHA256。
+
+  - id: test_causal_arms
+    path: _tests/test_causal_arms.py
+    type: test
+    status: active
+    owner: col3
+    run: "pytest _tests/test_causal_arms.py"
+    gate: causal_arms
+    description: >-
+      锁死 2026-08-09 审计(Codex 跨模型复核 + 13 agent Workflow)查出的 bug:
+      注入相态未分离、观测臂 except:pass 静默取消混杂、分段日期指针按均值推进、
+      v1/v2 schema 混用、HC1 捷径公式、掩码后 argmax 被 NaN 劫持。
+
+  - id: forecast_gen
+    path: _code/forecast_gen.py
+    type: data_generation
+    status: active
+    owner: col5
+    run: "python _code/forecast_gen.py --n 2000 --jobs 12"
+    description: >-
+      预测段样本生成:历史段(1997-11→2006-12)只跑一次,N 条注水策略从 T0=3312 天
+      经 RESTART+SKIPREST 分支到 2020-01-01。θ 形状 (6 段, 4 口注水井) 的 log10 乘子。
+      已修 6 个 bug:SOLUTION 启发式过滤把 EQUIL 行读成 THPRES、RESTART 步号 241 vs 64、
+      预测段 INCLUDE 必须插进历史 SCH **自己的 END** 之前、缺 WCONPROD、
+      THP 限制需 VFP 表、harvest 依赖 RESTART 从不写的 UNRST。
+  - id: fc_decision
+    path: _code/fc_decision.py
+    type: model
+    status: active
+    owner: col5
+    run: "python _code/fc_decision.py"
+    description: >-
+      预测段决策网络。输入 24 维(6 决策阶段 × 4 注水井),输出 22 井 × 2 相 × 40 格点。
+      提供 load() 作为所有下游模型的统一数据入口。
+  - id: fc_benchmark
+    path: _code/fc_benchmark.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_benchmark.py --gpu 6"
+    description: >-
+      六模型代理模型对拍(随机森林/SVR/GBDT/Transformer/Autoformer/Chronos-2)。
+      公平性纪律:同一切分、同一指标、强制平凡基线、计时、PCA 下界(0.040%)入档。
+  - id: fc_improve
+    path: _code/fc_improve.py
+    type: experiment
+    status: superseded
+    superseded_by: fc_improve2
+    owner: col5
+    description: >-
+      🔴 方法学有误,结论不可引用。两处:(1) 物理特征矩阵秩亏(31 列秩 20,
+      融合后条件数 1.29e14),导致"特征融合变差"的结论建在共线性上而非信息量上;
+      (2) 每配置只跑单种子,从未做显著性检验。保留仅供追溯。
+  - id: fc_improve2
+    path: _code/fc_improve2.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_improve2.py --gpu 6 --seeds 8 [--drop-dead]"
+    description: >-
+      代理模型改进 v2。修正 v1 的三个问题:去共线物理特征(条件数 1.29e14 → 24.5)、
+      多种子配对 Wilcoxon 检验(p≥0.05 一律记为噪声)、剔除 11 口恒零生产井
+      (44 输出通道有 22 个是死的)。并证伪"负产率格点占比"这一指标:
+      负产质量仅 7~105 m³ vs 累计产油 7.8e6 m³,单调约束惩罚项量级 7e-11 从未起作用。
+  - id: decision_net
+    path: _code/decision_net.py
+    type: model
+    status: appendix
+    owner: col5
+    description: >-
+      历史段决策网络 + softmax/信赖域优化器。已被 fc_decision/forecast_gen 取代为主线,
+      降级为附录的"上界臂"。含模拟器裁判 verify()。
+  - id: fc_final
+    path: _code/fc_final.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_final.py --gpu 0"
+    description: >-
+      代理模型**定版**。三分切分:test 400 全程封存 / train 1400 / val 200,
+      超参只在 val 上选,选定后 train+val 重训 + 5 模型集成,test 只评一次。
+      这修掉了 fc_improve 的选择性偏差(超参与报数用同一留出集)。
+      结果:θ(24维) lr=3e-3/ep=600/d=128 + 集成5 → 封存 test 误差 0.478%±0.010%,
+      R² 0.9926,相对平凡基线(5.745%) 12.0×。物理特征 +0.220pp(配对 t p<1e-4)显著有害,不入选。
+  - id: fc_rank
+    path: _code/fc_rank.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_rank.py --gpu 1"
+    description: >-
+      代理模型总排名。把 8 个模型全部重跑进 fc_final 的协议(同一 split_seed、
+      同一批封存的 400 条 test、同一套指标 mean/median/p90/R²、随机性模型多次重复),
+      因为旧的 fc_benchmark 报中位数+两分切分+单种子,与定版并排是范畴错误(见撤稿 #7)。
+      结果:定版 Transformer+集成5 0.478% > 单模型 0.547% > MLP 1.005% > GBDT 1.333%
+      > 高斯过程 1.348% > SVR 1.640% > 随机森林 3.043%;平凡基线 5.745%;
+      PCA 结构性下界 0.047%(天花板,非模型)。Chronos-2 因信息不对等不入榜。
+  - id: fc_gap
+    path: _code/fc_gap.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_gap.py --gpu 2"
+    description: >-
+      Gap 分析:定位代理模型的误差来源,决定改哪一层。实测结论:误差 98.8% 是形状错(水平仅 1.2%);
+      误差高频占 18.08% 而信号只占 4.63%;逐模态信噪比 15559→896(17×)→ 病灶是谱偏差。
+      🔴 同时**排除**三条路线:物理违背全为 0(负产/累计非单调/含水越界)、
+      水突破误差 0 天、无异方差(相关 +0.036)。省掉三个方向的无用功。
+  - id: fc_models
+    path: _code/fc_models.py
+    type: model
+    status: active
+    owner: col5
+    description: >-
+      模型库:TFBase / Autoformer(序列分解+自相关) / DeepONet / FNO1d(谱卷积) / OursNet。
+      任务定性:24 维静态参数 → 880 维轨迹,推理不看历史 → **参数化算子学习,不是时序预测**。
+  - id: fc_arch
+    path: _code/fc_arch.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_arch.py --gpu 3"
+    description: >-
+      骨干对照 + 模块消融(封存 test,单模型不集成,各骨干各自在 val 选 lr)。
+      🔴 负结果:FNO/DeepONet 显著变差;Autoformer 与基线无差异(p=0.5066);
+      我设计的 FiLM 显著有害、谱加权损失无效;"Ours 三模块全开"输给基线。
+  - id: fc_arch2
+    path: _code/fc_arch2.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_arch2.py --gpu 4"
+    description: >-
+      第二轮:12 种子确认傅里叶特征显著有效(n_bands 4/8/16 → 0.534/0.520/0.489%);
+      FNO 公平调参(12 组超参)后仍显著变差;谱损失 alpha 0.1/1/10 全无效且确认非 no-op。
+      🔴 已知缺陷:n_bands 直接在 test 上比较,存在 test-set selection bias,已由 fc_nb 修正。
+  - id: fc_loop_surrogate_modeA
+    path: _pipelines/fc_loop/results.tsv
+    type: experiment
+    status: source_lost
+    owner: col5
+    run: "🔴 源码已被覆盖,无法重跑;见 _legacy/2026-08-29-fc_loop-name-collision/TOMBSTONE.md"
+    outputs:
+      - _pipelines/fc_loop/loop.json
+      - _pipelines/fc_loop/results.tsv
+      - _pipelines/fc_loop/run.log
+    description: >-
+      Karpathy autoresearch Mode A 高频小步循环:固定 300ep 预算、一次一个变量、
+      14 个实验按文献证据优先级排、只看 val(test 封存)。
+      🔴 **2026-08-29 事故**:原实现 `_code/fc_loop.py` 被闭环盖亚任务的子智能体
+      直接 `cat >` 覆盖。该文件当时 untracked,git 无版本,pycache 已被重编译,
+      全仓无副本 —— **源码不可恢复**。结论与判定表幸存于上面三个 outputs
+      (01 相对l2 [Wen2022] 0.627% keep ✔,其余 discard/持平,基线 0.715%)。
+      待办:该 id 的 `path` 现指向幸存结果文件,不再指向源码。
+
+  - id: fc_loop
+    former_path: _code/fc_loop.py
+    status: lost
+    note: >-
+      🔴 2026-08-29:该文件被 Workflow 子 agent 误覆盖成闭环盖亚脚本(已改名 fc_gaia_loop.py)。
+      原始的 Karpathy 高频实验脚本内容已丢失(未提交 git)。其结论已沉淀在 README 与撤稿清单里,
+      不影响任何已发布数字;需要时可按 registry 描述重建。
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_loop.py fitcap && python _code/fc_loop.py run --arm G2 --seed-tag s1 --budget 5 --threads 12"
+    outputs:
+      - _pipelines/fc_agent/loop_G2.json
+      - _pipelines/fc_loop/water_cap.npy
+    gate: closed_loop_agent
+    description: >-
+      ⚠️ **本文件占用了原属 col5 Mode A 循环的路径**(见 fc_loop_surrogate_modeA)。
+      并行会话的 `_code/fc_loop_g0.py` 已 `import fc_loop`,重命名需先与编排方对齐。
+
+      **闭环盖亚**:Agent 管理 OPM 模拟预算(≤5 次),而不是一次猜完。
+      LLM 只提 θ 与推理;注水量标量校正、OPM 调用、指标、终止判断、预算记账全是确定性代码
+      (share-agent-development §1.6)。提示词用 brief_G2.txt(L1+L2,L3 优化解已剔除),
+      LLM 走 `claude -p --model opus`、cwd=/tmp、无工具、每轮无状态重发全历史。
+      内含解析约束模型 `实测率_k(t)=min(基准率×10^(θ+s), cap_k(t))`,cap 从 71 个已有模拟拟合
+      (0 次新 OPM),|θ|≤0.45 时中位误差 0.275% —— 这是"F-4H 假旋钮"的量化形式
+      (cap/基准目标率 = 0.273)。
+      🔴 **结论:闭环盖亚没有超过 G0 单发的 +177.6 M$。** 两个独立 run:
+      s1 唯一合格解 +90.0 M$(累计 2 次 OPM);s2 三轮全部超出 ±0.05% 注水容差、无合格解。
+      瓶颈不是 Agent 推理而是**约束执行成本**:把实测注水压进 ±0.05% 要 2~3 次 OPM,
+      5 次预算只买得到约 2 个提案。
+      🔴 **副产品(建议进撤稿/勘误清单):参照数 G0 单发的 +177.6 M$ 自身实测注水偏离
+      -0.0957%,超出项目规定的 ±0.05% 容差近一倍**(见 _pipelines/fc_agent/eval_G0.json,
+      fc_agent.evaluate 默认 --water-tol 0.01,eval.log 却按 ±0.05% 报表头)。
+      按本次 10 个真跑点回归的敏感度 18.7 M$/1% 水,严格守恒后约 +179.4 M$,方向不变。
+  - id: fc_loop_g0
+    path: _code/fc_loop_g0.py
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_loop_g0.py --budget 5 --threads 12 --seed-tag s1"
+    outputs:
+      - _pipelines/fc_agent/loop_G0.json
+      - _pipelines/fc_agent/loop_G0_s2.json
+      - _pipelines/fc_agent/loop_G0_metric_audit.json
+      - _pipelines/fc_loop_G0/
+    gate: closed_loop_agent
+    description: >-
+      **闭环 G0(无知识库)** —— 闭环盖亚的对照臂(§6.1 一次实验只切一个变量)。
+      本文件**不复制任何编排逻辑**,直接 `import fc_loop` 并只改落点
+      (fc_loop.OUT → _pipelines/fc_loop_G0/,_dump 路径 → _pipelines/fc_agent/loop_G0.json,
+      原实现把 loop_G2.json 硬编码在 _dump 里)。cap 文件与盖亚**共用同一个**
+      _pipelines/fc_loop/water_cap.npy,参数表与 fc_loop 的 argparse 逐项一致。
+      唯一变量 = brief_G0.txt(1,997 字符,无知识库) vs brief_G2.txt(约 7.4 万字符)。
+      🔴 **结论:两个 seed 各 5 次 OPM,没有任何一轮把实测注水压进 ±0.05%,故本臂无合格解。**
+      但未合格的真跑本身信息量很大:s1 第 1 轮在**比基准少 0.96% 水**的情况下 13 年产油 +10.26%、
+      ΔNPV@8% +456.0 M$;预算外再补 1 次割线校正(diag_G0r1_c2)得 +0.218% 水 / +471.9 M$,
+      两点把水量守恒点夹住 → 精确守恒时约 **+469 M$**。同一 harness 下闭环盖亚 s1 的唯一合格解
+      只有 +90.0 M$。即**收益不来自知识库**;知识库反而让盖亚保守到不敢离开 |θ|≲0.2 的邻域。
+      🔴 **副产品:指标口径本身有问题。** fc_loop.metrics / fc_agent._metrics 是把 WWIR/WOPR
+      速率插到 40 点均匀网格再梯形求积;模拟器自己的累计曲线 FWIT/FOPT 给出的答案差 1~2 个
+      百分点,**是正在强制执行的 ±0.05% 容差的 20~40 倍**。例:loop_G2r1_c1 速率口径水偏离
+      -0.003%(判为合格),FWIT 口径 -0.303%(超差 6 倍);loop_G0r1_c1 是 -0.956% vs -2.046%。
+      速率口径系统性放大增益约 10~12%(G0 单发 +177.6 → +159.4 M$)。
+      对拍表见 _pipelines/fc_agent/loop_G0_metric_audit.json。
+
+  - id: fc_mech
+    path: _code/fc_mech.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_mech.py --gpu 6 --seeds 20"
+    description: >-
+      机理判定:傅里叶收益来自"谱结构"还是"固定基"还是"初始化幅度"?
+      五个对照(可学习 / 幅度对齐可学习 / 傅里叶 / 冻结随机+投影 / 冻结随机无投影 / 不超Nyquist)。
+      **判定规则在跑之前写死在 docstring 里**。20 种子结论:幅度混杂被排除(A2−B=+0.060pp p=0.0000),
+      谱解释成立。10 种子时曾为 INCONCLUSIVE —— 这是"少种子不下结论"的又一个实例。
+  - id: fc_nb
+    path: _code/fc_nb.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_nb.py --gpu 7"
+    description: >-
+      干净的 n_bands 选型,修掉 fc_arch2 的 test-set selection bias:
+      val 上扫完整 {4,8,16,32} → 选定 16 → 封存 test 只评一次 = 0.496%±0.025(基线 0.559%)。
+  - id: fc_leak
+    path: _code/fc_leak.py
+    type: test
+    status: active
+    owner: col5
+    run: "python _code/fc_leak.py --gpu 0"
+    gate: no_leakage
+    description: >-
+      🔴 泄漏审计(七项)。**打乱标签对照是一票否决级检验**:训练目标随机置换后重训,
+      误差从 0.482% 崩到 6.127%(平凡基线 5.745%,比值 1.066)→ 输入里没有目标的影子。
+      另:切分零重叠、近邻分布同质(比值 0.990)、k-NN 纯内插只能到 3.716%(网络好 7.6×)、
+      学习曲线单调、2000 shard 全唯一。高精度的结构性原因:确定性模拟器无观测噪声 +
+      880 维输出内在维度仅 12 个主成分。
+  - id: fc_final2
+    path: _code/fc_final2.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_final2.py --gpu 3"
+    description: >-
+      定版 v2(封存 test,12 种子,**单模型不集成**):傅里叶位置嵌入 0.489%±0.023 / R² 0.9924,
+      基线 0.559%,降低 12.5%(p=0.0000)。相对l2 在 test 上 p=0.9010 纯噪声,不入选。
+  - id: fc_zoo
+    path: _code/fc_zoo.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_zoo.py --gpu 1"
+    description: >-
+      十骨干总排名(同一协议、封存 test、单模型不集成、各自在 val 选 lr)。
+      本文 0.499% > Transformer 0.551% > Autoformer/iTransformer 0.574%
+      > PatchTST 0.707% > FNO 0.743% > TimesNet 0.775% > N-BEATS 1.072%
+      > DeepONet 1.203% > DLinear 1.773%。🔴 五个新骨干原为 history→future,
+      本任务无历史,统一适配为"历史编码器换成 θ 条件注入",论文须声明非原生设定。
+  - id: fc_models2
+    path: _code/fc_models2.py
+    type: model
+    status: active
+    owner: col5
+    description: >-
+      第二批骨干:DLinear(AAAI23) / PatchTST(ICLR23) / iTransformer(ICLR24) /
+      TimesNet(ICLR23) / N-BEATS(ICLR20)。已修 TimesNet 逐个 .item() 的 GPU 同步点
+      (长跑下触发过 cudaErrorLaunchFailure)。
+  - id: fc_4k
+    path: _code/fc_4k.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_4k.py --gpu 0"
+    description: >-
+      4000 样本重训 + 学习曲线(test/val 恒定,唯一变量是训练样本量)。
+      核心结论:N=1400→3400 使误差降 36~38%(p=0.0000),误差 ∝ N^-0.51;
+      傅里叶改进在四个样本量下**都**显著。定版 0.366%±0.009, R² 0.9960。
+  - id: fc_hp
+    path: _code/fc_hp.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_hp.py --gpu 1"
+    description: >-
+      模块超参搜索(32 组:模块宽度 × wd × dropout × lr × **模块单独的学习率倍率**)。
+      🔴 docstring 里**预注册**了可证伪判据:"若模块在 3400 样本+调参后仍全输,
+      则'当时数据不够'这个辩解不成立"。结果 p=0.0014 仍显著变差 → 判据生效,
+      该辩解已作废。这是本项目"先写死判据再跑"的正面案例。
+  - id: fc_axial
+    path: _code/fc_axial.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_axial.py --gpu 4"
+    description: >-
+      轴向骨干:全程携带 (B,通道,时刻,d),交替做时间轴与通道轴注意力 ——
+      这是此前**不存在**的模块位置(TFBase 骨干内部没有通道维度,通道在
+      head=Linear(d,n_ch) 才被创造,故前五次井间交互尝试必然都挂在末端)。
+      结果 0.380%±0.016(参数仅 156,033,是定版的 1/2.6),未赢但未惨败。
+      同轮 Autoformer 骨干 0.440%,明确差于定版。
+  - id: fc_ceil
+    path: _code/fc_ceil.py
+    type: test
+    status: active
+    owner: col5
+    run: "python _code/fc_ceil.py --gpu 7"
+    gate: resolvable_threshold
+    description: >-
+      噪声地板与可达上限:自举估 test 采样噪声、种子噪声、偏差-方差分解、过参数化探底。
+      产出**可分辨阈值** —— 低于它的架构差异在当前规模下测不出来,不得宣称。
+  - id: fc_decide
+    path: _code/fc_decide.py
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_decide.py plan --gpu -1 && python _code/fc_decide.py verify --jobs 4"
+    description: >-
+      🔴 **主线实验**:预测段注水策略决策 —— "一直短期采 vs 一直长期采,同样多的水差多少油"。
+      代理模型是手段,本脚本是目的。四个方案(基准/短期最优/长期最优/切换),
+      硬约束是全期总注水量与基准一致 —— 用 softmax 对**水量份额**重参数化做结构性守恒
+      (冒烟测试抓到:此前对**乘子**做 softmax 只守恒 Σq,而四井基准率差 4.1 倍,
+      优化器能偷偷多注 37% 的水,那结论就成了"多注水多采油"的废话)。
+      🔴 verify 用 OPM Flow 真跑,不是代理模型自己验收自己;纯 CPU,不需要 GPU。
+      三条限制随结果一起输出:地质维度失效 / F-4H 假旋钮 / WAG 简化。
+  - id: fc_run
+    path: _code/fc_run.py
+    type: infra
+    status: active
+    owner: col5
+    run: "python _code/fc_run.py plug --ntrain 7400 ; python _code/fc_run.py report"
+    description: >-
+      抗崩实验执行器。本机 GPU 已两次整体故障(08-27 七张、08-28 八张,均报 GPU requires reset),
+      每次把跑了几小时的实验整轮打掉。四条措施:一格一存(崩溃只丢正在跑的那格)、
+      自动跳过已完成格子(天然续跑)、每格独立子进程(CUDA context 损坏无法进程内恢复)、
+      健康探测+换卡重试(实测能做矩阵乘才算健康)。
+      🔴 共享机器纪律:MAX_GPUS=3,只用显存 <1000 MiB 的真空闲卡,不做任何重置动作。
+  - id: fc_ms
+    path: _code/fc_ms.py
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_ms.py --n-start 12 --top-k 4 --n-flat 3"
+    description: >-
+      🔴 **主线定版实验**:多起点优化 + 模拟器直选。12 个随机起点 → 前 4 名做实测注水量校正
+      → **OPM Flow 逐个真跑**(不靠代理排名) → 前 2 名各 3 次微扰测平坦度 → 选"高且平"的。
+      共 33 次全物理模拟。结果:只顾眼前的代价 **+1.05%**(短期最优前 3 年 +6.90%/全期 +0.57%;
+      长期最优全期 +1.62%/前 3 年 +0.44%),注水偏离 ±0.62% 内。
+      🔴 关键发现:**代理排名与真实排名完全不一致** —— long 的代理第 1 名真跑是最差,
+      代理第 4 名真跑最好;若按"选代理算得最好的"会挑错。
+  - id: fc_rank_fidelity
+    path: _code/fc_rank_fidelity.py
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_rank_fidelity.py --gpu 0 --n-cand 10 --jobs 4 --threads 12 --water-tol 5e-4"
+    outputs: _pipelines/fc_rank_fidelity/rank.json
+    description: >-
+      🔴 **方法学核心证据**:把 fc_ms 里"代理排名与真实排名完全不一致"那**一个例子**量化成统计量。
+      long/short 各取 40 个随机起点、按 θ 的 L2 距离贪心去重出 **10 个彼此可区分**的高分候选
+      (两两 L2 ≥0.70/1.05),全部做**实测**注水量校正到 **±0.05%**,再 **OPM Flow 逐个真跑**
+      (144 次评估;裁判永远是模拟器)。
+      结果:**long ρ=-0.212(置换 p=0.557,95%CI[-0.83,+0.65])—— 排名信息量与随机无异**,
+      代理第 1 名真跑排第 10/10,top-1 regret **1.387% / 46.0 M$@8%**,只吃到可得增益的 28.6%;
+      **short ρ=+0.976(p=1e-4),top-1 regret 0**。
+      统一解释变量是 **SNR = 真值跨度 / 代理在这些点上的误差**:
+      long 0.98 → ρ≈0;short 6.52 → ρ=0.98;随机 θ 确认集 132 → ρ=0.998。SNR<1 时排名必然退化成掷骰子。
+      代理在优化区域的点误差 **1.43%/1.72%**,是随机 θ 上 **0.369%** 的 3.9~4.7 倍;
+      增益过原点斜率 0.394(long)→ 高估 **2.54×**。
+      副产物:实测注水量对标量缩放 s 是**阶梯函数**(Δs=4e-7 处 dev 跳 0.45pp),
+      两个 short 候选的 ±0.05% 在台阶之间、**根本无解**;已给不可达证据 + 弹性上界 + 严格 n=8 子集,
+      结论不变。代理权重存 _pipelines/fc_rank_fidelity/surrogate.pt,算例按 θ 内容寻址复用。
+  - id: fc_tight
+    path: _code/fc_tight.py
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_tight.py --plan short --threads 12  # 再 --plan long,最后 --collect"
+    outputs: _pipelines/fc_decide/verify_tight.json
+    description: >-
+      把主线定版方案的**实测**注水量从 ±0.62% 收紧到 **±0.05%**(实得 short +0.0019%、long +0.0138%),
+      重报产油与 NPV@0/8/10/15%。11 次新 OPM Flow 模拟。
+      🔴 关键发现:注水量守恒**不能**用主线的『40 点瞬时率梯形积分』标定 ——
+      报告网格 122.5 天/点、井控在步内切换,该口径对总注水量有 **±0.5%** 残差(容差的 10 倍),
+      使目标函数非单调、割线法不收敛;改用模拟器自报累计 **FWIT** 后一次迭代即收敛。
+      同一求积问题也压低产油(基准 trap 7,465,043 vs FOPT 7,493,840,−0.38%)和
+      前 3 年产油(trap 掩码端点半权,少算约半个报告区间,−5.2%)。
+      收紧后结论:短期方案前 3 年 **+7.91%**(vs 长期)、全期代价 **−0.73%**;
+      折现率翻转仍在,但翻转点从 1.86% 降到 **0.73%**,远低于行业 8~12% 资金成本。
+  - id: fc_noise
+    path: _code/fc_noise.py
+    type: test
+    status: active
+    owner: col2
+    run: "python _code/fc_noise.py --threads-list 4 8 16 24 --eps 1e-3"
+    gate: simulator_noise_floor
+    description: >-
+      模拟器噪声地板与条件数。结论:OPM Flow 在本 deck 上**逐位确定性**
+      (4/8/16/24 线程产油到小数点后两位完全一致,噪声 0.000%),所以效应不是浮点噪声;
+      但 θ 加 1e-3 扰动时存在陡峭方向(弹性 29.85,与注水量无关) →
+      这正是主线改用"多起点 + 选平坦解"的依据。
+
+  - id: fc_confirm
+    path: _code/fc_confirm.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_confirm.py --gpu 0 --seeds 6"
+    outputs: _pipelines/fc_confirm/confirm.json
+    description: >-
+      🔴 **独立确认集定版评估**。此前 0.366%/0.447% 是在 norne_fc 的 test-400 上得到的,
+      而那 400 条已被十几轮模块比较/架构选择/学习率选择反复窥视,不再是 sealed test。
+      本脚本改用 norne_fc_confirm(500 条,种子 20260828,此前从未被任何脚本读过)。
+      三臂:MAIN(训 8000 → 评 confirm 500)、CTRL(训 7600 = 8000 减旧 test-400,
+      同一次训练同时评旧 test-400 与 confirm-500 → 纯集合效应)、平凡基线(训练集均值曲线)。
+      结果(6 种子):场级 0.3654%±0.0124%、每井 0.4318%±0.0111%、R² 0.9959、场级 p90 0.767%;
+      平凡基线 5.794%/6.166%。集合效应仅 +0.0195pp(p=0.0497),**低于本项目自测的
+      噪声地板 0.0214pp** → 选择偏差对**报数**的抬升可忽略,历史 0.366% 在干净集上成立
+      (差 −0.0006pp, p=0.91)。注意:这只验证了"胜者的误差数字",没有验证"15 个模型的排名"。
+  - id: fc_confirm_trace
+    path: _code/fc_confirm_trace.py
+    type: experiment
+    status: active
+    owner: col5
+    run: "python _code/fc_confirm_trace.py --gpu 0 --seed 0"
+    outputs: _pipelines/fc_confirm/confirm_per_sample.npz
+    description: >-
+      fc_confirm 的可追溯性伴随:用逐字相同的配置重训种子 0,把每条 confirm 样本的
+      场级/每井相对误差与真值/预测累计产油落盘,并打印误差最大的 15 条 shard 名。
+      复现 seed 0 = 0.3659%/0.4359%(与 fc_confirm 完全一致);最差样本 00387.npz 场级 1.65%,
+      已用原始 npz 独立重算真值核对(差 0.00e+00)。500 条里误差 >1% 的有 14 条。
+  - id: fc_fix
+    path: _code/fc_fix.py
+    type: experiment
+    status: active
+    owner: col2
+    run: "python _code/fc_fix.py"
+    gate: measurement_convention
+    description: >-
+      🔴 口径修正 + 因果性质询。(1) 把所有累计量从 40 点梯形积分改为模拟器自报的
+      `field_cum`(FOPT/FWIT,逐时间步累加的精确值) —— 复核实测梯形积分分歧 sd 0.58%,
+      是 ±0.05% 注水容差的 12~57 倍;修正后结论定性不变(只顾眼前的代价 +1.05%→+0.96%)。
+      (2) 在 282 个算例上做偏回归,证明**空间重分配几乎没有独立贡献**
+      (控制时间前置后增量 R² 仅 +0.0288),据此把论文叙事从"同样多的水换分法"
+      改为"注水的**时间安排**决定 NPV"。见 README 撤稿 #16/#17。
+  - id: fc_water_econ
+    path: _code/fc_water_econ.py
+    status: active
+    purpose: >
+      含注水/采出水成本的经济重评价。复用已有 283 个模拟算例的 FOPT/FWIT/FWPT，
+      不跑新模拟即可回答"注多少水才划算"。此前 NPV 只算油收入、水零成本，
+      导致"要不要多注水"在数学上退化，只能靠 softmax 硬锁总量替代。
+    outputs: _pipelines/fc_water_econ/sweep.json
+    key_result: >
+      最优注水量随水价翻转：水免费时 +5.36%，水价 4/3 USD/bbl 时 -30.57%。
+      各水价下最佳方案的 ΔNPV@8% 仍有 +375 ~ +721 M$。
+    depends_on: [fc_fix]
+  - id: fc_team
+    path: _code/fc_team.py
+    status: active
+    purpose: >
+      Gaia 油藏决策智能体团队的协议层 + Cartographer + 角色注册表。
+      架构语义借自本机知识发现项目 deep_discover 的
+      Discovery→Cartographer→Readers→adaptive Auditor→Synthesizer（只借语义，不跨项目 import）。
+      每条消息强制携带 agent_id / confidence / provenance(source_id+region+type+SHA256)，
+      使"多角色"从修辞变成可审计方法：无据可引的角色发不出合法消息。
+    outputs: _pipelines/fc_team/cartography.json
+    key_result: >
+      从 283 个已模拟算例反推出注水井→生产井影响矩阵，11/22 生产井有显著响应；
+      注水井影响力 F-1H 9.29 > F-3H 8.86 > F-2H 6.97 > F-4H 3.69；
+      设计矩阵条件数 3.09（<30，归因可靠，已固化为自动 flag 自查）。
+    depends_on: [forecast_gen, norne_bulk]
+    todo: Readers / adaptive Auditor / Synthesizer 的 LLM 环路尚未接入
+  - id: fc_team_proxy
+    path: _code/fc_team_proxy.py
+    status: active
+    purpose: >
+      代理模型包装：作为油藏数值模拟器的快速替身供智能体团队批量试错。
+      不是"压缩搜索空间"的启发式，而是把 60 s 的模拟换成微秒级评估。
+    outputs: _pipelines/fc_team/norm.npz
+    key_result: >
+      GPU 批量 4096 时 18.1 µs/方案，约 3.3e6 倍于全物理模拟；
+      基准 theta=0 预测 7,469,380 vs 模拟器真值 7,493,840，误差 -0.33%。
+      团队环路实测:代理对候选的误差稳定在 ±1.3% 以内。
+    depends_on: [fc_mech, fc_rank_fidelity]
+
+  - id: fc_team_loop
+    path: _code/fc_team_loop.py
+    status: active
+    purpose: >
+      Gaia 团队主环路 Readers → Synthesizer → 代理批量评估 → adaptive Auditor
+      → OPM Flow 裁定 → 结果回流。终止条件为连续两轮零 high/medium 风险。
+      --drop 可剔除任意角色做消融，不需改骨架。
+    outputs: _pipelines/fc_team/loop_*.json
+    key_result: >
+      水价 2.0/1.0 USD/bbl 下三轮逐轮改善 ΔNPV@8% = +157.7 → +229.9 → +299.7 M$，
+      最佳方案产油 +13.19% 而注水仅 +11.30%。
+      🔴 关键教训:第一版按纯产油排序，团队一路加水(+35%→+40%→+58%)，
+      在高水价下全部方案反而不如维持基准 —— 那是目标函数缺水成本项，不是智能体的错。
+      改为经济排序后注水收敛到 +2%~+17%。
+    depends_on: [fc_team, fc_team_proxy, fc_decide, fc_water_econ]
+    todo: Auditor 仅能报警不能否决候选；四轮均未触发终止条件
+  - id: fc_baselines
+    path: _code/fc_baselines.py
+    status: active
+    purpose: >
+      无 Agent 对照臂:不含任何 LLM 的平凡基线。依据 petro-knowledge/05-生产优化.md
+      的「平凡基线」节实现 B2 一维均匀缩放、B4 等预算随机搜索、BG 贪心短期最优。
+      此前的「无 Agent」臂是"一个什么都不知道的 LLM 在提方案"，既非 Agent 也非正经基线。
+    outputs: _pipelines/fc_baselines/baselines_*.json
+    depends_on: [fc_team_loop, fc_water_econ]
+  - id: fc_truth
+    path: _code/fc_truth.py
+    status: active
+    purpose: >
+      模拟结果的**唯一**读取口径。类层修复"同一个量有多套算法":
+      实测注水量/产油量/采出水量一律取模拟器自报的 field_cum(FWIT/FOPT/FWPT)，
+      禁止梯形积分;基准值全项目唯一来源，禁止在提示词或脚本里硬编码。
+    key_result: >
+      审计实测:trapezoid(inj_actual) 与 FWIT 平均差 0.99pp、最大 3.12pp，
+      按 ±25% 预算判可行性有 14 例结论相反。已统一 6 个文件 8 处调用。
+    depends_on: []
+  - id: fc_team_ablate
+    path: _code/fc_team_ablate.py
+    status: active
+    purpose: >
+      角色消融分析：先用完整臂重复测噪声底，再用 Welch t 检验判各角色边际贡献。
+    outputs: _pipelines/fc_team/ablation.json
+    key_result: >
+      完整臂重复 5 次 ΔNPV@8% 在 +158~+249 M$ 间飘，合并 sd 51.3 M$；
+      n=1 时 reservoir_engineer 显示 +102.6 M$「显著正贡献」，补到 n=6 后塌成 +15.6 M$。
+      🔴 结论:LLM 智能体消融不先测重复性，任何单点消融表都不可信。
+    depends_on: [fc_team_loop, fc_water_econ]
+
+  - id: fc_team_diag
+    path: _code/fc_team_diag.py
+    status: active
+    purpose: >
+      诊断：把团队一轮里每个角色的完整输出、总工收到的完整输入与其完整回应落盘，
+      用于定位信息在哪一步丢失。主环路日志只截 50 字，聚合数字看不出同质化。
+    outputs: _pipelines/fc_team/diag_round.json
+    key_result: >
+      查出固定提示词写入"已知结论"把 7 个角色锚成同一意见；
+      6 个候选挤在 θ∈[-0.20,+0.20]，而硬约束允许 ±1.0。
+    depends_on: [fc_team, fc_team_loop]
+  - id: fc_gaia_loop
+    path: _code/fc_gaia_loop.py
+    type: experiment
+    status: active
+    owner: col2
+    description: >-
+      闭环盖亚:Agent 提方案 → 确定性代码做注水校正 + OPM Flow 真跑 → 把真实结果喂回 → 修正。
+      调度逻辑不吃 LLM(share-agent-development §1.6)。结果:+90.0 M$(2 次 OPM),
+      **未超过无知识库 G0 单发的 +177.6 M$**;第二个 run 三轮全部超容差、无合格解。
+      🔴 该文件曾误覆盖同名的 fc_loop.py(见 fc_loop 条目)。
+
+
+  - id: gaia
+    path: _code/gaia.py
+    kind: library
+    status: active
+    run: "python _code/gaia.py [--json]"
+    desc: |
+      Gaia 框架结果的**唯一读取接口**。不实现算法,只把 fc_truth(实测口径)、
+      fc_water_econ(经济)、_pipelines/fc_team(智能体臂)、fc_baselines(无 Agent)
+      接到一个稳定表面上,并装配正式指标表。
+      🔴 新增任何读数点必须调本模块,不得在临时脚本里重写 ΔNPV / 基准 / 批次口径 ——
+      那正是 fc_truth 当初消灭的那类缺陷(同一个量两套算法,14 个算例判定相反)。
+      正式批次常量 gaia.BATCH;历史批次已归档,见 _legacy/2026-09-06-batches-A2-E2-superseded/。
+    gate: "path:_tests/test_gaia.py"
+  - id: run_coarse_queue
+    path: _code/run_coarse_queue.sh
+    kind: driver
+    status: active
+    run: "bash _code/run_coarse_queue.sh   # REPS=10 交错随机化,跳过已完成"
+    desc: |
+      三臂对比的批次驱动。交错随机化臂顺序以免时间漂移与臂混杂;
+      按内容指纹跳过已完成的重复,可安全反复调用补齐样本量。
+      批次前缀在脚本头部;改前缀等于开新批次,旧批次须先归档。
+
+cross_domain_edges:
+  - from: main
+    to: 师弟-军伟的比赛-2693e5
+    kind: read_only_reference
+    detail: "E0 复现依据其 T3 契约(_pipelines/02_task_datasets/sweetspot/p8/calendar_data.py)与 Chronos-2 adapter。只读参考,不 import,不写入。"
+
+non_code_assets:
+  registry: _meta/_data_registry.yml
+
+env:
+  python: /mnt/data/yongan-admin-2/envs/volve-chronos2/bin/python
+  notes: py3.11 / torch 2.12.1+cu130 / chronos-forecasting 2.2.0 / lightgbm 4.7.0
+  gpu: "8×RTX 5080 16GB;实验固定用 CUDA_VISIBLE_DEVICES=5"

@@ -1,0 +1,379 @@
+{
+ "incumbent_npv8": 2111520877.8978739,
+ "incumbent_theta": [
+  0.6499999761581421,
+  0.4000000059604645,
+  0.6499999761581421,
+  0.800000011920929,
+  0.44999998807907104,
+  0.25,
+  0.44999998807907104,
+  0.5,
+  0.20000000298023224,
+  0.10000000149011612,
+  0.20000000298023224,
+  0.20000000298023224,
+  -0.20000000298023224,
+  -0.10000000149011612,
+  -0.20000000298023224,
+  -0.20000000298023224,
+  -0.44999998807907104,
+  -0.25,
+  -0.44999998807907104,
+  -0.5,
+  -0.6499999761581421,
+  -0.4000000059604645,
+  -0.6499999761581421,
+  -0.800000011920929
+ ],
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7663748.083422427,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "score_gap_lt_surrogate_error",
+     "detail": "候选#3实测显示注水量代理误差达~10pp(预测76.5%实76.5→86.9%)，而#3/#1/#0/#2经济分仅相差73M(~3.4%)，排序可能落在代理噪声内"
+    },
+    {
+     "severity": "medium",
+     "code": "surrogate_injection_bias_on_capped_well",
+     "detail": "候选#3实测证实代理对BHP封顶井(F4H)的theta响应预测系统性偏差，任何依赖'该井空转故可放大试探'逻辑的候选都应存疑"
+    },
+    {
+     "severity": "medium",
+     "code": "correlation_bin_cherry_pick",
+     "detail": "候选#1仅以tilt[+0.3,+0.6)历史分箱ΔNPV最高为由取正tilt，未排除geomech指出的F1H压力/压实混杂因素，属相关性选箱而非因果验证"
+    },
+    {
+     "severity": "medium",
+     "code": "f1h_geomech_cap_unaddressed",
+     "detail": "候选#1'激进正tilt'未说明F1H增幅是否守住geomechanics_expert文献上限(+0.4~0.5)，而#0已显式限F1H不超0.5，形成对照缺口"
+    },
+    {
+     "severity": "medium",
+     "code": "contradicts_round2_consensus",
+     "detail": "候选#2'弱化F1H'与constraint_auditor/connectivity_analyst/economics_analyst二轮一致的'F1H维持/增注为有效旋钮'结论方向相反，理由未回应该分歧"
+    },
+    {
+     "severity": "low",
+     "code": "evidence_overextension",
+     "detail": "候选#4'前置集中段1'超出reservoir_engineer实际建议范围(前两段2007-2008维持或小幅增注)，属于对证据的过度收窄执行"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "3": {
+     "npv0": 2352837196.015938,
+     "npv2": 2257958503.6431293,
+     "npv8": 2017196187.9118857,
+     "npv15": 1801080458.2259655,
+     "oil": 7577600.0,
+     "oil_3y": 4620468.576271186,
+     "winj": 80658992.0,
+     "wprd": 77445144.0,
+     "water_inj": 80658992.0,
+     "water_dev": -0.14129858228391456,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    1.1368782123947874
+   ],
+   "best_theta": [
+    0.30000001192092896,
+    0.30000001192092896,
+    0.30000001192092896,
+    0.800000011920929,
+    0.20000000298023224,
+    0.20000000298023224,
+    0.20000000298023224,
+    0.5,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.20000000298023224,
+    -0.10000000149011612,
+    -0.10000000149011612,
+    -0.10000000149011612,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    -0.5,
+    -0.30000001192092896,
+    -0.30000001192092896,
+    -0.30000001192092896,
+    -0.800000011920929
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7626169.450481819,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "proxy_water_unverified",
+     "detail": "候选#2实测显示预测注水偏离达-27.6%而实测仅-19.63%,代理注水预测系统性失真;#0/1/4/5/6均未经模拟器验证,其扣水成本经济分可信度存疑"
+    },
+    {
+     "severity": "medium",
+     "code": "bhp_margin_not_checked",
+     "detail": "constraint_auditor二轮明确要求F-1H/F-3H早期加注方案提交前须附BHP裕度或实测峰值校验,否则视为不可行;所有候选理由均未提及此项核查"
+    },
+    {
+     "severity": "low",
+     "code": "connectivity_round1_used",
+     "detail": "候选#0/#2理由仅写'F1H/F3H'未体现connectivity_analyst二轮修正后的F3H>F1H优先级,可能沿用了已被推翻的一轮结论"
+    },
+    {
+     "severity": "low",
+     "code": "connectivity_round1_used",
+     "detail": "同上,候选#2同样未区分F1H/F3H优先级,与二轮F3H>F1H结论不符"
+    },
+    {
+     "severity": "low",
+     "code": "producer_linkage_gap",
+     "detail": "production_surveillance指出K-3H/D-3BH/B-2H等低含水井才是真实潜力方向,但连通性数据缺失,所有候选仍按注水井总影响力/系数排序,未落实到生产井响应验证"
+    },
+    {
+     "severity": "low",
+     "code": "econ_score_ranking_basis",
+     "detail": "候选间经济分排序(#2>#5>#1>#0>#6>#4)全部基于代理预测且间隔较小(2143~2223M),鉴于#2实测证明代理对注水量预测误差大,该排序在候选间的相对顺序可能不稳健"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -27.6% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -25.0% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "2": {
+     "npv0": 2442486624.1887503,
+     "npv2": 2335842905.824559,
+     "npv8": 2069730639.4331403,
+     "npv15": 1835673330.8699894,
+     "oil": 7537968.0,
+     "oil_3y": 4654265.570621468,
+     "winj": 75494144.0,
+     "wprd": 74203056.0,
+     "water_inj": 75494144.0,
+     "water_dev": -0.19628392477230183,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {
+    "2": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -27.6% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ],
+    "5": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -25.0% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ]
+   },
+   "proxy_err_pp": [
+    1.1700958465440392
+   ],
+   "best_theta": [
+    0.5,
+    0.25,
+    0.5,
+    0.800000011920929,
+    0.3499999940395355,
+    0.15000000596046448,
+    0.3499999940395355,
+    0.5,
+    0.15000000596046448,
+    0.05000000074505806,
+    0.15000000596046448,
+    0.20000000298023224,
+    -0.15000000596046448,
+    -0.05000000074505806,
+    -0.15000000596046448,
+    -0.20000000298023224,
+    -0.3499999940395355,
+    -0.15000000596046448,
+    -0.3499999940395355,
+    -0.5,
+    -0.5,
+    -0.25,
+    -0.5,
+    -0.800000011920929
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7660022.814343488,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "ranking_uses_biased_predictor",
+     "detail": "经济分排序主要用代理预测值;constraint_auditor与两个真实锚点(冠军上轮-19.63% vs 预测-27.6%,候选5实测-23.93% vs 预测-30.7%,油量+1.85%高估)均证明代理系统性偏差,排序可能只反映偏差程度而非真实经济价值"
+    },
+    {
+     "severity": "medium",
+     "code": "top_candidate_missing_bhp_gate",
+     "detail": "候选5为唯一实测且总分最高,但理由只引经济学分箱推高tilt,未见constraint_auditor明确要求的F1H/F3H早期加注前置BHP裕度校验"
+    },
+    {
+     "severity": "low",
+     "code": "unit_mismatch_display",
+     "detail": "表格混列代理预测经济分(#0,#1,#2,#4,#6)与实测ΔNPV(#5:338.1M$),量纲/口径不同却并列比较,易误判候选5相对优势幅度"
+    },
+    {
+     "severity": "medium",
+     "code": "champion_score_unvalidated",
+     "detail": "冠军(#6)经济分2223M$仍为代理预测;其上轮实测注水-19.63%远低于预测-27.6%,说明该分数可能同样虚高,不宜作为其余候选'维持冠军水平'的可信锚点"
+    },
+    {
+     "severity": "medium",
+     "code": "narrow_early_window_unaddressed",
+     "detail": "reservoir_engineer指出早期低含水窗口极窄(0→1.7年含水冲至90%+),对economics/connectivity力推的早期大幅增注构成物理质疑,入选候选均未回应"
+    },
+    {
+     "severity": "low",
+     "code": "baseline_inherits_bias",
+     "detail": "候选0/2/4均以'维持冠军F1H/F3H水平'为锚点,而冠军本身未实测验证且存在预测偏差,增量比较继承了未校正的偏差"
+    },
+    {
+     "severity": "low",
+     "code": "conservative_candidate_penalized",
+     "detail": "候选1预测注水降幅(-20.9%)是七案中最接近两个已知实测锚点(-19.63%/-23.93%)的,但经济分排名最末,提示排序方法可能系统性惩罚更保守、更可信的候选"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -28.6% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -25.8% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -30.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    },
+    {
+     "severity": "medium",
+     "code": "water_budget_predicted",
+     "detail": "预测注水偏离 -27.6% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "5": {
+     "npv0": 2515679520.257188,
+     "npv2": 2399016813.6756735,
+     "npv8": 2111520877.8978739,
+     "npv15": 1862570916.328744,
+     "oil": 7520896.0,
+     "oil_3y": 4683139.536723163,
+     "winj": 71456000.0,
+     "wprd": 71954056.0,
+     "water_inj": 71456000.0,
+     "water_dev": -0.23927429561330738,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {
+    "0": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -28.6% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ],
+    "4": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -25.8% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ],
+    "5": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -30.7% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ],
+    "6": [
+     {
+      "severity": "medium",
+      "code": "water_budget_predicted",
+      "detail": "预测注水偏离 -27.6% 超出 ±25%，但预测在高 θ 区不可靠，交由模拟器实测裁定"
+     }
+    ]
+   },
+   "proxy_err_pp": [
+    1.849870206202664
+   ],
+   "best_theta": [
+    0.6499999761581421,
+    0.4000000059604645,
+    0.6499999761581421,
+    0.800000011920929,
+    0.44999998807907104,
+    0.25,
+    0.44999998807907104,
+    0.5,
+    0.20000000298023224,
+    0.10000000149011612,
+    0.20000000298023224,
+    0.20000000298023224,
+    -0.20000000298023224,
+    -0.10000000149011612,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    -0.44999998807907104,
+    -0.25,
+    -0.44999998807907104,
+    -0.5,
+    -0.6499999761581421,
+    -0.4000000059604645,
+    -0.6499999761581421,
+    -0.800000011920929
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer",
+  "connectivity_analyst",
+  "production_surveillance",
+  "economics_analyst",
+  "geomechanics_expert",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "dropped": [],
+ "model": "sonnet",
+ "llm_calls": 49,
+ "llm_prompt_chars": 198514,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

@@ -1,0 +1,51 @@
+pipeline: gaia_decision
+desc: "给注水决策研究者:从连通性制图到多角色闭环再到平凡基线对照，产出可由模拟器裁定的注水方案与臂间对比"
+domain: research
+status: active
+entry_role: main
+verified_at: null
+verification_method: validate
+canonical_batch: F2   # 正式批次;A2/E2 及更早迭代已归档,见 _legacy/
+params_schema:
+  c_inj:      {type: float, required: true,  desc: "注水成本 USD/bbl"}
+  c_prod:     {type: float, required: true,  desc: "采出水处理成本 USD/bbl"}
+  w_max_dev:  {type: float, required: false, desc: "注水量偏离基准的容差，默认 0.25;超 2.5 倍才 high 否决，实测超标由模拟器判"}
+  drop:       {type: str,   required: false, desc: "消融剔除的角色 id;剔除 6 个即单 Agent 臂"}
+steps:
+  - id: cartography
+    ref: fc_team
+    params: {}
+  - id: proxy_warmup
+    ref: fc_team_proxy
+    needs: [cartography]
+    params: {}
+  - id: closed_loop
+    ref: fc_team_loop
+    needs: [cartography, proxy_warmup]
+    params: {c_inj: 2.0, c_prod: 1.0, w_max_dev: 0.25}
+  - id: baselines
+    ref: fc_baselines
+    needs: [proxy_warmup]
+    params: {}
+  - id: economics
+    ref: fc_water_econ
+    needs: [closed_loop]
+    params: {}
+  - id: ablation
+    ref: fc_team_ablate
+    needs: [closed_loop, baselines]
+    optional: true
+    params: {}
+  - id: report
+    ref: gaia
+    needs: [closed_loop, baselines]
+    params: {}
+assertions:
+  - path: _pipelines/fc_team/cartography.json
+  - path: _pipelines/fc_team/norm.npz
+  - path: _pipelines/fc_team/tilt_bins.json
+  - path: _pipelines/fc_baselines/baselines_v2.json
+  - path: _code/gaia.py
+  - gate: "path:_tests/test_gaia.py"
+verified_steps_hash: e2a0eaaeb0392515dc3a63a6fecbc805d1e3f5736a176997e16ca5030bc7102c
+verified_at_commit: 70f9c206533b4d6e5f28a15efa89282a65c0bd67
