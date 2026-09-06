@@ -90,6 +90,42 @@ CHECKS = [
 ]
 
 
+# --------------------------------------------------------------- 禁语闸门
+#: 数据不支持的表述。value = 允许出现的上下文(否定式/物理描述),其余一律红。
+BANNED = {
+    "monotonic": ["not monotone", "monotonically increases oil"],
+    # 允许的都是**否定式**用法:明确说"不主张/无法建立/不是"。
+    "equivalence": ["cannot establish equivalence", "no claim of equivalence",
+                    "about equivalence", "not an assertion of equivalence",
+                    "non-equivalences"],
+    "robustness": [],
+    "causal law": [],
+    "transferable": ["than establishing a transferable rule"],
+    "expert-level": [],
+    "state-of-the-art": ["rather than a state-of-the-art", "not a state-of-the-art",
+                         "is not a state-of-the-art"],
+}
+
+
+def check_banned() -> list[str]:
+    """按**段落**扫,不按行 —— 正文是硬换行的,否定词常落在上一行。
+
+    行级扫描会把 "not an assertion of\nequivalence" 判成违规。
+    """
+    bad = []
+    for f in sorted((ROOT / "_paper").glob("0*.md")):
+        txt = f.read_text()
+        off = 1
+        for para in txt.split("\n\n"):
+            flat = " ".join(para.split()).lower()
+            for word, allowed in BANNED.items():
+                if word in flat and not any(a.lower() in flat for a in allowed):
+                    bad.append(f"  ✗ {f.name}:~{off} 禁语「{word}」: {flat[:100]}")
+            off += para.count("\n") + 2
+    return bad
+
+
+
 def main() -> int:
     bad = []
     for paper, truth, tol, name in CHECKS:
@@ -107,10 +143,13 @@ def main() -> int:
         bad.append("  ✗ 优化区 top-1 命中率不为 0")
     if RANK["optimizers_curse"]["err_rank_of_surrogate_pick"] != 1:
         bad.append("  ✗ 代理选中者并非它高估最狠的候选")
+    bad += check_banned()
     if bad:
         print(f"❌ {len(bad)} 处对不上:"); print("\n".join(bad)); return 1
-    print(f"✅ {len(CHECKS)} 个正文数字 + 4 条定性关系全部与真源一致")
+    print(f"✅ {len(CHECKS)} 个正文数字 + 4 条定性关系 + {len(BANNED)} 条禁语全部通过")
     return 0
+
+
 
 
 if __name__ == "__main__":

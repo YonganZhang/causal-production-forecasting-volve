@@ -72,8 +72,8 @@ confirmed to be executable within the injection tolerance.
 
 We note that an earlier configuration of the same framework, before the evidence-strength
 adjudication rule of §3.4 was introduced, degraded across rounds in six of seven runs
-(net −139.6 M US$). The monotonicity reported here is therefore a property of the adjudication
-rule, not of closed loops in general.
+(net −139.6 M US$). The end-to-end improvement reported here is therefore a property of the
+adjudication rule, not of closed loops in general.
 
 ## 4.4 Decomposing the reasoning into seven roles yields no detectable gain in mean performance
 
