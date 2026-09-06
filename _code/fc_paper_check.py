@@ -33,6 +33,34 @@ def _ci(v, ref):
     return st.t.interval(0.95, len(d) - 1, loc=d.mean(), scale=st.sem(d))
 
 
+LEG = ROOT / "_legacy" / "2026-09-06-batches-A2-E2-superseded"
+
+
+def _leak_best(prefix: str) -> float:
+    """已作废的泄露批次成绩。正文只用它量化泄露幅度,不作为有效结果。"""
+    base = gaia.baseline_npv()
+    out = []
+    for f in sorted((LEG / "loop").glob(f"loop_{prefix}full7_*.json")):
+        d = json.loads(f.read_text())
+        v = [(m["npv8"] - base) / 1e6
+             for r in d["rounds"]
+             for k, m in (r.get("adjudicated") or {}).items()
+             if int(k) not in set(r.get("vetoed") or [])]
+        if v:
+            out.append(max(v))
+    return float(np.mean(out))
+
+
+def _tilt_legacy(prefix: str) -> float:
+    ts = []
+    for f in sorted((LEG / "sim").glob(f"team_{prefix}full7*.npz")):
+        th = np.asarray(np.load(f)["theta"], float)
+        if th.shape == (6, 4):
+            m = th.mean(1)
+            ts.append(m[:2].mean() - m[-2:].mean())
+    return float(np.mean(ts))
+
+
 A, B = np.array(S["arms"]["full7"]["values"]), np.array(S["arms"]["one1"]["values"])
 NB = S["nonllm"]["mean"]
 bt = _beta_totals()
@@ -67,6 +95,9 @@ CHECKS = [
     (0.95, RANK["control_random_theta_surr_topk"]["spearman_rho"], 0.005, "随机池 surr-top10 rho"),
     (0.94, RANK["control_random_theta_true_topk"]["spearman_rho"], 0.005, "随机池 true-top10 rho"),
     (5.0, RANK["control_random_theta_surr_topk"]["true_spread_pct"], 0.05, "随机池 top10 目标跨度 (%)"),
+    (505.3, _leak_best("Y"), 0.1, "泄露批次 Y 的成绩(正文用于量化泄露)"),
+    (0.57, _tilt_legacy("E2"), 0.01, "证据加权前的团队 tilt"),
+    (0.66, S["arms"]["full7"]["tilt"], 0.01, "证据加权后的团队 tilt"),
     (471, CART["n_case"], 0.5, "连通性算例数"),
     (2.05, CART["diag"]["cond"], 0.005, "设计矩阵条件数"),
     (8.57, bt["F-1H"], 0.005, "F-1H 影响"),

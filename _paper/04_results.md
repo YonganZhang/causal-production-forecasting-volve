@@ -68,12 +68,20 @@ The arithmetic feasibility gate rejected candidates in every configuration, and 
 are excluded from the scores above, so the reported gains are attained by schedules the simulator
 itself confirmed executable within the injection tolerance.
 
-An earlier configuration of the same framework — identical surrogate, identical gate, identical
-simulator — degraded across rounds in six of seven runs, a net −139.6 M US$. The difference is the
-evidence-weighted adjudication rule of §3.5: roles holding no field-specific measurement had been
-weighted equally with roles holding simulated evidence, and were flattening the main economic axis
-of the decision. Re-weighting by `source_type` restored the loop's direction. How adjudication
-treats evidence is therefore load-bearing, not decorative.
+Two earlier configurations bound this result from either side. In the first, the roles were
+supplied with exemplar tables of the highest-scoring schedules found in this study — knowledge that
+could only be written after solving the problem (§3.4). Measured performance rose to as much as
++505.3 M US$, roughly 40 % above what the same framework achieves without them. Those runs are not
+a stronger result; they are a measurement of what leakage does to one, and all of them were
+discarded. The figures reported here come from a configuration in which the roles receive only
+general waterflood principles.
+
+In the second, the adjudication rule of §3.5 had not yet been introduced: with identical surrogate,
+gate and simulator, the loop degraded across rounds in six of seven runs, a net −139.6 M US$. Roles holding no field-specific measurement had been weighted
+equally with roles holding simulated evidence, and were flattening the main economic axis of the
+decision (mean front-loading index 0.57 against 0.66 after re-weighting). Re-weighting by
+`source_type` restored the loop's direction. How adjudication treats evidence, and what knowledge
+the roles are permitted to hold, are therefore both load-bearing rather than decorative (Fig. 6).
 
 ## 4.4 The accepted schedules concentrate on one interpretable direction
 

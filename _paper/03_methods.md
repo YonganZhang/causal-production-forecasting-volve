@@ -63,18 +63,38 @@ states when it should not be trusted.
 
 Domain roles cannot reason from a simulation deck directly; they need to know what the field is,
 what data exist for it, and — critically — what data do *not*. A knowledge-curation agent (an LLM
-agent, Claude Opus 5) performs three tasks and emits one knowledge base per role:
+agent, Claude Opus 5) draws on three sources and emits one knowledge base per role.
 
-1. **Deck audit.** Enumerates which physical descriptions the deck contains (PERMX, PORO, NTG,
-   FAULTS/MULTFLT, well controls) and which it does not (GEOMECH, STRESS, YOUNGMOD, POISSON).
-2. **Field literature retrieval.** Queries bibliographic services for field-specific work; for
-   Norne this returns time-lapse (4D) seismic studies, supplied to the corresponding role as
-   titles and DOIs only.
-3. **Knowledge-base emission with explicit absences.** Each role receives what it may use *and* a
-   statement of what it must not claim. The geomechanics role, for instance, is told that the deck
-   carries no measured stress data for this field, that it may reason only by analogy to North Sea
-   sandstone reservoirs, and that asserting measured Norne stress values is prohibited. Its
-   provenance is recorded as `literature`, not `measurement`.
+**Source 1 — deck audit.** Enumerates which physical descriptions the deck contains (PERMX, PORO,
+NTG, FAULTS/MULTFLT, well controls) and which it does not (GEOMECH, STRESS, YOUNGMOD, POISSON).
+
+**Source 2 — field literature retrieval.** Queries bibliographic services for field-specific work;
+for Norne this returns time-lapse (4D) seismic studies, supplied to the corresponding role as
+titles and DOIs only, with an explicit instruction that no numerical value may be inferred from a
+title.
+
+**Source 3 — a structured domain knowledge base.** A curated corpus of reservoir data-science
+practice, organised into eleven modules (field overview, data foundations, simulators, surrogate
+models, history matching, production optimisation, uncertainty quantification, causal inference, a
+pitfall register, neural operators, and data assets). From this corpus the curator extracts general
+waterflood control principles and supplies them to every role: that sweep efficiency declines as
+water cut rises, so water injected while the field is still dry displaces oil most effectively;
+that long-term recovery and short-term cash flow conflict, with the balance set by the discount
+rate; that reactive control is the industry reference strategy and is often unexpectedly strong in
+mature fields; that an injector limited by bottom-hole pressure will not deliver more water when
+its target rate is raised, so rate control on such a well is ineffective; that inter-well
+connectivity determines where injected water goes; and that under a volume constraint the value
+lies in redistribution rather than in additional injection.
+
+**The rule/answer boundary.** Which knowledge may be supplied is constrained by a rule we state
+explicitly because violating it is easy and its consequences are severe. Admissible knowledge is
+what any reservoir engineer would know before seeing this problem — *water injected before water
+cut rises sweeps most efficiently*. Inadmissible knowledge is anything that could only be written
+after solving the problem — a table of the best-performing control vectors found in this study.
+The operational test is: **could this statement have been written without solving the problem?**
+An earlier configuration supplied the roles with exemplar tables of the highest-scoring schedules,
+which is the second kind. Section 4.3 reports what that did to the measured performance, and all
+runs made under that configuration were discarded.
 
 Curating absence is what makes the evidence-weighted adjudication of §3.5 possible: a role that
 declares it has no field measurement can be weighted accordingly, whereas a role that quietly
