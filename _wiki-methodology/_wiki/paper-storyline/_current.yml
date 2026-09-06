@@ -1,0 +1,48 @@
+version: v3
+status: current-user-approved
+approved_on: 2026-09-06
+approved_by: user
+supersedes: v2
+
+one_sentence: >
+  我们提出 Gaia 智能体团队 —— 一个面向油藏决策的分层多智能体框架,
+  让智能体覆盖从原始数据、结构化知识、领域推理、快速评估到物理裁定的
+  完整决策链,并在真实油田上证明它能挣到经过全物理验证的钱。
+  注水调度是验证它的案例,不是它的目的。
+
+contributions:
+  - id: C1
+    text: "Gaia 分层智能体架构:14 个 Agent / 5 层,智能体覆盖全决策链而非只占推理一步"
+    evidence: "§3;gaia_sdk 可运行实现 + 15 项忠实性测试"
+  - id: C2
+    text: "代理模型:场级误差 0.369%,R²=0.9959,18.1 µs/方案(约 3.3e6 倍加速)"
+    evidence: "§4.1 前半;Fig. 2a"
+  - id: C3
+    text: "代理的能力边界:能筛不能判(随机域 ρ=0.998 → 优化区 ρ=−0.21),据此把赋值权留给物理"
+    evidence: "§4.1;Fig. 2b–c;两个对照定位病因在优化器"
+  - id: C4
+    text: "真挣到钱:全物理验证 +361.3 M$,每次实验只花 2.7 次真模拟"
+    evidence: "§4.2–4.3;Fig. 3–4"
+
+case_study: "Norne 油田注水调度。台架,不是交付对象。"
+target_journal: "Petroleum Science (KeAi/Elsevier, IF 6.4)"
+
+authority_principle: >
+  权限按**实测能力**分配,不按看起来多强:
+  代理有速度无赋值权(优化区 ρ=−0.21);语言智能体有推理无否决权(可行性由算术闸门判);
+  全物理模拟器有赋值权,是全文所有经济数字的唯一来源。
+
+forbidden_drift:
+  - "不写 monotonic(逐轮非降非全部;只能写 consistent end-to-end improvement)"
+  - "不写 causal / transferable(tilt 只有 ρ=0.714,无干预识别)"
+  - "不写 expert-level(无人类专家基线)"
+  - "不写优于传统优化方法(未 benchmark 任何传统优化器)"
+  - "不写 equivalence"
+  - "不写 robustness 提升"
+  - "不说「假模拟器」,说「代理模型」"
+  - "不声称知识层在决策回路内运行 —— 它是离线执行一次,产出被各次实验原样消费"
+
+not_reported_in_paper:
+  - what: "单 Agent 消融臂(七角色 vs 一角色,+13.8 M$,p=0.63)"
+    reason: "2026-09-06 用户裁定:对读者是噪音,不进正文"
+    data_kept: "_pipelines/fc_team/loop_F2one1_*.json 与 gaia.py 仍保留,可随时应答审稿人"

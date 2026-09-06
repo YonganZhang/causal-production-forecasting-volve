@@ -44,27 +44,13 @@ CHECKS = [
     (356.9, S["arms"]["full7"]["median"], 0.1, "Team 中位"),
     (50.7, S["arms"]["full7"]["sd"], 0.1, "Team sd"),
     (454.7, S["arms"]["full7"]["best"], 0.1, "Team 最好"),
-    (347.4, S["arms"]["one1"]["mean"], 0.1, "单 Agent 均值"),
-    (343.3, S["arms"]["one1"]["median"], 0.1, "单 Agent 中位"),
-    (72.9, S["arms"]["one1"]["sd"], 0.1, "单 Agent sd"),
-    (508.0, S["arms"]["one1"]["best"], 0.1, "单 Agent 最好"),
     (62.6, NB, 0.1, "一维缩放"),
     (298.6, S["tests"]["team_vs_none"]["diff"], 0.1, "Team − 无 Agent"),
-    (284.8, S["tests"]["one_vs_none"]["diff"], 0.1, "单 Agent − 无 Agent"),
-    (13.8, S["tests"]["team_vs_one"]["diff"], 0.1, "Team − 单 Agent"),
     (262.4, _ci(A, NB)[0], 0.2, "Team vs 无 Agent 95%CI 下界"),
     (334.9, _ci(A, NB)[1], 0.2, "Team vs 无 Agent 95%CI 上界"),
-    (232.7, _ci(B, NB)[0], 0.2, "单 Agent vs 无 Agent 95%CI 下界"),
-    (337.0, _ci(B, NB)[1], 0.2, "单 Agent vs 无 Agent 95%CI 上界"),
     (2.7, S["arms"]["full7"]["sim_budget"], 0.05, "Team 真模拟/次"),
-    (2.6, S["arms"]["one1"]["sim_budget"], 0.05, "单 Agent 真模拟/次"),
     (7, S["nonllm"]["n_sim"], 0.01, "一维缩放真模拟"),
-    (0.63, S["tests"]["team_vs_one"]["p"], 0.005, "Team vs 单 Agent Welch p"),
-    (0.52, S["tests"]["team_vs_one"]["p_mw"], 0.005, "Team vs 单 Agent MW p"),
-    (0.45, st.levene(A, B).pvalue, 0.005, "Levene p"),
-    (0.29, st.bartlett(A, B).pvalue, 0.005, "Bartlett p"),
     (0.66, S["arms"]["full7"]["tilt"], 0.005, "Team 平均 tilt"),
-    (0.92, S["arms"]["one1"]["tilt"], 0.005, "单 Agent 平均 tilt"),
     (0.714, TILT["spearman"], 0.001, "tilt–ΔNPV spearman"),
     (275, TILT["n"], 0.5, "tilt 样本量"),
     (0.998, RANK["control_random_theta_full"]["spearman_rho"], 0.001, "随机 θ 排名 rho"),
@@ -131,14 +117,16 @@ def main() -> int:
     for paper, truth, tol, name in CHECKS:
         if abs(float(paper) - float(truth)) > tol:
             bad.append(f"  ✗ {name}: 正文 {paper}  真源 {truth:.4f}  (容差 {tol})")
+    # 🔴 论文只报 Gaia 团队臂。单 Agent 臂的数据仍在 gaia.py 与 _pipelines 中,
+    #    但不进正文(2026-09-06 用户裁定),故此处不核它的数字。
+
     # 正文声称的定性关系
     order = sorted(bt, key=bt.get, reverse=True)
     if order != ["F-1H", "F-2H", "F-3H", "F-4H"]:
         bad.append(f"  ✗ 井影响排序: 实测 {order}")
-    up = sum(S["arms"][k]["closed_loop_up"] for k in gaia.ARMS)
-    tot = sum(S["arms"][k]["closed_loop_total"] for k in gaia.ARMS)
-    if (up, tot) != (20, 20):
-        bad.append(f"  ✗ 闭环正向率: 实测 {up}/{tot}, 正文写 20/20")
+    a = S["arms"]["full7"]
+    if (a["closed_loop_up"], a["closed_loop_total"]) != (10, 10):
+        bad.append(f"  ✗ 闭环正向率: 实测 {a['closed_loop_up']}/{a['closed_loop_total']}, 正文写 10/10")
     if RANK["rank_fidelity_on_simulated_theta"]["hit_rate"]["top1"] != 0.0:
         bad.append("  ✗ 优化区 top-1 命中率不为 0")
     if RANK["optimizers_curse"]["err_rank_of_surrogate_pick"] != 1:

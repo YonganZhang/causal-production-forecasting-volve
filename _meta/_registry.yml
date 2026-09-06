@@ -863,6 +863,23 @@ entrypoints:
       已抓到一次真实错误:井影响排序正文写 F-1H>F-3H>F-2H、F-4H=2.81,
       实测为 F-1H 8.57>F-2H 6.22>F-3H 6.06>F-4H 1.76。
 
+
+  - id: gaia_sdk
+    path: _code/gaia_sdk/
+    kind: library
+    status: active
+    run: "python -m gaia_sdk [--json]   # 在 _code/ 下运行"
+    desc: |
+      🔴 Gaia Agent Team 的**参考实现**。14 个 Agent / 5 层:
+      L1 数据(data_engineer, cartographer)· L2 知识(knowledge_curator)·
+      L3 推理(7 领域角色 + synthesizer)· L4 评估(surrogate, feasibility_auditor)·
+      L5 裁决(simulator_adjudicator,不是 Agent)。
+      不实现新算法,只把已跑通并产出论文结果的环节包装成可调用 Agent,
+      使论文里的架构图对应到可运行代码。
+      忠实性由 _tests/test_gaia_sdk.py 的 15 项守住 —— 其中知识层产出与
+      fc_team_loop.slice_for 做**逐字节**比对:SDK 是对已跑实验的打包,不是另一个系统。
+    gate: "path:_tests/test_gaia_sdk.py"
+
 cross_domain_edges:
   - from: main
     to: 师弟-军伟的比赛-2693e5
