@@ -17,7 +17,9 @@ screen candidates at 18.1 µs each and gate them on arithmetic feasibility — w
 simulator alone assigns value. Applied to water-injection scheduling as a case study, Gaia produced
 simulator-verified improvements of 361.3 M US$ in NPV at 8 % over the historical schedule, against
 62.6 M US$ for one-dimensional uniform scaling, using 2.7 full-physics evaluations per run against
-7 for the reference sweep; all ten runs finished at or above their starting point. The accepted
+7 for the reference sweep; all ten runs finished at or above their starting point. The best
+schedule raises cumulative oil by 10.9 % while injecting 6.5 % less water, and remains profitable
+at discount rates from 0 % to 15 %. The accepted
 schedules concentrate on one interpretable direction, earlier rather than later injection
 (ρ = +0.714 on held-out cases), so the recommendations remain legible to an engineer. The framework
 is released as a reference implementation with each layer exposed as a callable agent.

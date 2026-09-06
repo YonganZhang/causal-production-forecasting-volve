@@ -23,8 +23,10 @@ assigns value.
 Applied to water-injection scheduling on the Norne field, the framework produced simulator-verified
 improvements of +361.3 M US$ in NPV at 8 % over the historical schedule, against +62.6 M US$ for
 one-dimensional uniform scaling, using 2.7 full-physics evaluations per run against 7 for the
-reference sweep. All ten runs finished at or above their starting point, and the accepted schedules
-concentrate on one interpretable direction — earlier rather than later injection (ρ = +0.714 on
+reference sweep. The best schedule raises cumulative oil by 10.9 % while injecting 6.5 % less water — the gain
+comes from redistributing injection in time, not from adding volume — and remains positive at
+discount rates from 0 % to 15 %. All ten runs finished at or above their starting point, and the
+accepted schedules concentrate on one interpretable direction — earlier rather than later injection (ρ = +0.714 on
 held-out random cases) — so the recommendations are legible to an engineer rather than opaque.
 
 The practical implication is a division of authority rather than a division of labour: learned

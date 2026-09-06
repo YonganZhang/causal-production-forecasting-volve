@@ -8,7 +8,7 @@ schedule, NPV_8% = 1,773.4 M US$.
 
 On 500 independently generated schedules the learned operator reproduces the simulator closely:
 field-level relative error 0.369 %, R² = 0.9959, Spearman ρ = 0.998 against the simulator's
-ordering, and a top-1 hit rate of 1.0 (Fig. 2a). Inference costs 18.1 µs per candidate against
+ordering, and a top-1 hit rate of 1.0 (Fig. 2b, d). Inference costs 18.1 µs per candidate against
 approximately one minute per simulation, a factor of 3.3 × 10⁶. By the validation practice
 conventionally used to qualify a surrogate for optimisation, it is ready.
 
@@ -16,11 +16,11 @@ That accuracy does not survive the transition to the optimiser's own region. On 
 schedules returned by a multi-start optimiser run against the surrogate, all within 0.03 % of the
 baseline injection volume, the rank correlation falls to ρ = −0.21 (permutation p = 0.56;
 bootstrap 95 % CI [−0.83, +0.65]) and the top-1 hit rate falls to 0. The surrogate's first choice
-is the simulator's tenth of ten (Fig. 2b). Point accuracy degrades far less than ranking does —
+is the simulator's tenth of ten (Fig. 2d). Point accuracy degrades far less than ranking does —
 mean relative error rises from 0.369 % to 1.44 % — so the failure is one of ordering, not of
 calibration.
 
-Fig. 2c identifies the mechanism. Across the shortlist the surrogate overstates the objective by a
+The mechanism is visible in the per-candidate optimism. Across the shortlist the surrogate overstates the objective by a
 median factor of 1.66, but by 10.6 for the candidate it selects; its predicted value correlates
 with its own error at r = 0.97, and the candidate it ranks first is the one it overestimates most.
 An optimiser does not sample the surrogate's error at random — it seeks the region where the
@@ -41,11 +41,18 @@ against the surrogate.
 ## 4.2 The framework produces simulator-verified economic value at low simulator cost
 
 Over ten repetitions, Gaia achieves a mean ΔNPV of +361.3 M US$ (median +356.9, SD 50.7, best
-+454.7), against +62.6 M US$ for one-dimensional uniform scaling (Fig. 3a) — a difference of
++454.7), against +62.6 M US$ for one-dimensional uniform scaling (Fig. 4a) — a difference of
 +298.6 M US$ (95 % CI [+262.4, +334.9], p = 1.7 × 10⁻⁸).
 
+What the framework does physically is worth stating, because it is not the obvious move. The best
+adjudicated schedule raises cumulative oil by 10.9 % while injecting **6.5 % less water** and
+producing only 1.7 % more (Fig. 4b): the gain comes from redistributing injection in time rather
+than from adding volume. The improvement is also insensitive to the cost of capital, remaining
+positive at every discount rate tested — +707, +629, +455 and +326 M US$ at 0 %, 2 %, 8 % and 15 %
+(Fig. 4c) — so it does not depend on a particular view of short-term versus long-term value.
+
 The gain is not bought with simulator time. Each Gaia run consumed 2.7 full-physics evaluations on
-average, against 7 for the uniform sweep (Fig. 3b): a 5.8-fold larger improvement for roughly 40 %
+average, against 7 for the uniform sweep (Fig. 5b): a 5.8-fold larger improvement for roughly 40 %
 of the simulator budget. This is the operationally relevant comparison, because in this setting the
 cost of a decision is measured in full-physics runs, and the purpose of the evaluation layer is
 precisely to reduce that count.
@@ -58,7 +65,7 @@ reasoning alone accounts for the gain. §5.4 states this boundary explicitly.
 
 ## 4.3 The closed loop ends above where it started, in every run
 
-Across all ten runs the final adjudicated result equals or exceeds the first (Fig. 4), and no run
+Across all ten runs the final adjudicated result equals or exceeds the first (Fig. 5c), and no run
 ended below the reference strategy. The progression is not monotone round by round: in some runs
 the last adjudicated candidate fell below the run's own best, so we report **consistent end-to-end
 improvement**, not monotone improvement; these are different claims and only the former is
@@ -81,7 +88,7 @@ gate and simulator, the loop degraded across rounds in six of seven runs, a net 
 equally with roles holding simulated evidence, and were flattening the main economic axis of the
 decision (mean front-loading index 0.57 against 0.66 after re-weighting). Re-weighting by
 `source_type` restored the loop's direction. How adjudication treats evidence, and what knowledge
-the roles are permitted to hold, are therefore both load-bearing rather than decorative (Fig. 6).
+the roles are permitted to hold, are therefore both load-bearing rather than decorative (Fig. 3c).
 
 ## 4.4 The accepted schedules concentrate on one interpretable direction
 
@@ -93,8 +100,9 @@ on a single scalar summary of the schedule, the front-loading index
 the difference between early- and late-period mean log multipliers. On 275 randomly sampled and
 baseline cases — with all agent- and optimiser-generated solutions excluded, so the descriptor is
 not fitted on the solutions it is used to interpret — τ correlates with ΔNPV at Spearman
-ρ = +0.714 (Fig. 5). The accepted Gaia schedules sit on the positive side of this axis (mean
-τ = +0.66).
+ρ = +0.714 (Fig. 6b). The accepted Gaia schedules sit on the positive side of this axis (mean
+τ = +0.66), and the best of them (Fig. 6a) resolves into three blocks: raise injection through 2010,
+hold near baseline to 2012, then cut back — with the weakest injector left untouched.
 
 A 24-dimensional policy produced by multi-agent reasoning therefore compresses, in part, onto one
 direction that is legible in reservoir terms — injecting earlier rather than later, consistent
@@ -106,7 +114,8 @@ show that the framework's decisions are inspectable by an engineer rather than o
 
 The influence matrix underlying the connectivity role was estimated from 471 simulated cases with
 a design-matrix condition number of 2.05, well below the flagging threshold of 30. The estimated
-injector influence ranks F-1H (8.57) > F-2H (6.22) > F-3H (6.06) > F-4H (1.76).
+injector influence ranks F-1H (8.57) > F-2H (6.22) > F-3H (6.06) > F-4H (1.76); the framework
+leaves F-4H, the weakest lever, at its baseline rate (Fig. 6a, c).
 
 Target injection rates across the sampled schedules span 227 to 98,510 (a factor of 430), while
 realised rates saturate near 20,000 for all four injectors. The nominal control dimensionality

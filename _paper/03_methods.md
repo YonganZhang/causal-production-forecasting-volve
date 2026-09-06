@@ -112,7 +112,7 @@ confidence in [0,1] and a provenance record (`source_id`, `source_region`, `sour
 emit a legal message, so whether a role is substantive is settled by the protocol rather than by
 argument. `source_type` distinguishes deck, simulation, measurement, literature and reasoning.
 
-**Seven domain roles.** Reservoir engineering (pressure and water-cut history); connectivity (the
+**Seven domain roles** (Fig. 3a). Reservoir engineering (pressure and water-cut history); connectivity (the
 influence matrix and fault transmissibility multipliers); production surveillance (per-well rates
 and bottom-hole pressures); economics (price deck, discount rates, water costs); geomechanics
 (analogue literature bounds); 4D seismic (time-lapse priors); and constraint auditing (realised
@@ -147,7 +147,7 @@ field-level relative error is 0.369 % and R² = 0.9959, at 18.1 µs per candidat
 reported anywhere in this paper. §4.1 shows why this restriction is a requirement rather than
 caution.
 
-**Feasibility auditor.** Surviving candidates pass an arithmetic gate: injection-budget deviation,
+**Feasibility auditor.** Surviving candidates pass an arithmetic gate (Fig. 3b): injection-budget deviation,
 box constraints on θ, and saturation against measured per-well injectivity. This check is
 deliberately not delegated to a language model — a language model can be argued with, an
 arithmetic bound cannot.

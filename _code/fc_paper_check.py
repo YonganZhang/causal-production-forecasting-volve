@@ -61,6 +61,31 @@ def _tilt_legacy(prefix: str) -> float:
     return float(np.mean(ts))
 
 
+_PHYS: dict | None = None
+
+
+def _best_phys() -> dict:
+    """经模拟器裁定的最好方案在物理与各折现率下的表现。"""
+    global _PHYS
+    if _PHYS is not None:
+        return _PHYS
+    from fc_water_econ import econ
+    base = gaia.baseline_npv()
+    b0 = econ(gaia.SIM_DIR / "baseline.npz", gaia.C_INJ, gaia.C_PROD)
+    bv, bf = -1e9, None
+    for f in sorted(gaia.LOOP_DIR.glob(f"loop_{gaia.BATCH}full7_*.json")):
+        d = json.loads(f.read_text())
+        for r in d["rounds"]:
+            for k, m in (r.get("adjudicated") or {}).items():
+                if int(k) in set(r.get("vetoed") or []):
+                    continue
+                if (m["npv8"] - base) / 1e6 > bv:
+                    bv, bf = (m["npv8"] - base) / 1e6, m
+    _PHYS = {f"{q}_pct": (bf[q] / b0[q] - 1) * 100 for q in ("oil", "winj", "wprd")}
+    _PHYS.update({k: (bf[k] - b0[k]) / 1e6 for k in ("npv0", "npv2", "npv8", "npv15")})
+    return _PHYS
+
+
 A, B = np.array(S["arms"]["full7"]["values"]), np.array(S["arms"]["one1"]["values"])
 NB = S["nonllm"]["mean"]
 bt = _beta_totals()
@@ -96,6 +121,13 @@ CHECKS = [
     (0.94, RANK["control_random_theta_true_topk"]["spearman_rho"], 0.005, "随机池 true-top10 rho"),
     (5.0, RANK["control_random_theta_surr_topk"]["true_spread_pct"], 0.05, "随机池 top10 目标跨度 (%)"),
     (505.3, _leak_best("Y"), 0.1, "泄露批次 Y 的成绩(正文用于量化泄露)"),
+    (10.9, _best_phys()["oil_pct"], 0.05, "最好方案的产油增幅 %"),
+    (-6.5, _best_phys()["winj_pct"], 0.05, "最好方案的注水变化 %"),
+    (1.7, _best_phys()["wprd_pct"], 0.05, "最好方案的采出水变化 %"),
+    (707, _best_phys()["npv0"], 0.5, "最好方案 ΔNPV@0%"),
+    (629, _best_phys()["npv2"], 0.5, "最好方案 ΔNPV@2%"),
+    (455, _best_phys()["npv8"], 0.5, "最好方案 ΔNPV@8%"),
+    (326, _best_phys()["npv15"], 0.5, "最好方案 ΔNPV@15%"),
     (0.57, _tilt_legacy("E2"), 0.01, "证据加权前的团队 tilt"),
     (0.66, S["arms"]["full7"]["tilt"], 0.01, "证据加权后的团队 tilt"),
     (471, CART["n_case"], 0.5, "连通性算例数"),

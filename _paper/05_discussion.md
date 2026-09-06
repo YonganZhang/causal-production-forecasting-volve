@@ -51,10 +51,10 @@ disjoint evidence under a protocol in which an uncited assertion is not a legal 
 evaluation layer screens at 18.1 µs and gates on arithmetic. The simulator prices.
 
 That this allocation is load-bearing rather than diagrammatic is visible in the loop's behaviour.
-All ten runs ended at or above their starting point (§4.3). An earlier configuration — identical
+All ten runs ended at or above their starting point (§4.3, Fig. 5c). An earlier configuration — identical
 surrogate, gate and simulator — degraded across rounds in six of seven runs, a net −139.6 M US$,
 because roles holding no field-specific measurement were weighted equally with roles holding
-simulated evidence. Changing how adjudication treats evidence changed the sign of the outcome.
+simulated evidence. Changing how adjudication treats evidence changed the sign of the outcome (Fig. 3c).
 
 Two cautions on strength. The progression is consistent end-to-end but not monotone. And the
 before/after comparison of adjudication rules is not a randomised contrast within a single batch,

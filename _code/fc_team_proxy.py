@@ -63,13 +63,20 @@ class Proxy:
         self.net.eval()
 
     @torch.no_grad()
-    def evaluate(self, theta: np.ndarray) -> dict:
-        """theta: (B, 24) 或 (24,) → 每个方案的筛选指标。"""
+    def trajectories(self, theta: np.ndarray) -> np.ndarray:
+        """theta: (B, 24) 或 (24,) → (B, n_live_well, 2, NT) 逐井产油/产水轨迹。
+
+        反归一化只在这里做一次;`evaluate` 与绘图都走它,避免同一个量两套算法。
+        """
         th = np.atleast_2d(np.asarray(theta, np.float32))
         x = torch.tensor((th - self.xm) / self.xs, device=self.dev)
         y = self.net(x).cpu().numpy().reshape(len(th), -1)
         y = y * self.ys + self.ym                      # 反归一化
-        y = y.reshape(len(th), self.nw, 2, NT)
+        return y.reshape(len(th), self.nw, 2, NT)
+
+    def evaluate(self, theta: np.ndarray) -> dict:
+        """theta: (B, 24) 或 (24,) → 每个方案的筛选指标。"""
+        y = self.trajectories(theta)
         oil = np.einsum("bwt,t->b", y[:, :, 0, :], WT)          # 累计产油(梯形)
         oil3 = np.einsum("bwt,t->b", y[:, :, 0, :][:, :, MS3], WT[MS3])
         wat = np.einsum("bwt,t->b", y[:, :, 1, :], WT)          # 累计产水
