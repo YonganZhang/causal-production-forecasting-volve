@@ -120,9 +120,11 @@ datasets:
     produced_by: fc_baselines
     read_by: gaia
     desc: |
-      三条不含 LLM 的对照基线:B2 一维缩放(主对照,唯一决策变量)、
-      B4 等预算随机、BG 贪心短期最优。主表用 B2,但报告必须同时列出三条 ——
-      藏掉最强基线(BG +293.5M)会让智能体优势虚高 4 倍以上。
+      不含 LLM 的对照基线。🔴 **主线只有一条:B2 一维缩放**(所有注水井、
+      所有时段乘同一个数,唯一决策变量)。B4 等预算随机、BG 贪心短期已于
+      2026-09-06 退役(用户裁定),完整数据与反对意见在
+      _legacy/2026-09-06-baselines-B4-BG-retired/,可一条命令恢复。
+      test_single_nonllm_baseline_is_uniform_scaling 守住"对照唯一"。
 
 literature:
   - id: our_data_inventory

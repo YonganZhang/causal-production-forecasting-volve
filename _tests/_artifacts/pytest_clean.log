@@ -1,1 +1,20 @@
-..................................
+.................................................................        [100%]
+=============================== warnings summary ===============================
+_tests/test_causal_arms.py::test_read_state_fails_loud_when_summary_missing
+  /mnt/data/yongan-admin-2/envs/volve-chronos2/lib/python3.11/site-packages/resdata/util/util/version.py:109: DeprecationWarning: resdata.util.util.Version is deprecated, use packaging.version instead
+    class ResdataVersion(Version):
+
+_tests/test_harness.py::test_history_and_future_do_not_overlap
+_tests/test_harness.py::test_rolling_origin_has_no_calendar_leak
+_tests/test_harness.py::test_rate_target_removes_the_bookkeeping_identity
+  /mnt/data/yongan-admin-2/projects/自己-产能预测-04a0c7/_code/windows.py:136: RuntimeWarning: Mean of empty slice
+    wi_ref = np.nanmean(ws.hist["FIELD_WI_VOL"][:, -7:], axis=1)
+
+_tests/test_harness.py::test_rate_target_removes_the_bookkeeping_identity
+_tests/test_harness.py::test_rate_target_removes_the_bookkeeping_identity
+_tests/test_harness.py::test_rate_target_removes_the_bookkeeping_identity
+  /mnt/data/yongan-admin-2/projects/自己-产能预测-04a0c7/_code/windows.py:233: RuntimeWarning: Mean of empty slice
+    rec_scalar.append(float(np.nanmean(y_future)))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+65 passed, 7 warnings in 12222.71s (3:23:42)

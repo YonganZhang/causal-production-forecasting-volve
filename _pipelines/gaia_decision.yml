@@ -47,5 +47,5 @@ assertions:
   - path: _pipelines/fc_baselines/baselines_v2.json
   - path: _code/gaia.py
   - gate: "path:_tests/test_gaia.py"
-verified_steps_hash: e2a0eaaeb0392515dc3a63a6fecbc805d1e3f5736a176997e16ca5030bc7102c
-verified_at_commit: 70f9c206533b4d6e5f28a15efa89282a65c0bd67
+verified_steps_hash: 62469fc224e0e3a8aac65d72d0a4ab790ea8c78bc09fd42f6784c1ab92106d33
+verified_at_commit: e90be417de54563fb94da9ffbf827e63bea83a54

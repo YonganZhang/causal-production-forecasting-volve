@@ -47,7 +47,8 @@ Gaia 团队（本轮主线）
   fc_team_loop.py      ★ 主环路 Readers→Synthesizer→代理→红队→模拟器→回流
   fc_team_diag.py      ★ 诊断：把一轮的全部原文落盘
   fc_team_ablate.py    ★ 消融分析（先测噪声底再判边际）
-  fc_baselines.py      ★ 无 Agent 对照:B2 一维缩放 / B4 等预算随机 / BG 贪心短期最优（均不含 LLM）
+  fc_baselines.py      ★ 无 Agent 对照。**主线只用 B2 一维缩放**（唯一决策变量，不含 LLM）;
+                       B4 等预算随机 / BG 贪心短期 2026-09-06 退役，代码仍在但 --method 默认 B2
   run_coarse_queue.sh  ★ 三臂批次驱动：交错随机化、按内容指纹跳过已完成，可反复调用补样本量
 
 经济

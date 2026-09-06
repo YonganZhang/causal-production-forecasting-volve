@@ -12,7 +12,7 @@ tracked_paths_hint:
 - _code/fc_team_loop.py
 - _code/fc_team_proxy.py
 - _code/fc_team_ablate.py
-last_verified_hash: 1d4a54c15629cb55188e4b0f4ec31c8a53f49bac8b1346e8581480a9f1170771
+last_verified_hash: 3ef92fb2b42d4485978d6cdb584460bb56aa7c6c16b9979c70ce559ba8e373ca
 validator_version: 1
 ---
 
@@ -203,6 +203,22 @@ B2/D2/S/T/U/V/W/X/Y 迭代已归档到 `_legacy/2026-09-06-batches-A2-E2-superse
 
 ### 主对照用哪条基线
 
-主表用 **B2 一维缩放**(唯一决策变量,最朴素)。但报告**必须同时列出**
-B4 等预算随机与 BG 贪心短期:BG 是三条里最强的(+293.5M),
-只报 B2(+62.6M)会让智能体优势虚高 4 倍以上。这条由测试强制。
+**唯一对照 = B2 一维缩放**:所有注水井、所有时段乘同一个数,只有一个旋钮。
+
+B4 等预算随机(+247.0M)与 BG 贪心短期(+293.5M)于 2026-09-06 **退役**
+(用户裁定),数据在 `_legacy/2026-09-06-baselines-B4-BG-retired/`。
+`test_single_nonllm_baseline_is_uniform_scaling` 守住"对照唯一"——
+多一条对照就是换了一个实验,结论不可直接沿用。
+
+我曾主张保留 BG 一行(智能体用 1/11 预算赢它 67.7M,p=2.2e-03),
+被用户两次明确否决;反对意见完整记录在归档 README 里,以备审稿人追问。
+
+### 真模拟器预算是主线证据
+
+代理模型的价值就是**省真模拟**。报告必须带这一列:
+
+    Agent Team   每次实验 2.7 次 OPM Flow
+    单 Agent              2.6 次
+    一维缩放                7 次
+
+`test_sim_budget_is_reported` 守这一条。

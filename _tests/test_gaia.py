@@ -66,15 +66,28 @@ def test_only_canonical_batch_is_active():
     assert live == {f"{gaia.BATCH}full7"}, f"三臂对比目录里混有非正式批次: {live}"
 
 
-def test_all_nonllm_baselines_reported():
-    """强基线不得被藏起来:报告必须同时列出三条非 LLM 基线。"""
-    txt = gaia.report()
-    for k in ("B2", "B4", "BG"):
-        assert gaia.label(k) in txt, f"报告漏掉了非 LLM 基线 {k}"
+def test_single_nonllm_baseline_is_uniform_scaling():
+    """无 Agent 对照唯一,且必须是一维缩放。
+
+    2026-09-06 用户裁定:B4 等预算随机与 BG 贪心短期退出主线对比。
+    退役数据在 _legacy/2026-09-06-baselines-B4-BG-retired/,不得悄悄回流 ——
+    多一条对照就是换了一个实验,结论不可直接沿用。
+    """
+    d = json.loads(gaia.NONLLM_JSON.read_text())
+    assert set(d["arms"]) == {"B2"}, f"无 Agent 对照不唯一: {sorted(d['arms'])}"
+    assert gaia.NONLLM_MAIN == "B2"
+    assert gaia.label("B2") in gaia.report()
     s = gaia.summary()
-    strongest = max(s["nonllm_all"].values(), key=lambda v: v["mean"])
-    assert strongest["mean"] <= s["arms"]["full7"]["mean"], \
-        "Agent Team 未打赢最强的非 LLM 基线 —— 结论不成立,不是报表问题"
+    assert s["nonllm"]["mean"] < s["arms"]["full7"]["mean"], \
+        "Agent Team 未打赢一维缩放 —— 结论不成立,不是报表问题"
+
+
+def test_sim_budget_is_reported():
+    """真模拟器调用次数是主线证据(代理的价值在于省它),必须出现在报告里。"""
+    for k in gaia.ARMS:
+        b = gaia.arm(k)["sim_budget"]
+        assert 0 < b < 100, f"{k} 的模拟预算异常: {b}"
+    assert "真模拟" in gaia.report()
 
 
 def test_arms_are_balanced():

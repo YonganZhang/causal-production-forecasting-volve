@@ -42,7 +42,10 @@ BATCH = "F2"
 #: 三个对照臂。``full7`` = Agent Team,``one1`` = 单 Agent,``B2`` = 无 Agent。
 ARMS = ("full7", "one1")
 
-#: 无 Agent 主基线 —— 一维缩放(全井全阶段同一乘子,唯一决策变量)。
+#: 无 Agent 对照 —— 一维缩放:全井全阶段同一乘子,唯一决策变量。
+#: 🔴 **这是唯一的无 Agent 对照。** B4 等预算随机与 BG 贪心短期已于 2026-09-06
+#: 退役(用户裁定),数据与反对意见记录在
+#: _legacy/2026-09-06-baselines-B4-BG-retired/。不要再把它们加回主线。
 NONLLM_MAIN = "B2"
 
 C_INJ, C_PROD = 2.0, 1.0          # 注水 / 采出水处理成本 USD/bbl
@@ -57,8 +60,6 @@ _LABEL = {
     "full7": "Agent Team",
     "one1": "单 Agent",
     "B2": "无 Agent(一维缩放)",
-    "B4": "无 Agent(等预算随机)",
-    "BG": "无 Agent(贪心短期)",
 }
 
 
@@ -114,6 +115,10 @@ def arm(name: str, batch: str = BATCH) -> dict:
     runs = _runs(name, batch)
     best = np.array([max(r["traj"]) for r in runs])
     up = sum(1 for r in runs if r["traj"][-1] >= r["traj"][0])
+    budget = []
+    for f in sorted(LOOP_DIR.glob(f"loop_{batch}{name}_*.json")):
+        d = json.loads(f.read_text())
+        budget.append(sum(len(r.get("adjudicated") or {}) for r in d["rounds"]))
     tilts = [_tilt(np.load(f)["theta"]) for f in sorted(SIM_DIR.glob(f"team_{batch}{name}*.npz"))]
     tilts = [t for t in tilts if np.isfinite(t)]
     return {
@@ -126,6 +131,7 @@ def arm(name: str, batch: str = BATCH) -> dict:
         "sd": float(best.std(ddof=1)) if len(best) > 1 else 0.0,
         "best": float(best.max()) if len(best) else float("nan"),
         "values": best.tolist(),
+        "sim_budget": float(np.mean(budget)) if budget else float("nan"),
         "closed_loop_up": up,
         "closed_loop_total": len(runs),
         "tilt": float(np.mean(tilts)) if tilts else float("nan"),
@@ -175,8 +181,7 @@ def summary(batch: str = BATCH) -> dict:
         "water_price": {"c_inj": C_INJ, "c_prod": C_PROD},
         "rate": RATE,
         "arms": arms,
-        "nonllm_main": ref,
-        "nonllm_all": {k: nonllm(k) for k in ("B2", "B4", "BG")},
+        "nonllm": ref,
         "tests": tests,
     }
 
@@ -186,21 +191,17 @@ def report(batch: str = BATCH) -> str:
     L = [
         f"基准 NPV@8% = {s['baseline_npv_musd']:.1f} M$"
         f"    水价 {C_INJ}/{C_PROD}    批次 {batch}    ΔNPV 越高越好",
-        "=" * 74,
-        f"{'臂':<22s}{'n':>4s}{'均值':>10s}{'中位':>10s}{'sd':>8s}{'最好':>10s}{'tilt':>8s}",
-        "-" * 74,
+        "=" * 76,
+        f"{'臂':<22s}{'n':>4s}{'均值':>10s}{'中位':>10s}{'sd':>8s}{'最好':>10s}{'真模拟/次':>10s}",
+        "-" * 76,
     ]
     for k in ARMS:
         a = s["arms"][k]
         L.append(f"{a['label']:<22s}{a['n']:>4d}{a['mean']:>+9.1f}M{a['median']:>+9.1f}M"
-                 f"{a['sd']:>8.1f}{a['best']:>+9.1f}M{a['tilt']:>+8.3f}")
-    r = s["nonllm_main"]
-    L.append(f"{r['label']:<22s}{r['n_sim']:>4d}{r['mean']:>+9.1f}M{'':>10s}{'':>8s}{'':>10s}{'不含 LLM':>8s}")
-    L += ["-" * 74, "其余非 LLM 基线(未作主对照,列此以免藏基线):"]
-    for k in ("B4", "BG"):
-        n = s["nonllm_all"][k]
-        L.append(f"    {n['label']:<26s}{n['n_sim']:>3d} 次模拟{n['mean']:>+9.1f}M")
-    L += ["=" * 74, "", "检验:"]
+                 f"{a['sd']:>8.1f}{a['best']:>+9.1f}M{a['sim_budget']:>10.1f}")
+    r = s["nonllm"]
+    L.append(f"{r['label']:<22s}{'':>4s}{r['mean']:>+9.1f}M{'':>10s}{'':>8s}{'':>10s}{r['n_sim']:>10d}")
+    L += ["=" * 76, "", "检验:"]
     t = s["tests"]
     if "team_vs_one" in t:
         v = t["team_vs_one"]
