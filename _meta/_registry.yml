@@ -841,6 +841,28 @@ entrypoints:
       按内容指纹跳过已完成的重复,可安全反复调用补齐样本量。
       批次前缀在脚本头部;改前缀等于开新批次,旧批次须先归档。
 
+
+  - id: fc_paper_figs
+    path: _code/fc_paper_figs.py
+    kind: script
+    status: active
+    run: "python _code/fc_paper_figs.py"
+    desc: |
+      论文正文图 Fig. 2-5。数据一律经 gaia / rank.json 读取,不在此重算任何口径。
+      Fig.2 代理保真度(随机域 vs 优化区);Fig.3 三臂 + 真模拟预算;
+      Fig.4 闭环轨迹;Fig.5 tilt 调度倾向。输出 _figures/paper/。
+  - id: fc_paper_check
+    path: _code/fc_paper_check.py
+    kind: test
+    status: active
+    run: "python _code/fc_paper_check.py"
+    desc: |
+      🔴 论文正文数字核对。把 04_results.md / 03_methods.md 里每个数字回连到真源,
+      对不上直接非零退出。当前 48 个数字 + 4 条定性关系。
+      新增正文数字必须同步加一行 —— 这是"正文不得出现未核数字"的执行点。
+      已抓到一次真实错误:井影响排序正文写 F-1H>F-3H>F-2H、F-4H=2.81,
+      实测为 F-1H 8.57>F-2H 6.22>F-3H 6.06>F-4H 1.76。
+
 cross_domain_edges:
   - from: main
     to: 师弟-军伟的比赛-2693e5

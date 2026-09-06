@@ -79,6 +79,13 @@
 !/_legacy/**/README.md
 /_legacy/**/volve_causal_v0.1/
 
+# 论文正文与正文图
+!/_paper/
+!/_paper/**
+!/_figures/
+!/_figures/paper/
+!/_figures/paper/**
+
 # 大文件与派生物不进 git
 _outputs/
 __pycache__/
