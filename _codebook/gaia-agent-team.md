@@ -12,7 +12,7 @@ tracked_paths_hint:
 - _code/fc_team_loop.py
 - _code/fc_team_proxy.py
 - _code/fc_team_ablate.py
-last_verified_hash: 3ef92fb2b42d4485978d6cdb584460bb56aa7c6c16b9979c70ce559ba8e373ca
+last_verified_hash: 062b04498dd31c79a188114cc4580ffa99085132b8b10b1e1ff399883ab3f84e
 validator_version: 1
 ---
 
@@ -222,3 +222,48 @@ B4 等预算随机(+247.0M)与 BG 贪心短期(+293.5M)于 2026-09-06 **退役**
     一维缩放                7 次
 
 `test_sim_budget_is_reported` 守这一条。
+
+## Gaia SDK 与论文图(2026-09-06)
+
+框架现在有可运行的参考实现和一键出图:
+
+    python -m gaia_sdk            # 14 个 Agent / 5 层的自述(在 _code/ 下运行)
+    python -m gaia_sdk --json     # 关键实测事实,机器可读
+    python _code/fc_paper_figs.py # 论文 Fig. 1-6 全部重画
+    python _code/fc_paper_check.py# 正文数字 + 禁语闸门
+
+### 五层与权限
+
+| 层 | Agent | 权限 |
+|---|---|---|
+| L1 数据 | data_engineer, cartographer | 产出并自报可信度(条件数 2.05) |
+| L2 知识 | knowledge_curator | **离线跑一次**,产出被各次实验原样消费 |
+| L3 推理 | 7 领域角色 + synthesizer | 有推理,**无否决权** |
+| L4 评估 | surrogate, feasibility_auditor | 有速度,**无赋值权**;闸门是算术不是 LLM |
+| L5 裁决 | OPM Flow | **唯一有赋值权**,不是 Agent |
+
+### 忠实性怎么守
+
+`_tests/test_gaia_sdk.py` 15 项。最关键的一条:SDK 生成的知识库与
+`fc_team_loop.slice_for` **逐字节比对**。另有"声称检索到的 DOI 必须真出现在
+角色文本里""deck 缺什么必须明说""每个 Agent 必须能追到既有实现"
+"知识层离线这一点必须写在 caveat 里"。
+
+### 知识层的三个来源与那条边界
+
+deck 审计(有 PERMX/PORO,**无 GEOMECH/STRESS/YOUNGMOD/POISSON**)、
+本油田文献(Norne 4D 地震,只给标题+DOI)、领域知识库(petro-knowledge 11 模块
+→ 6 条通用水驱规则,经 SHARED_BG 注入全部角色)。
+
+🔴 **规则 / 答案边界**,判据一句话:**这句话不解题能不能写出来?**
+
+    ✅ "含水率上升前注入的水驱油效率最高"
+    ❌ "最好的 θ 是 +0.62 +0.62 …"
+
+有实测:三批曾把最优 θ 实例表写进提示词的实验成绩 +200.3/+401.2/+505.3 M$,
+最高比干净配置(+361.3)高约 40%。那三批已作废,只用于量化泄露幅度。
+
+### fc_team_proxy 的一处重构
+
+抽出 `trajectories()` 返回 (B, n_well, 2, T);`evaluate()` 改为调它。
+绘图与筛选共用同一份反归一化,避免"同一个量两套算法"。
