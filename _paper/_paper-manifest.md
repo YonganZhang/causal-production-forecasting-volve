@@ -41,8 +41,20 @@ deep-learning upscaling），但**未检索到 LLM/智能体类论文** —— �
 | _claim_evidence_map.md | ✅ | 12 条 claim + 允许措辞 + 边界 |
 | _method_results_alignment.md | ✅ | 方法↔结果逐条对应 |
 | Fig. 2–5 | ✅ `_figures/paper/` | Fig. 1 框架示意图**待画** |
-| 06_conclusion.md / 05_discussion.md | 🔴 旧主线，待重写 | 下一步 |
-| Introduction / Abstract / Title | 未开始 | 按证据优先顺序，最后写 |
+| 05_discussion.md | ✅ 已按 v3 重写 | 5 节：筛选/决策边界 → 裁定改变了什么 → 收益从哪来 → 角色消融 → 证据边界 |
+| 06_conclusion.md | ✅ 已按 v3 重写 | 问题→证据→影响→局限→三个方向 |
+| _figure_plan.md | ✅ | 每张图画什么（含 Fig.1 版面），暂不绘制 |
+| Introduction / Abstract / Title | 🟡 **草稿待拍板** | `_DRAFT_intro_abstract_title.md`；按合同，主线未确认不得定稿 |
+
+## 🔴 主线变更待确认（storyline v3 proposed）
+
+核心贡献从「多角色智能体框架」改为「代理的筛选/决策边界 + 由此推出的物理裁定闭环」，
+多角色降为消融证据。**这是大版本变更，需用户拍板**，三个候选见
+`_wiki-methodology/_wiki/paper-storyline/v3-proposed.md`。
+
+原因：① 七角色相对单角色未检出差异（p=0.63），以它为核心贡献等于把主张压在
+检不出来的差异上；② 代理筛选/决策边界（ρ 0.998 → −0.21）证据极硬，且它**决定了
+框架为什么必须长成现在这样**。
 
 ## 正文主线（一句话）
 

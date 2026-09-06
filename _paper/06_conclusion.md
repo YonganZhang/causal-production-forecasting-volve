@@ -1,26 +1,51 @@
 # 6. Conclusion
 
-We presented a decision framework for waterflood scheduling in which a parametric operator
-surrogate serves as a fast stand-in for the reservoir simulator, domain roles propose and
-cross-examine schedules from separate data slices under a provenance-carrying message protocol, a
-programmatic feasibility check rejects unexecutable proposals, and a full-physics simulator retains
-sole authority over value. Realised outcomes return to each role within its own data domain,
-closing the loop for every participant rather than for the synthesizer alone.
+High-dimensional, multi-period waterflood scheduling requires many expensive full-physics
+evaluations, and learned surrogates are the standard route to affording them. We asked what a
+surrogate may and may not be trusted to do inside such a decision loop, and built the framework
+that the answer implies.
 
-On the Norne model the surrogate attains 0.369 % field-level error at 18.1 µs per candidate,
-approximately 3.3 × 10⁶ times faster than simulation, and its error against adjudicated outcomes
-stays within ±1.3 % in the loop. Role structure reduces the dispersion of realised value
-significantly (Levene p = 0.001 and p = 0.002 against an unstructured baseline) without a
-resolvable change in mean, and the number of roles is immaterial (p = 0.667): the distinction that
-matters is whether role structure is present, not how much of it there is. This reliability is
-purchased at 7.5 times the language-model cost.
+The answer is that a surrogate qualified by conventional validation can screen but cannot decide.
+On 500 independently sampled schedules our operator surrogate reproduced the simulator's ranking
+at Spearman ρ = 0.998 with a top-1 hit rate of 1.0 and a field-level error of 0.369 %, at
+18.1 µs per candidate against approximately one minute per simulation. On the ten schedules
+produced by optimising against that same surrogate, its ranking carried no usable signal
+(ρ = −0.21), its first choice was the simulator's last, and the candidate it selected was the one
+it overestimated most — by a factor of 10.6 against a shortlist median of 1.66, with predicted
+value and own error correlated at r = 0.97. Two controls placed the cause in the optimiser rather
+than in top-*k* selection.
 
-Two findings constrain how such systems should be evaluated. Effective control freedom is far
-smaller than nominal control freedom — target injection rates span a factor of 430 while realised
-rates saturate — so optimisation and attribution must be expressed in realised quantities. And
-ablations of language-model systems are uninterpretable without first measuring repeatability: at
-the dispersion observed here, single-run ablation tables invert under additional repeats.
+Building on that boundary, we organised surrogate screening, multi-role agent proposal, an
+arithmetic feasibility gate and full-physics adjudication into a closed loop in which the
+simulator alone assigns value. On the Norne field model the loop produced simulator-verified
+improvements of +361.3 M US$ (seven-role team) and +347.4 M US$ (single role) in NPV at 8 %
+against the historical schedule, compared with +62.6 M US$ for one-dimensional uniform scaling,
+using 2.7 and 2.6 full-physics evaluations per run against 7 for the reference sweep. All twenty
+runs finished at or above their starting point. Decomposing the reasoning into seven specialised
+roles produced no detectable gain in mean performance over a single role (+13.8 M US$,
+p = 0.63), which locates the source of the improvement in the closed loop itself rather than in
+the number of roles. The accepted schedules concentrate on one interpretable direction — earlier
+rather than later injection (ρ = +0.714 on held-out random cases) — so the gain is legible to an
+operator rather than opaque.
 
-The immediate open question is whether reduced dispersion is attributable to role structure itself
-or to the additional deliberation that accompanies it; separating the two requires a budget-matched
-control that this study does not provide.
+The practical implication is a division of authority rather than a division of labour: learned
+models and language agents may generate and narrow the candidate set, and the physical model
+retains the right to assign value. Conventional surrogate validation, performed on independently
+sampled data, does not establish that a surrogate is safe to decide with, because it does not test
+it on the candidates an optimiser will actually produce.
+
+These results are bounded. The reference strategy is intentionally constrained rather than a
+state-of-the-art optimiser, and the comparison against it does not separate agent reasoning from
+the enlarged decision space. Ten repetitions per arm cannot establish equivalence between the
+agent arms. All evidence comes from one field, one surrogate architecture and one economic
+setting, and Norne's production history has already occurred, so the economic figures are
+counterfactual evaluations inside a validated model rather than realised outcomes. No human expert
+baseline was run.
+
+Three directions follow directly. First, testing whether the screening–decision gap of §4.1
+reproduces across surrogate architectures and fields would establish whether it is a property of
+this model or of surrogate-assisted optimisation generally. Second, benchmarking the loop against
+conventional derivative-free optimisers under a matched full-physics budget would convert the
+efficiency observation into a claim about sample efficiency. Third, the adjudication rule that
+weighs assertions by evidence type changed the loop's direction in this study; making that rule
+explicit and testable is, we think, more promising than adding further reasoning roles.

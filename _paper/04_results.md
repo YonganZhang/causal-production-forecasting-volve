@@ -46,16 +46,26 @@ Both agent arms exceed the no-agent control by a wide margin: +298.6 M US$ for t
 (95 % CI [+262.4, +334.9], p = 1.7 × 10⁻⁸) and +284.8 M US$ for the single agent
 (95 % CI [+232.7, +337.0], p = 6.0 × 10⁻⁷).
 
+Two factors change together between the agent arms and this control, and the comparison does not
+separate them: the presence of an agent, and the expansion of the decision space from one
+dimension to twenty-four. The result therefore establishes that the framework produced
+substantially better simulator-verified schedules than the prescribed low-dimensional reference,
+not that agent reasoning alone accounts for the gain. §5.5 states this boundary explicitly.
+
 The gap is not bought with simulator time. Each agent run consumed 2.7 (team) and 2.6 (single)
 full-physics evaluations on average, against 7 for the uniform sweep (Fig. 3b) — a 5.8-fold larger
 gain for roughly 40 % of the simulator budget. This is the operationally relevant comparison: in
 this setting the cost of a decision is measured in full-physics runs, and the surrogate's role is
 precisely to reduce that count.
 
-## 4.3 The closed loop improves monotonically and does not diverge
+## 4.3 The closed loop ends above where it started, in every run
 
-Across all 20 runs the final adjudicated result equals or exceeds the first (20/20; Fig. 4). No
-run ended below its own starting point, and no run ended below the no-agent control. The
+Across all 20 runs the final adjudicated result equals or exceeds the first (20/20; Fig. 4), and
+no run ended below the no-agent control. The progression is not monotone round by round: in three
+of the twenty runs the last adjudicated candidate fell below the run's own best (e.g. 325.1 →
+389.6 → 382.0 M US$), so 17 of 20 runs are non-decreasing at every step. We therefore report
+**consistent end-to-end improvement**, not monotone improvement; these are different claims and
+only the former is supported. The
 programmatic feasibility gate rejected candidates in every arm; rejected candidates are excluded
 from the scores above, so the reported gains are attained by schedules the simulator itself
 confirmed to be executable within the injection tolerance.
