@@ -6,12 +6,12 @@
 
 创建：2026-08-06。真源：本文件。总索引：`_wiki-methodology/_README.md`。
 
-🧭 当前 [P4] task=[P4.19] 对等化后的三臂定稿对比(每臂 8 次)
+🧭 当前 [P4] task=[P4.20] 对等化后的三臂定稿对比(每臂 8 次)
 > Done Criteria: 每臂 8 次跑完;三臂差别只剩「有无 Agent、有几个」;结论只基于可分辨的检验
 
 ## Current Coordinate
 - Goal: 把 Gaia 注水决策智能体框架做成可发表方法（代理当模拟器替身 + 多角色决策 + 模拟器裁定 + 因果规律），Norne 为 case study
-- Current Task: P4.19
+- Current Task: P4.20
 - Next Task: P4.12
 - Latest learning: 45 条审计发现归并为 5 类缺陷;逐条打补丁修不完，必须按类修并配结构性防线。判据是「这条信息是否只有解完题之后才写得出来」与「这个量在项目里是否只有一种算法」
 - Blocker: none
@@ -31,11 +31,16 @@
 - [x] P4.11 按新主线重写 Methods 与 Results · dep=P4.10 · scope=path:_paper/03_methods.md · scope=path:_paper/04_results.md · ev=path:_paper/03_methods.md · ev=path:_paper/04_results.md
 - [x] P4.17 清除实例表泄露 + 用文献规则替代 + 无Agent改为平凡基线 · ev=path:_pipelines/fc_baselines/baselines_v2.json
 - [x] P4.18 Workflow 五维审计后按类修复(5 类缺陷 + 7 项类层防线) · ev=path:_tests/test_truth.py
-- [ ] P4.19 三臂定稿对比(F2 批次,每臂 10 次)+ 结果接口化与旧批次归档 · state=in_progress · dep=P4.18 · scope=path:_code/run_coarse_queue.sh · scope=path:_code/gaia.py · scope=path:_meta/_registry.yml · scope=path:_meta/_data_registry.yml · scope=path:_pipelines/gaia_decision.yml · gate=path:_tests/test_truth.py · gate=path:_tests/test_gaia.py
+- [x] P4.19 三臂定稿对比(F2 批次,每臂 10 次)+ 结果接口化与旧批次归档 · dep=P4.18 · scope=path:_code/run_coarse_queue.sh · scope=path:_code/gaia.py · scope=path:_meta/_registry.yml · scope=path:_meta/_data_registry.yml · scope=path:_pipelines/gaia_decision.yml · gate=path:_tests/test_truth.py · gate=path:_tests/test_gaia.py · ev=_paper/0*.md 七节;_figures/paper/fig2-6;_code/gaia.py+gaia_sdk;_tests 58 项;fc_paper_check 44 数字全绿
 - [ ] P4.12 补 Discussion / Conclusion / Intro / Abstract · dep=P4.11 · scope=path:_paper
 - [ ] P4.13 补 n=12 坐实方差主张（目前唯一显著项） · state=blocked · dep=P4.10 · scope=path:_code/run_coarse_queue.sh · gate=path:_pipelines/fc_team/coarse_T.json · reason=根因是专家层闭环断裂(见 _findings/2026-09-02-专家闭环断裂.md)；在断裂状态下补 n=12 无意义，改由 P4.14 在修复后重跑
 - [x] P4.14 修复专家层闭环断裂后重跑三臂对比 · dep=P4.10 · scope=path:_code/fc_team_loop.py · scope=symbol:slice_for · gate=path:_pipelines/fc_team/coarse_U.json · ev=path:_pipelines/fc_team/ablation_final.json
 - [x] P4.16 补齐时间/水量/油价真实单位后的三臂定稿对比 · state=cancelled · reason=该批次角色切片与总工提示词含已知最优解，属数据泄露，结论作废(见 _findings/2026-09-04-实例表数据泄露.md) · dep=P4.15 · scope=path:_code/fc_team_loop.py · scope=symbol:concrete_table · gate=path:_pipelines/fc_team/ablation_final.json
+- [ ] P4.20 E1 证伪实验:删 4D 地震 n=30,检验「越界给硬数字」解释 · state=in_progress · scope=path:_code/run_falsify.sh · gate=path:_code/gaia_ablate.py
+- [x] P4.21 S1 图一走 pptx-gen/FAL 出图并按验收清单检查 · scope=path:_paper/_fig1_spec.json · ev=_figures/paper/fig1_architecture.png 5504x3072 4K;_paper/_fig1_spec.json;registry:fig1_spec
+- [ ] P4.22 S2 论文结构改 7→6 角色 + 角色证据自标定 · dep=P4.20 · scope=path:_paper
+- [ ] P4.23 S3 E1 出结果后一次性刷新全部数字并重画 Fig.2-6 · dep=P4.20 · gate=path:_code/fc_paper_check.py
+- [ ] P4.24 S4 三表+引文+禁语闸门+六合一 closeout+推送 · dep=P4.23
 
 ## 两个方向（各自独立，不互为引言）
 

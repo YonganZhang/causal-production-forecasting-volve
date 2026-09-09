@@ -1,0 +1,232 @@
+{
+ "incumbent_npv8": null,
+ "incumbent_theta": null,
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7898774.723365766,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "tilt_beyond_validated_range",
+     "detail": "最高档tilt[0.30,0.60)超出geomechanics仅验证过的±0.3(2x)安全区间,该压裂风险不在硬约束覆盖范围,建议模拟前复核实际压力"
+    },
+    {
+     "severity": "medium",
+     "code": "f4_dummy_lever_attribution",
+     "detail": "F4大幅theta调整因BHP截断本质空转(constraint_auditor两轮确认),经济分归因仍将其列为优势点,需核实增益真实来源"
+    },
+    {
+     "severity": "medium",
+     "code": "no_sim_this_round",
+     "detail": "本轮无模拟结果,所有数字均来自代理预测;得分最高且用激进tilt档的候选#2尤其缺乏实测验证"
+    },
+    {
+     "severity": "low",
+     "code": "missing_well_level_targeting",
+     "detail": "production_surveillance按井筛选(减B-3H/E-1H、增K-3H/D-3BH/B-2H方向)未见任一候选理由采纳,普遍仍按时段统一四井"
+    },
+    {
+     "severity": "low",
+     "code": "unverified_front_arrival_f2",
+     "detail": "F2/F3早期增幅未回应seismic_4d_analyst对E-2AH/E-3CH前缘可能已到达的风险,若已到达即F4式空转"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.3499999940395355,
+    0.44999998807907104,
+    0.4000000059604645,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.4000000059604645,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.10000000149011612,
+    0.15000000596046448,
+    0.15000000596046448,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.25,
+    -0.30000001192092896,
+    -0.25,
+    -0.20000000298023224,
+    -0.30000001192092896,
+    -0.3499999940395355,
+    -0.30000001192092896,
+    -0.20000000298023224
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 8652424.873964865,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "outlier_unvalidated_gain",
+     "detail": "候选#1产油增幅15.5%远超其余候选(6-7%区间)，但注水仅+8.8%，效率跳变反常；本轮无模拟验证，疑似代理模型外推失真"
+    },
+    {
+     "severity": "high",
+     "code": "window_misattribution",
+     "detail": "候选#1声称'2010-14高价窗口'，但reservoir_engineer二轮明确要求tilt集中最早期(近2007)而非该窗口，且该窗口含水率已达93%边际收益极低，理由与油藏物理证据矛盾"
+    },
+    {
+     "severity": "medium",
+     "code": "flooded_well_risk_ignored",
+     "detail": "候选#1在F1/F3峰值倍数打水，但F1是B-3H/E-1H(已水淹96-98%含水)的最强驱动源之一，候选理由未提及规避水淹井风险，与connectivity_analyst警示脱节"
+    },
+    {
+     "severity": "medium",
+     "code": "theta_injection_mismatch_global",
+     "detail": "constraint_auditor实测显示F1H/F2H/F3H目标theta达成率113%-124%(非仅F4空转)，说明theta→实际注水量映射对全部候选系统性失真，所有候选的注水比/经济分都建立在此偏差假设上"
+    },
+    {
+     "severity": "medium",
+     "code": "below_baseline_production",
+     "detail": "候选#4预测累计产油7,290,220低于基准7,493,840，即便注水降至85.1%也未能守住基准产量，属于减注过度、价值净损失的候选，需与基准对比复核"
+    },
+    {
+     "severity": "medium",
+     "code": "minority_view_reliance",
+     "detail": "候选#3对F4保留小窗口的依据仅来自conf=0.50的production_surveillance，而conf更高的constraint_auditor(0.85)/connectivity_analyst(0.55)/economics_analyst(0.45)均判定F4增益系伪归因，候选未说明如何权衡这一置信度落差"
+    },
+    {
+     "severity": "low",
+     "code": "no_simulation_this_round",
+     "detail": "全部候选本轮均无模拟结果，纯代理模型预测；经济分排序(尤其候选#1领先)未经模拟器复验前不应作为最终依据"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [
+    1
+   ],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.20000000298023224,
+    0.15000000596046448,
+    0.10000000149011612,
+    0.0,
+    0.30000001192092896,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.0,
+    0.44999998807907104,
+    0.30000001192092896,
+    0.3499999940395355,
+    0.0,
+    0.4000000059604645,
+    0.25,
+    0.30000001192092896,
+    0.0,
+    -0.20000000298023224,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    0.0,
+    -0.25,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    0.0
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 8237911.671625603,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "expert-infeasible-verdict",
+     "detail": "constraint_auditor(conf0.85)明确判候选#1'不可行'——无模拟验证且忽略F-1H水淹风险;economics/reservoir_engineer同时质疑其2010-14窗口边际余量仅5-7pp,经济逻辑不成立"
+    },
+    {
+     "severity": "high",
+     "code": "pareto-dominated-inconsistent",
+     "detail": "候选#3被#0/#1/#2/#4在产油+注水+经济分三维全面碾压(score最低1956,注水107.7%全场最高);且'早期集中后快速回落基准'的叙述与总注水量反超基准7.7%自相矛盾"
+    },
+    {
+     "severity": "medium",
+     "code": "misattributed-rationale",
+     "detail": "候选#2(最高分)理由'压低F1全周期'实为整口井减注,但connectivity_analyst二轮结论明确'不采纳F-1H整体减注'(F1是K-3H/D-3BH/B-4DH/D-1CH/D-2H/B-2H等6口好井最强通道),该2110M分数可能因此高估"
+    },
+    {
+     "severity": "medium",
+     "code": "dominated-by-4",
+     "detail": "候选#5注水97.7%≈候选#4的99.6%(几乎同等保守),但产油(8,114,634)和经济分(2041)均低于#4(8,152,033/2059),其'规避外推风险'的保守定位未带来实际优势"
+    },
+    {
+     "severity": "medium",
+     "code": "no-sim-validation",
+     "detail": "本轮全部候选均无模拟结果验证,产油/注水/经济分均为代理模型预测;候选#2的领先优势(尤其是全周期压F1带来的高分)在无实测复核前不宜视为定论"
+    },
+    {
+     "severity": "low",
+     "code": "producer-injector-mapping-ambiguity",
+     "detail": "候选#4引用'F2/F3含水90-91%仍有余量'但production_surveillance/economics_analyst的余量数据实为K-3H/D-3BH/B-2H等生产井指标,未明确证实F2/F3注水与这些生产井的直接对应关系"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [
+    1,
+    3
+   ],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.20000000298023224,
+    0.6000000238418579,
+    0.5,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.5,
+    0.4000000059604645,
+    0.10000000149011612,
+    0.0,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.0,
+    -0.10000000149011612,
+    0.20000000298023224,
+    0.10000000149011612,
+    0.0,
+    -0.30000001192092896,
+    0.10000000149011612,
+    -0.10000000149011612,
+    0.0,
+    -0.5,
+    0.0,
+    -0.20000000298023224,
+    0.0
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer",
+  "connectivity_analyst",
+  "production_surveillance",
+  "economics_analyst",
+  "geomechanics_expert",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "dropped": [],
+ "model": "sonnet",
+ "llm_calls": 49,
+ "llm_prompt_chars": 191393,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

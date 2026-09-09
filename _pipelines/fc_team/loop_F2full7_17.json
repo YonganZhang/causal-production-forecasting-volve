@@ -1,0 +1,295 @@
+{
+ "incumbent_npv8": 2110114910.5107775,
+ "incumbent_theta": [
+  0.5,
+  0.44999998807907104,
+  0.4000000059604645,
+  0.0,
+  0.5,
+  0.44999998807907104,
+  0.4000000059604645,
+  0.0,
+  0.25,
+  0.20000000298023224,
+  0.15000000596046448,
+  0.0,
+  -0.15000000596046448,
+  -0.15000000596046448,
+  -0.10000000149011612,
+  0.0,
+  -0.44999998807907104,
+  -0.44999998807907104,
+  -0.3499999940395355,
+  0.0,
+  -0.5,
+  -0.5,
+  -0.4000000059604645,
+  0.0
+ ],
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7710702.495620886,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "unvalidated-ranking-within-noise",
+     "detail": "仅候选#5经模拟器验证;其余5个预测经济分差距仅3-59M$,小于#5已验证的+0.84%产量高估幅度,排序可能落在代理误差带内"
+    },
+    {
+     "severity": "medium",
+     "code": "stale-refuted-premise",
+     "detail": "候选#2依赖connectivity_analyst'F-4H减注挪水给F-1H/F-3H',但constraint_auditor已用0.85置信度实测证明F-4H受BHP截断无富余水量可腾挪,该理由已失效"
+    },
+    {
+     "severity": "medium",
+     "code": "against-consensus-weak-justification",
+     "detail": "候选#4注水量112.3%超基准,唯一逆向而行,违背economics_analyst(两轮维持)与reservoir_engineer对段5/6减注的共识,理由仅'规避未知风险'缺乏证据,且预测经济分最低"
+    },
+    {
+     "severity": "low",
+     "code": "low-confidence-source-driver",
+     "detail": "候选#3核心逻辑'少压F-1H留余量、倚重F-2H/F-3H'主要采纳production_surveillance(conf=0.35,全场最低)的意见,证据强度偏弱"
+    },
+    {
+     "severity": "low",
+     "code": "geomech-margin-unaddressed",
+     "detail": "候选#1逼近tilt[+0.3,+0.6)高分箱,但geomechanics_expert二轮明确要求F-1H(已超调113%)额外留压力安全边际(+0.3~+0.4量级),候选理由未提及是否遵守该上限"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "5": {
+     "npv0": 2438253579.18375,
+     "npv2": 2332624295.7852283,
+     "npv8": 2067975224.2932544,
+     "npv15": 1834277235.7080417,
+     "oil": 7646680.0,
+     "oil_3y": 4677887.8644067785,
+     "winj": 79166944.0,
+     "wprd": 76861280.0,
+     "water_inj": 79166944.0,
+     "water_dev": -0.15718303237598175,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    0.8372587269362075
+   ],
+   "best_theta": [
+    0.44999998807907104,
+    0.4000000059604645,
+    0.3499999940395355,
+    0.0,
+    0.44999998807907104,
+    0.4000000059604645,
+    0.3499999940395355,
+    0.0,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.05000000074505806,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.3499999940395355,
+    -0.3499999940395355,
+    -0.30000001192092896,
+    0.0,
+    -0.4000000059604645,
+    -0.4000000059604645,
+    -0.3499999940395355,
+    0.0
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7816091.167385843,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "evidence-mismatch-112pct",
+     "detail": "constraint_auditor与economics_analyst均引'候选#4超基准112.3%/反对112.3%方案'，但候选#4自报注水仅为基准86.9%(降13%)，两者指代量不明，无法核实是否评审的是同一版本方案"
+    },
+    {
+     "severity": "medium",
+     "code": "unvalidated-ranking-within-noise",
+     "detail": "仅候选#4经模拟器实测，其余5个候选靠代理经济分排序，彼此差距<2%，落入已知代理高估(+0.97%~更高非线性放大)误差带内，排序不可靠"
+    },
+    {
+     "severity": "medium",
+     "code": "self-contradictory-rationale",
+     "detail": "候选#3以'F-1H全局枢纽易误伤健康井'为由削弱F-1H，但该论据正是connectivity_analyst二轮用来反对削弱F-1H的理由，候选方向与其引用证据的结论相反"
+    },
+    {
+     "severity": "low",
+     "code": "duplicate-evidence-reuse",
+     "detail": "候选#1与候选#4均以'tilt[0.30,0.60)分箱均值+238.5M$/spearman+0.714'为唯一支撑证据，却导向不同(维持vs延展)策略，疑似模板化引用未做差异化分析"
+    },
+    {
+     "severity": "low",
+     "code": "unproven-mitigation-logic",
+     "detail": "候选#5声称'等比例缩幅'可规避F1-3非线性超调放大风险，但constraint_auditor指出target到实际注入存在非线性正偏差，等比例缩减theta目标未必等比例缩减实际注入量，缓解逻辑未经验证"
+    },
+    {
+     "severity": "low",
+     "code": "weak-basis-blanket-approval",
+     "detail": "geomechanics_expert(conf=0.25，仅类比文献无本油藏实测)对任意theta+0.5给出'无证据反对'，被多候选默认当作力学安全背书，证据强度与被赋予的决策权重不匹配"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "4": {
+     "npv0": 2478763508.8751564,
+     "npv2": 2370257471.643224,
+     "npv8": 2097795334.692453,
+     "npv15": 1856783568.0743132,
+     "oil": 7741096.0,
+     "oil_3y": 4684157.333333332,
+     "winj": 80257024.0,
+     "wprd": 77926312.0,
+     "water_inj": 80257024.0,
+     "water_dev": -0.14557796246109922,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    0.9687926281477743
+   ],
+   "best_theta": [
+    0.5,
+    0.44999998807907104,
+    0.4000000059604645,
+    0.0,
+    0.5,
+    0.44999998807907104,
+    0.4000000059604645,
+    0.0,
+    0.25,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.0,
+    -0.10000000149011612,
+    -0.10000000149011612,
+    -0.05000000074505806,
+    0.0,
+    -0.3499999940395355,
+    -0.3499999940395355,
+    -0.30000001192092896,
+    0.0,
+    -0.4000000059604645,
+    -0.4000000059604645,
+    -0.3499999940395355,
+    0.0
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 7,
+   "n_cand": 7,
+   "proxy_best_oil": 7704721.53880217,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "single_point_verification",
+     "detail": "6候选仅#2实测,其余5个纯代理预测;候选间经济分差距(2151~2116,仅1.6%)小于#2已证实的+1.22%代理高估幅度,排序不可靠"
+    },
+    {
+     "severity": "medium",
+     "code": "f1h_hub_conflict",
+     "detail": "候选#3压低F-1H与connectivity_analyst(conf0.65,仿真)结论矛盾:F-1H总影响力8.57全局最强枢纽,不宜大幅削减,否则误伤K-3H/D-3BH/B-2H等受益井"
+    },
+    {
+     "severity": "medium",
+     "code": "tilt_exceeds_geomech_cap",
+     "detail": "候选#3明确'冲击更高tilt区间',超出geomechanics_expert建议的早期log10乘子≤0.4上限,该上限为类比性文献依据(conf0.25),缺本地压力实测支撑风险未评估"
+    },
+    {
+     "severity": "medium",
+     "code": "f4h_inert_accounting",
+     "detail": "constraint_auditor(conf0.85,仿真)指出F-4H目标θ受BHP下限截断基本空转,若候选注水量占比(81.5%~87.7%)计算未剔除F-4H无效目标,总量核算可能失真"
+    },
+    {
+     "severity": "low",
+     "code": "static_connectivity_staleness",
+     "detail": "候选#3的F-2H定向E-2AH/E-3CH依据静态连通系数,seismic_4d_analyst(conf0.20)质疑未核验前缘/接触面是否已越过该通道,分配依据可能过时"
+    },
+    {
+     "severity": "low",
+     "code": "score_basis_ambiguity",
+     "detail": "各候选'扣水成本后经济分'为代理预测绝对值,与#2实测ΔNPV=+336.7M$缺乏可核对的基准换算关系,审计链条不透明"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {
+    "2": {
+     "npv0": 2504055261.525781,
+     "npv2": 2391204236.48391,
+     "npv8": 2110114910.5107775,
+     "npv15": 1863827129.4132533,
+     "oil": 7611600.0,
+     "oil_3y": 4684157.333333332,
+     "winj": 75409520.0,
+     "wprd": 74124992.0,
+     "water_inj": 75409520.0,
+     "water_dev": -0.19718483794975394,
+     "budget_ok": true
+    }
+   },
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [
+    1.22341608600256
+   ],
+   "best_theta": [
+    0.5,
+    0.44999998807907104,
+    0.4000000059604645,
+    0.0,
+    0.5,
+    0.44999998807907104,
+    0.4000000059604645,
+    0.0,
+    0.25,
+    0.20000000298023224,
+    0.15000000596046448,
+    0.0,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.10000000149011612,
+    0.0,
+    -0.44999998807907104,
+    -0.44999998807907104,
+    -0.3499999940395355,
+    0.0,
+    -0.5,
+    -0.5,
+    -0.4000000059604645,
+    0.0
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer",
+  "connectivity_analyst",
+  "production_surveillance",
+  "economics_analyst",
+  "geomechanics_expert",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "dropped": [],
+ "model": "sonnet",
+ "llm_calls": 48,
+ "llm_prompt_chars": 193683,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

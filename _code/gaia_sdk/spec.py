@@ -54,11 +54,13 @@ SPECS: tuple[AgentSpec, ...] = (
     ),
     AgentSpec(
         id="domain_role", layer="L3 推理", backend="llm",
-        role="七个领域角色各读各的证据切片,先独立表态,再质疑分歧最大的同伴",
+        role="六个领域角色各读各的证据切片,先独立表态,再质疑分歧最大的同伴",
         reads="本角色专属知识库 + 上一轮实测在本域内的表现",
         emits="带 provenance 的类型化消息(agent_id, confidence, source_*)",
-        cost="实测 48.4 次 LLM 调用 / 实验,提示词 193k 字符",
-        caveat="没有可引用证据的角色**发不出合法消息** —— 由协议判定,不靠争论",
+        cost="实测约 42 次 LLM 调用 / 实验(六角色配置)",
+        caveat="没有可引用证据的角色**发不出合法消息** —— 由协议判定,不靠争论。"
+               "geomechanics_expert 已按消融裁定剔除:无本油藏实测却给硬上限,"
+               "自报置信度 0.29 vs 实测类 0.65。见 gaia_sdk.agents.EXCLUDED。",
         wraps=("fc_team.ROLES", "fc_team_loop.slice_for"),
     ),
     AgentSpec(

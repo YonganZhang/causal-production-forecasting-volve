@@ -44,13 +44,25 @@ C_PROXY, C_JUDGE, C_REF = "#0f8a5f", "#cf222e", "#d1a01f"
 C_ONE_GREY = "#7d8590"
 
 
-def _panel(ax, tag: str, title: str = "") -> None:
-    ax.set_title(f"({tag}) {title}" if title else f"({tag})", loc="left", fontweight="bold")
+def _panel(ax, tag: str, _note: str = "") -> None:
+    """panel 标签:**不带括号的粗体小写字母**,不写标题。
+
+    🔴 share-sci-plot 硬不变量 3:SCI 图不放主标题或描述性子标题
+    (禁 plt.title / set_title / suptitle)。解释性结论与精确结果进 caption。
+    `_note` 只作源码内的可读性注释,不进图。图注见 _paper/_figure_captions.md。
+    """
+    ax.text(-0.02, 1.06, tag, transform=ax.transAxes, fontsize=10,
+            fontweight="bold", va="bottom", ha="right")
 
 
 # ==================================================================== Fig. 1
 def fig1_architecture():
-    """架构:五层堆栈 + 知识层放大 + 一轮决策时序。"""
+    """架构示意(**已弃用**)。
+
+    🔴 share-sci-plot 硬不变量 6:schematic/整页示意图**不以 matplotlib 方块拼接**,
+       应先形成信息 spec,再走 pptx-gen 的整页生成(FAL NanoBanana2)。
+       本函数保留仅为可追溯;正式 Fig.1 见 _outputs/pptx-gen/。
+    """
     fig = plt.figure(figsize=(7.2, 7.6))
     gs = fig.add_gridspec(3, 2, height_ratios=[2.5, 1.25, 0.95], hspace=.42, wspace=.28)
 
@@ -223,8 +235,6 @@ def fig2_surrogate():
                        Line2D([], [], c=C_PROXY, lw=1.0, ls="--", label="surrogate: oil"),
                        Line2D([], [], c=C_PROXY, lw=.9, ls=":", label="surrogate: water")],
               frameon=False, loc="upper right", fontsize=6.6)
-    ax.text(.02, .55, "two highest-rate\nproducers", transform=ax.transAxes,
-            fontsize=6.5, color="0.45", va="top")
 
     # ---------------- (d) 为什么仍由物理裁定
     ax = fig.add_subplot(gs[1, 1])
@@ -309,10 +319,6 @@ def fig3_process():
     ax.set_xticks(range(3))
     ax.set_xticklabels(["proposed", "screened\n+ gated", "adjudicated"], fontsize=7)
     ax.set_ylabel("Candidates per round"); ax.set_ylim(0, max(val) * 1.32)
-    ax.text(.5, .90, f"{rounds} rounds, {len(loops)} runs", transform=ax.transAxes,
-            ha="center", fontsize=6.4, color="0.45")
-    ax.text(.5, .78, "the gate is arithmetic,\nnever a language model",
-            transform=ax.transAxes, ha="center", fontsize=6.3, color=C_PROXY)
 
     # (c) 证据强度裁决的作用
     ax = axes[2]; _panel(ax, "c", "Adjudication rule")
@@ -362,13 +368,13 @@ def fig4_economics():
     ax.hlines(v.mean(), -.3, .3, color=C_AGENT, lw=2.4, zorder=4)
     ax.scatter([1], [s["nonllm"]["mean"]], s=70, marker="D", c=C_REF, zorder=3)
     ax.axhline(0, c="0.78", lw=.8)
-    ax.set_xticks([0, 1]); ax.set_xticklabels(["Gaia\n(n = 10)", "1-D scaling\nreference"], fontsize=7)
+    ax.set_xticks([0, 1]); ax.set_xticklabels([f"Gaia\n(n = {len(v)})", "1-D scaling\nreference"], fontsize=7)
     ax.set_xlim(-.55, 1.55)
     ax.set_ylabel(r"$\Delta$NPV$_{8\%}$  (M US\$)")
     lo, hi = ax.get_ylim(); ax.set_ylim(lo, hi + (hi - lo) * .16)
-    ax.set_title(f"+{v.mean() - s['nonllm']['mean']:.0f} M\\$,  "
-                 f"p = {s['tests']['team_vs_none']['p']:.0e}",
-                 loc="right", fontsize=7, color="0.3")
+    ax.text(.97, .95, f"+{v.mean() - s['nonllm']['mean']:.0f} M\\$\n"
+                      f"p = {s['tests']['team_vs_none']['p']:.0e}",
+            transform=ax.transAxes, ha="right", va="top", fontsize=7, color="0.3")
 
     # (b) 物理上发生了什么
     ax = axes[1]; _panel(ax, "b", "What changed physically")
@@ -395,8 +401,6 @@ def fig4_economics():
     ax.set_xticks(range(3)); ax.set_xticklabels(lab, fontsize=6.8)
     ax.set_ylabel("Change vs historical (%)")
     ax.set_ylim(min(pct) * 1.5 - 1, max(pct) * 1.35 + 1)
-    ax.text(.5, .04, f"best run, $\\Delta$NPV = +{best_v:.0f} M\\$", transform=ax.transAxes,
-            ha="center", fontsize=6.5, color="0.45")
 
     # (c) 折现率稳健性
     ax = axes[2]; _panel(ax, "c", "Robust across capital cost")
@@ -409,8 +413,6 @@ def fig4_economics():
     ax.axhline(0, c="0.78", lw=.8)
     ax.set_xlabel("Discount rate (%)"); ax.set_ylabel(r"$\Delta$NPV  (M US\$)")
     ax.set_xticks(rates); ax.set_ylim(0, max(d) * 1.30)
-    ax.text(.5, .06, "positive at every discount rate tested", transform=ax.transAxes,
-            ha="center", fontsize=6.5, color="0.45")
     fig.savefig(OUT / "fig4_economics.png"); plt.close(fig)
     return "fig4"
 
@@ -434,8 +436,6 @@ def fig5_comparison():
     ax.set_xticks([0, 1]); ax.set_xticklabels(["Gaia", "1-D scaling"], fontsize=7.5)
     ax.set_ylabel(r"$\Delta$NPV$_{8\%}$  (M US\$)")
     ax.set_ylim(0, v.mean() * 1.32); ax.set_xlim(-.6, 1.6)
-    ax.text(.5, .55, f"×{v.mean() / s['nonllm']['mean']:.1f}", transform=ax.transAxes,
-            ha="center", fontsize=11, color="0.45", fontweight="bold")
 
     # (b) 决策效率
     ax = axes[1]; _panel(ax, "b", "Cost of the decision")
@@ -446,9 +446,6 @@ def fig5_comparison():
     ax.set_yticks([0, 1]); ax.set_yticklabels(["Gaia", "1-D scaling"], fontsize=7.5)
     ax.invert_yaxis(); ax.set_xlabel("Full-physics simulations per run")
     ax.set_xlim(0, max(bud) * 1.3)
-    ax.text(.5, .10, f"{v.mean() / s['nonllm']['mean']:.1f}× the gain for "
-                     f"{bud[0] / bud[1]:.0%} of the budget",
-            transform=ax.transAxes, ha="center", fontsize=6.6, color="0.4")
 
     # (c) 闭环轨迹
     ax = axes[2]; _panel(ax, "c", "Closed-loop progress")
@@ -462,8 +459,6 @@ def fig5_comparison():
     ax.set_xlabel("Adjudicated candidate within run")
     ax.set_ylabel(r"Best $\Delta$NPV so far  (M US\$)")
     ax.set_xticks(range(1, 4))
-    ax.text(.5, .93, "10/10 runs end at or above where they started",
-            transform=ax.transAxes, ha="center", fontsize=6.6, color="0.4")
     fig.savefig(OUT / "fig5_comparison.png"); plt.close(fig)
     return "fig5"
 

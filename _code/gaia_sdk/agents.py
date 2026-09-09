@@ -141,8 +141,20 @@ class KnowledgeCuratorAgent(Agent):
 
 # ------------------------------------------------------------------ L3 推理
 
+#: 🔴 推荐配置中**被剔除**的角色,以及剔除的依据。
+#: 它没有本油藏实测数据(deck 无 GEOMECH/STRESS/YOUNGMOD/POISSON),自报置信度 0.29
+#: (实测类角色平均 0.65),却给出具体的注入率硬上限,并曾把已被 BHP 顶死、
+#: 影响力垫底的 F-4H 推荐为增注优先 —— 被 connectivity_analyst 当场驳回。
+#: 消融证据见 `python _code/gaia_ablate.py`。
+EXCLUDED = {
+    "geomechanics_expert":
+        "no field-specific measurement, yet issues hard numerical bounds; "
+        "removing it improves simulator-verified NPV (see gaia_ablate.py)",
+}
+
+
 class DomainRoleAgent(Agent):
-    """一个领域角色。七个实例构成推理层。"""
+    """一个领域角色。推荐配置为六个实例。"""
 
     def __init__(self, role_id: str) -> None:
         super().__init__(_spec("domain_role"))
@@ -151,9 +163,16 @@ class DomainRoleAgent(Agent):
         self.role_id = role_id
 
     @staticmethod
-    def roster() -> list[dict]:
+    def roster(include_excluded: bool = False) -> list[dict]:
+        """推荐团队的角色名单。
+
+        默认不含 `EXCLUDED` 里的角色 —— 那不是"少写了一个",是消融裁定的结果。
+        `include_excluded=True` 可取回完整七角色,用于复现消融对照。
+        """
         import fc_team
-        return [r for r in fc_team.ROLES if r["id"] != "chief_engineer"]
+        return [r for r in fc_team.ROLES
+                if r["id"] != "chief_engineer"
+                and (include_excluded or r["id"] not in EXCLUDED)]
 
     def describe(self) -> str:
         r = self.role

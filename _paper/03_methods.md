@@ -112,15 +112,24 @@ confidence in [0,1] and a provenance record (`source_id`, `source_region`, `sour
 emit a legal message, so whether a role is substantive is settled by the protocol rather than by
 argument. `source_type` distinguishes deck, simulation, measurement, literature and reasoning.
 
-**Seven domain roles** (Fig. 3a). Reservoir engineering (pressure and water-cut history); connectivity (the
+**Six domain roles** (Fig. 3a). Reservoir engineering (pressure and water-cut history); connectivity (the
 influence matrix and fault transmissibility multipliers); production surveillance (per-well rates
-and bottom-hole pressures); economics (price deck, discount rates, water costs); geomechanics
-(analogue literature bounds); 4D seismic (time-lapse priors); and constraint auditing (realised
-versus target injection) as an internal red team. Each role reads only its own knowledge base plus
+and bottom-hole pressures); economics (price deck, discount rates, water costs); 4D seismic
+(time-lapse priors); and constraint auditing (realised versus target injection) as an internal red
+team. A seventh role, geomechanics, was present in an earlier configuration and was removed on the
+evidence reported in §4.5; the six-role configuration is the one we recommend and the one all
+headline results use. Each role reads only its own knowledge base plus
 how the previously adjudicated case behaved *within its own domain*. Roles are given perspectives
 but deliberately **no directional stance**, so disagreement arises from differing evidence rather
 than assigned bias. After an independent pass, every role sees the others' assessments and must
 challenge the one it most disagrees with.
+
+**Roles calibrate their own evidence.** Because every message carries a provenance record and a
+confidence, the framework makes each role's epistemic position measurable rather than assumed.
+Averaged over 30 runs, the five roles reading simulated or measured data report a mean confidence
+of 0.65, while the roles reading only analogue literature report 0.24 (Welch p = 6 × 10⁻⁷¹). The
+ordering is not imposed by the designer: the roles holding no field-specific measurement place
+themselves at the bottom. This self-calibration is what the adjudication rule acts on.
 
 **Synthesiser.** Integrates the messages into candidate schedules, weighting by `source_type`
 rather than by count: a concern supported only by analogue literature does not override a positive

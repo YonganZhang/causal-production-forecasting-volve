@@ -37,10 +37,43 @@ def test_curated_knowledge_is_byte_identical(role_id):
 
 
 def test_roster_matches_published_run():
-    """角色名单必须与已发表实验的名单一致。"""
+    """SDK 的推荐名单必须与**推荐配置那一批实验**跑的名单一致。
+
+    推荐配置 = 六角色(剔除 geomechanics_expert),批次前缀 G2nogeom。
+    七角色批次 F2full7 是消融对照,不是推荐配置。
+    """
+    loops = sorted((ROOT / "_pipelines" / "fc_team").glob("loop_G2nogeom_*.json"))
+    assert loops, "找不到推荐配置的实验批次"
+    ran = json.loads(loops[0].read_text())["roles"]
+    assert sorted(r.role_id for r in TEAM.roles) == sorted(ran), \
+        "SDK 推荐名单与推荐配置实验跑的不同"
+
+
+def test_full_roster_matches_ablation_control():
+    """完整七角色必须与消融对照批次一致 —— 对照组也要可复现。"""
+    from gaia_sdk.agents import DomainRoleAgent
     loops = sorted((ROOT / "_pipelines" / "fc_team").glob("loop_F2full7_*.json"))
     ran = json.loads(loops[0].read_text())["roles"]
-    assert [r.role_id for r in TEAM.roles] == ran, "SDK 角色名单与实验跑的不同"
+    full = [r["id"] for r in DomainRoleAgent.roster(include_excluded=True)]
+    assert sorted(full) == sorted(ran)
+
+
+def test_exclusion_is_evidence_backed_not_arbitrary():
+    """被剔除的角色必须有消融证据支撑,而不是拍脑袋删的。
+
+    守的是:任何人改 EXCLUDED,都必须同时拿出该配置跑过的实验批次。
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "_code"))
+    import gaia_ablate as GA
+    from gaia_sdk.agents import EXCLUDED
+    dropped = set(EXCLUDED)
+    assert dropped, "EXCLUDED 为空则本测试无意义"
+    have = {role for pre, role in GA.ABL.items() if GA._runs(pre)}
+    assert dropped <= have, f"剔除了 {dropped - have} 但没有对应的消融批次"
+    for pre, role in GA.ABL.items():
+        if role in dropped:
+            assert len(GA._runs(pre)) >= 20, f"{role} 的消融样本量不足 20,不足以支撑剔除"
 
 
 def test_literature_dois_appear_in_the_prompt_actually_used():

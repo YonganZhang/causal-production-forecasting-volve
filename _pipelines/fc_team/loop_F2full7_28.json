@@ -1,0 +1,242 @@
+{
+ "incumbent_npv8": null,
+ "incumbent_theta": null,
+ "rounds": [
+  {
+   "round": 1,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7676976.239359448,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "unverified_realized_injection",
+     "detail": "本轮无模拟结果；constraint_auditor(conf.85,simulation)指出目标值算总量守恒失真未被复算，各候选注水%/产油预测或仍基于名义target而非BHP截断后的实测值"
+    },
+    {
+     "severity": "medium",
+     "code": "tilt_evidence_vs_volume_cut_mismatch",
+     "detail": "总注水量降至基准86.5%，与economics_analyst、reservoir_engineer'总量不变仅段间再分配'的共同前提矛盾，tilt-ΔNPV相关性证据不能支持总量削减这一不同机制"
+    },
+    {
+     "severity": "medium",
+     "code": "geomech_cap_exceeded",
+     "detail": "直取tilt[+0.30,+0.60)档，上限超出geomechanics_expert类比经验安全区间(+0.3~+0.4)，未见井级BHP复核确认叠加可行"
+    },
+    {
+     "severity": "medium",
+     "code": "unverified_target_watercut",
+     "detail": "F-2H专属支持E-2AH/E-3CH沿用connectivity一轮判断，未核实该二井含水率；production_surveillance二轮明确建议增量转向K-3H/D-3BH/B-2H，冲突未解决"
+    },
+    {
+     "severity": "medium",
+     "code": "connectivity_sign_unvalidated",
+     "detail": "各候选均直接采信connectivity_analyst通道正负号做定量分配，未按seismic_4d_analyst二轮建议先做敏感性测试排除压力干扰伪影"
+    },
+    {
+     "severity": "low",
+     "code": "score_oil_rank_inversion",
+     "detail": "候选1产油(7,729,312)高于候选3(7,676,976)但经济分反而最低，提示扣水成本权重可能过度压制产油贡献，建议复核评分边际权重"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.550000011920929,
+    0.4000000059604645,
+    0.44999998807907104,
+    0.0,
+    0.4000000059604645,
+    0.30000001192092896,
+    0.3499999940395355,
+    0.0,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.0,
+    -0.10000000149011612,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    0.0,
+    -0.3499999940395355,
+    -0.25,
+    -0.25,
+    0.0,
+    -0.4000000059604645,
+    -0.30000001192092896,
+    -0.30000001192092896,
+    0.0
+   ]
+  },
+  {
+   "round": 2,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7612832.937224163,
+   "flags": [
+    {
+     "severity": "high",
+     "code": "volume_calib_mismatch",
+     "detail": "全部候选注水量%基于目标口径,但F1H/F2H/F3H实测超注113-124%、F4H仅达28.6%(BHP截断),口径失真且本轮无模拟无法复核,经济分排序可能建立在失真总量之上"
+    },
+    {
+     "severity": "medium",
+     "code": "f4h_dead_lever",
+     "detail": "候选#4'四井同步'将F4H与其余三井等权处理,但F4H theta基本空转(仅达标28.6%),四井同步/总量对称中性的设计前提不成立"
+    },
+    {
+     "severity": "medium",
+     "code": "geomech_boundary_exceeded",
+     "detail": "候选#5直接测试tilt[+0.30,+0.60)高档,超出geomechanics_expert自建议的+0.3~0.4安全上限,且无井级BHP复核确认叠加可行性"
+    },
+    {
+     "severity": "medium",
+     "code": "econ_disputes_volume_cut",
+     "detail": "economics_analyst明确反对整体收缩总注水量(经济极限含水率余量始终为正),但#1/#2/#3/#4/#5均降至79.4%~85.3%基准,仅#0接近中性(88.5%)"
+    },
+    {
+     "severity": "low",
+     "code": "sub_baseline_oil",
+     "detail": "候选#3代理预测累计产油7,417,072低于基准7,493,840,是唯一产量低于基准的候选,经济分优势依赖水成本节省而非产量增益"
+    },
+    {
+     "severity": "low",
+     "code": "bhp_mechanism_dispute",
+     "detail": "geomechanics_expert质疑constraint_auditor所称F4H受'最低'井底流压约束(注水井通常受最高BHP/破裂压力封顶),机制分歧未解决,影响F4H排除依据"
+    },
+    {
+     "severity": "low",
+     "code": "score_margin_noise",
+     "detail": "六候选经济分差距仅约3%(2031M~2097M),本轮无模拟结果、均为代理模型估计,排序可能落在代理误差带内不具统计显著性"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.4000000059604645,
+    0.4000000059604645,
+    0.3499999940395355,
+    0.15000000596046448,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.30000001192092896,
+    0.15000000596046448,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.05000000074505806,
+    -0.10000000149011612,
+    -0.10000000149011612,
+    -0.10000000149011612,
+    -0.05000000074505806,
+    -0.3499999940395355,
+    -0.3499999940395355,
+    -0.30000001192092896,
+    -0.15000000596046448,
+    -0.4000000059604645,
+    -0.4000000059604645,
+    -0.3499999940395355,
+    -0.15000000596046448
+   ]
+  },
+  {
+   "round": 3,
+   "n_msg": 7,
+   "n_cand": 6,
+   "proxy_best_oil": 7886936.967733506,
+   "flags": [
+    {
+     "severity": "medium",
+     "code": "no-sim-margin",
+     "detail": "本轮无模拟结果，#2与#3经济分仅差5M$(0.25%)，在代理模型误差范围内不足以决定排序"
+    },
+    {
+     "severity": "medium",
+     "code": "c2-uniform-tilt",
+     "detail": "#2称各井温和同步tilt，与二轮connectivity共识(F1H克制/F3H倾斜)矛盾，未体现井级差异化"
+    },
+    {
+     "severity": "medium",
+     "code": "c3-single-well-conc",
+     "detail": "#3单井F3H集中高tilt，正是geomech二轮警示的单井压力/压实暴露集中风险场景"
+    },
+    {
+     "severity": "medium",
+     "code": "no-theta-validation",
+     "detail": "无候选说明按constraint_auditor二轮要求用实测峰值反推F1-3H可行区间，超注非线性风险未消"
+    },
+    {
+     "severity": "low",
+     "code": "f4h-silent",
+     "detail": "#2理由未提及F4H处理方式，无法确认是否遵循F4H不作杠杆的共识"
+    },
+    {
+     "severity": "low",
+     "code": "f4h-silent",
+     "detail": "#3理由未提及F4H处理方式，同上，缺乏一致性说明"
+    },
+    {
+     "severity": "low",
+     "code": "geomech-overweight",
+     "detail": "#2/#3重度依赖geomech文献类比上限(conf=0.35，非项目实测)作为主要安全依据"
+    },
+    {
+     "severity": "low",
+     "code": "frontier-unverified",
+     "detail": "#0/#1/#4精细井对井连通定向未标注seismic_4d_analyst指出的前缘未验证风险敞口"
+    }
+   ],
+   "verdict": "revise",
+   "adjudicated": {},
+   "vetoed": [],
+   "hard_flags": {},
+   "proxy_err_pp": [],
+   "best_theta": [
+    0.20000000298023224,
+    0.20000000298023224,
+    0.30000001192092896,
+    0.05000000074505806,
+    0.15000000596046448,
+    0.15000000596046448,
+    0.25,
+    0.05000000074505806,
+    0.10000000149011612,
+    0.10000000149011612,
+    0.15000000596046448,
+    0.0,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    -0.05000000074505806,
+    0.0,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.15000000596046448,
+    -0.05000000074505806,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    -0.20000000298023224,
+    -0.05000000074505806
+   ]
+  }
+ ],
+ "roles": [
+  "reservoir_engineer",
+  "connectivity_analyst",
+  "production_surveillance",
+  "economics_analyst",
+  "geomechanics_expert",
+  "seismic_4d_analyst",
+  "constraint_auditor"
+ ],
+ "dropped": [],
+ "model": "sonnet",
+ "llm_calls": 48,
+ "llm_prompt_chars": 190251,
+ "note": "代理仅用于筛选；最终取值须由 OPM Flow 的 field_cum 裁定。"
+}

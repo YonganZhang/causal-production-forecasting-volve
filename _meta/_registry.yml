@@ -880,6 +880,19 @@ entrypoints:
       fc_team_loop.slice_for 做**逐字节**比对:SDK 是对已跑实验的打包,不是另一个系统。
     gate: "path:_tests/test_gaia_sdk.py"
 
+
+  - id: fig1_spec
+    path: _paper/_fig1_spec.json
+    kind: spec
+    status: active
+    run: "python ~/.claude/skills/pptx-gen/scripts/generate_pptx.py _paper/_fig1_spec.json _outputs/pptx-gen/fig1"
+    desc: |
+      图一(Gaia 分层架构)的整页信息 spec,走 pptx-gen / FAL NanoBanana2 生成。
+      🔴 share-sci-plot 硬不变量 6:schematic 不以 matplotlib 方块拼接。
+      spec 里逐字写死图内所有可见文字与三种边框(权限)编码;
+      数字只允许出现 7,900 / 471 / 4x22 / 1 min / 18.1 µs / 2.7,与正文同源。
+      产物 _outputs/pptx-gen/fig1/,验收后复制为 _figures/paper/fig1_architecture.png。
+
 cross_domain_edges:
   - from: main
     to: 师弟-军伟的比赛-2693e5
